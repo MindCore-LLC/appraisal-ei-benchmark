@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Appraisal-EI Benchmark - Leaderboard</title>
+<style>
+  :root { --ink:#141414; --paper:#fafaf8; --line:#d8d8d4; --muted:#6b6b66; --smoke:#8a5a00; --meas:#1a6b3c; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, sans-serif; }
+  .mono { font-family: ui-monospace, "JetBrains Mono", Menlo, monospace; }
+  header { border-bottom: 1px solid var(--ink); padding: 28px 24px 20px; }
+  h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
+  .banner { margin: 0 24px; padding: 10px 12px; border: 1px solid var(--smoke); color: var(--smoke);
+            font-size: 12px; margin-top: 16px; max-width: 720px; }
+  .controls { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px 24px; border-bottom: 1px solid var(--line); }
+  .group { font-size: 12px; }
+  .group .label { text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-size: 10px; margin-bottom: 6px; }
+  .chip { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 4px 10px;
+          font-size: 12px; cursor: pointer; margin-right: 4px; }
+  .chip.on { background: var(--ink); color: var(--paper); }
+  main { padding: 0 24px 60px; }
+  table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+       padding: 8px 10px; border-bottom: 1px solid var(--ink); cursor: pointer; user-select: none; white-space: nowrap; }
+  th .arrow { font-size: 10px; }
+  td { padding: 10px; border-bottom: 1px solid var(--line); font-size: 14px; }
+  tr:hover td { background: #efefec; }
+  .num { font-variant-numeric: tabular-nums; }
+  .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
+  .badge.smoke { color: var(--smoke); border-color: var(--smoke); }
+  .badge.measured { color: var(--meas); border-color: var(--meas); }
+  .origin { font-size: 12px; color: var(--muted); }
+  #compare { display: none; margin-top: 24px; border: 1px solid var(--ink); padding: 16px; }
+  #compare.open { display: block; }
+  #compare h2 { font-size: 15px; margin-bottom: 12px; }
+  .cmp-grid { display: grid; gap: 12px; }
+  .cmp-col { border: 1px solid var(--line); padding: 10px; }
+  .cmp-col h3 { font-size: 14px; }
+  .bar { height: 6px; background: var(--ink); margin-top: 6px; }
+  .kv { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .detail td { background: #f4f4f1; font-size: 12px; }
+  .spark { display: flex; gap: 1px; align-items: flex-end; height: 28px; }
+  .spark i { width: 3px; background: var(--ink); display: block; }
+  footer { padding: 16px 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
+  a { color: var(--ink); }
+  button.plain { border: none; background: none; cursor: pointer; text-decoration: underline; font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:13px;color:var(--muted)" id="ver"></span></h1>
+  <div class="sub">17-dimension appraisal calibration vs human gold. Per-item Pearson r, vignette test split.</div>
+  <div class="banner" id="banner">Loading...</div>
+</header>
+
+<div class="controls" id="controls"></div>
+
+<main>
+  <table>
+    <thead><tr id="head"></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div id="compare"></div>
+</main>
+
+<footer>
+  <span id="count"></span> · <a href="https://github.com/MindCore-LLC/appraisal-ei-benchmark">repo</a> ·
+  per-item scores in each result JSON · protocol: SPEC.md
+</footer>
+
+<script>
+const COLS = [
+  {k:"rank", label:"#", sort:null},
+  {k:"model", label:"Model", sort:"model"},
+  {k:"org", label:"Org", sort:"org"},
+  {k:"origin", label:"Origin", sort:"origin"},
+  {k:"weights", label:"Weights", sort:"weights"},
+  {k:"cal", label:"Calibration r", sort:"cal", num:true},
+  {k:"n", label:"Items", sort:"n", num:true},
+  {k:"status", label:"Status", sort:"status"},
+  {k:"run_at", label:"Run", sort:"run_at"},
+  {k:"cmp", label:"", sort:null},
+];
+
+const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "cal", dir: -1, selected: new Set(), data: [] };
+
+const fmt = v => v == null ? "—" : (typeof v === "number" ? v.toFixed(3) : v);
+
+function meta(r, k) { return (r.meta && r.meta[k]) ?? "—"; }
+
+async function boot() {
+  const payload = await fetch("data.json").then(r => r.json());
+  document.getElementById("ver").textContent = "v" + payload.benchmark_version;
+  const anySmoke = payload.results.some(r => r.status === "smoke");
+  const allMeas = payload.results.every(r => r.status === "measured");
+  document.getElementById("banner").textContent = anySmoke
+    ? "PRE-GOLD: results scored against generator priors, not human ratings (gold lands v1.1). Rankings are provisional and marked SMOKE."
+    : allMeas ? "Scored against human gold ratings." : "Mixed gold sources - check per-model status.";
+  state.data = payload.results;
+  buildControls();
+  render();
+}
+
+function buildControls() {
+  const c = document.getElementById("controls");
+  const origins = [...new Set(state.data.map(r => meta(r, "origin")))].sort();
+  const weights = [...new Set(state.data.map(r => meta(r, "weights")))].sort();
+  const orgs = [...new Set(state.data.map(r => meta(r, "org")))].sort();
+  c.innerHTML =
+    group("Origin", origins, "origin") +
+    group("Weights", weights, "weights") +
+    group("Org", orgs, "orgs") +
+    `<div class="group"><div class="label">Compare</div><button class="chip" id="cmpBtn">Compare selected</button></div>`;
+  c.querySelectorAll(".chip[data-set]").forEach(b => b.onclick = () => toggle(b));
+  document.getElementById("cmpBtn").onclick = showCompare;
+}
+
+function group(label, vals, setName) {
+  return `<div class="group"><div class="label">${label}</div>` +
+    vals.map(v => `<button class="chip" data-set="${setName}" data-v="${v}">${v === "—" ? "unknown" : v}</button>`).join("") +
+    `</div>`;
+}
+
+function toggle(btn) {
+  const set = state[btn.dataset.set];
+  const v = btn.dataset.v;
+  set.has(v) ? set.delete(v) : set.add(v);
+  btn.classList.toggle("on");
+  render();
+}
+
+function passes(r) {
+  return (!state.origin.size || state.origin.has(meta(r, "origin"))) &&
+         (!state.weights.size || state.weights.has(meta(r, "weights"))) &&
+         (!state.orgs.size || state.orgs.has(meta(r, "org")));
+}
+
+function key(r, k) {
+  switch (k) {
+    case "model": return r.model.toLowerCase();
+    case "org": return meta(r, "org");
+    case "origin": return meta(r, "origin");
+    case "weights": return meta(r, "weights");
+    case "cal": return r.appraisal_calibration;
+    case "n": return r.n_parsed;
+    case "status": return r.status;
+    case "run_at": return r.run_at;
+    default: return 0;
+  }
+}
+
+function render() {
+  const rows = state.data.filter(passes).sort((a, b) => {
+    const x = key(a, state.sortKey), y = key(b, state.sortKey);
+    return (x < y ? -1 : x > y ? 1 : 0) * state.dir;
+  });
+  document.getElementById("head").innerHTML = COLS.map(c =>
+    `<th data-k="${c.sort || ""}">${c.label}${c.sort && state.sortKey === c.sort ? ` <span class="arrow">${state.dir < 0 ? "▼" : "▲"}</span>` : ""}</th>`).join("");
+  document.getElementById("head").querySelectorAll("th").forEach(th => th.onclick = () => {
+    const k = th.dataset.k; if (!k) return;
+    state.dir = state.sortKey === k ? -state.dir : -1;
+    state.sortKey = k; render();
+  });
+  const tb = document.getElementById("rows");
+  tb.innerHTML = "";
+  rows.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    const sel = state.selected.has(r.model_id);
+    tr.innerHTML = `
+      <td class="num mono">${i + 1}</td>
+      <td><strong>${r.model}</strong><div class="mono" style="font-size:11px;color:var(--muted)">${r.model_id}</div></td>
+      <td>${meta(r, "org")}</td>
+      <td class="origin">${meta(r, "origin")}</td>
+      <td>${meta(r, "weights")}</td>
+      <td class="num mono"><strong>${fmt(r.appraisal_calibration)}</strong></td>
+      <td class="num mono">${r.n_parsed}/${r.n_items}</td>
+      <td><span class="badge ${r.status}">${r.status}</span></td>
+      <td class="mono" style="font-size:11px">${(r.run_at || "").slice(0, 10)}</td>
+      <td><input type="checkbox" ${sel ? "checked" : ""}></td>`;
+    tr.querySelector("input").onchange = e => {
+      e.target.checked ? state.selected.add(r.model_id) : state.selected.delete(r.model_id);
+    };
+    tr.onclick = e => { if (e.target.type !== "checkbox") toggleDetail(tr, r); };
+    tb.appendChild(tr);
+  });
+  document.getElementById("count").textContent = `${rows.length} of ${state.data.length} models`;
+}
+
+function toggleDetail(tr, r) {
+  const next = tr.nextSibling;
+  if (next && next.classList && next.classList.contains("detail")) { next.remove(); return; }
+  const d = document.createElement("tr");
+  d.className = "detail";
+  const items = (r.per_item || []).map(p => p.r).filter(x => x != null);
+  const spark = items.map(x => `<i style="height:${Math.max(1, x * 28)}px" title="${x.toFixed(3)}"></i>`).join("");
+  d.innerHTML = `<td colspan="${COLS.length}"><div class="kv">per-item Pearson r (n=${items.length}) · gold: ${r.gold_source}</div><div class="spark">${spark}</div></td>`;
+  tr.parentNode.insertBefore(d, next);
+}
+
+function showCompare() {
+  const el = document.getElementById("compare");
+  const sel = state.data.filter(r => state.selected.has(r.model_id));
+  if (!sel.length) { el.className = ""; el.innerHTML = ""; return; }
+  el.className = "open";
+  const allItems = [...new Set(sel.flatMap(r => (r.per_item || []).map(p => p.id)))];
+  el.innerHTML = `<h2>Comparison (${sel.length} models · ${allItems.length} items)</h2><div class="cmp-grid" style="grid-template-columns:repeat(${sel.length},1fr)">` +
+    sel.map(r => {
+      const items = (r.per_item || []).map(p => p.r).filter(x => x != null);
+      const mean = items.reduce((a, b) => a + b, 0) / (items.length || 1);
+      const min = Math.min(...items), max = Math.max(...items);
+      return `<div class="cmp-col"><h3>${r.model}</h3>
+        <div class="kv">${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")}</div>
+        <div class="num mono" style="font-size:22px;margin-top:8px">${fmt(r.appraisal_calibration)}</div>
+        <div class="bar" style="width:${Math.max(0, r.appraisal_calibration) * 100}%"></div>
+        <div class="kv">per-item: mean ${mean.toFixed(3)} · min ${min.toFixed(3)} · max ${max.toFixed(3)}</div>
+        <div class="kv">status: ${r.status} · gold: ${r.gold_source}</div></div>`;
+    }).join("") + `</div>`;
+}
+
+boot();
+</script>
+</body>
+</html>

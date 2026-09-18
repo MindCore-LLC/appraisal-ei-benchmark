@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "note": "Model registry powering leaderboard filters. origin = ISO country of the publishing org. weights = open | closed. Add entries as results land; the leaderboard joins results/<slug>.json on model_id.",
+  "models": {
+    "gpt-5.4": {
+      "name": "GPT-5.4",
+      "org": "OpenAI",
+      "origin": "US",
+      "weights": "closed",
+      "family": "GPT-5",
+      "params": null
+    },
+    "deepseek-ai/DeepSeek-V4-Pro-0813": {
+      "name": "DeepSeek V4 Pro",
+      "org": "DeepSeek",
+      "origin": "CN",
+      "weights": "open",
+      "family": "DeepSeek V4",
+      "params": "MoE ~670B"
+    },
+    "meta-llama/Llama-3.3-70B-Instruct-Turbo": {
+      "name": "Llama 3.3 70B Turbo",
+      "org": "Meta",
+      "origin": "US",
+      "weights": "open",
+      "family": "Llama 3.3",
+      "params": "70B"
+    },
+    "Qwen/Qwen3.8-2.4T-A95B": {
+      "name": "Qwen 3.8 2.4T",
+      "org": "Alibaba (Qwen)",
+      "origin": "CN",
+      "weights": "open",
+      "family": "Qwen3",
+      "params": "2.4T MoE"
+    },
+    "zai-org/GLM-5.3": {
+      "name": "GLM-5.3",
+      "org": "Z.ai",
+      "origin": "CN",
+      "weights": "open",
+      "family": "GLM",
+      "params": null
+    },
+    "moonshotai/Kimi-K3": {
+      "name": "Kimi K3",
+      "org": "Moonshot AI",
+      "origin": "CN",
+      "weights": "open",
+      "family": "Kimi",
+      "params": null
+    },
+    "openai/gpt-oss-120b": {
+      "name": "GPT-OSS 120B",
+      "org": "OpenAI",
+      "origin": "US",
+      "weights": "open",
+      "family": "GPT-OSS",
+      "params": "120B"
+    }
+  }
+}

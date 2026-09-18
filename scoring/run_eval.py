@@ -1,0 +1,139 @@
+"""Run a model over Appraisal-EI stimuli and write results/<slug>.json.
+
+Canonical protocol (SPEC.md section 3): zero-shot rubric prompt per item,
+model returns a 17-dim JSON vector, per-item score = Pearson r vs gold.
+
+    python scoring/run_eval.py --provider together --model deepseek-ai/DeepSeek-V4-Pro-0813
+    python scoring/run_eval.py --provider openai --model gpt-5.4 --limit 20
+
+The result records gold_source. Until human gold ratings land (v1.1), every
+result is status "smoke" - scored against generator priors, shown as such.
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime as _dt
+import json
+import os
+import re
+import sys
+from pathlib import Path
+
+import score  # scoring/score.py, same dir
+
+REPO = Path(__file__).resolve().parents[1]
+STIMULI = REPO / "stimuli" / "text" / "vignettes_test.jsonl"
+SCHEMA = REPO / "schema" / "rating_schema.json"
+
+BASE_URLS = {
+    "together": "https://api.together.xyz/v1",
+    "fireworks": "https://api.fireworks.ai/inference/v1",
+}
+KEY_ENV = {"openai": "OPENAI_API_KEY", "together": "TOGETHER_API_KEY", "fireworks": "FIREWORKS_API_KEY"}
+
+
+def load_env(path: str | None) -> None:
+    """Load KEY=VALUE lines from an env file without printing anything."""
+    if not path:
+        return
+    for line in Path(path).read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip())
+
+
+def rubric_prompt(vignette: str, dimensions: list[dict]) -> str:
+    lines = [
+        "Score the scenario on 17 appraisal dimensions from -3 to +3.",
+        *[f"- {d['id']}: {d['prompt']}" for d in dimensions],
+        "Return JSON only, keys exactly those 17 names, values numbers.",
+        f"Scenario:\n{vignette}\nJSON:",
+    ]
+    return "\n".join(lines)
+
+
+def generate(provider: str, model: str, prompt: str, max_tokens: int) -> str:
+    from openai import OpenAI
+
+    kwargs: dict = {"api_key": os.environ.get(KEY_ENV[provider])}
+    if provider in BASE_URLS:
+        kwargs["base_url"] = BASE_URLS[provider]
+    if not kwargs["api_key"]:
+        raise SystemExit(f"{KEY_ENV[provider]} not set")
+    params: dict = {
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0,
+        "max_tokens": max_tokens,
+    }
+    # GPT-5/o-series want max_completion_tokens and reject temperature.
+    if provider == "openai" and model.startswith(("gpt-5", "o1", "o3", "o4")):
+        params.pop("temperature")
+        params["max_completion_tokens"] = params.pop("max_tokens")
+    resp = OpenAI(**kwargs).chat.completions.create(**params)
+    return resp.choices[0].message.content or ""
+
+
+def main() -> int:
+    p = argparse.ArgumentParser()
+    p.add_argument("--provider", required=True, choices=sorted(KEY_ENV))
+    p.add_argument("--model", required=True)
+    p.add_argument("--name", default=None, help="display name for the leaderboard")
+    p.add_argument("--limit", type=int, default=None)
+    p.add_argument("--max-tokens", type=int, default=4000,
+                   help="completion cap; reasoning models need headroom for thinking + JSON")
+    p.add_argument("--env-file", default=None, help="optional KEY=VALUE file for API keys")
+    args = p.parse_args()
+    load_env(args.env_file)
+
+    dims = json.loads(SCHEMA.read_text(encoding="utf-8"))["dimensions"]
+    dim_ids = [d["id"] for d in dims]
+    rows = [json.loads(l) for l in STIMULI.read_text(encoding="utf-8").splitlines() if l.strip()]
+    if args.limit:
+        rows = rows[: args.limit]
+
+    gold_sources = {r.get("source", "unknown") for r in rows}
+    gold = "generator_priors" if gold_sources == {"synthetic_sketch"} else "human" if "human" in gold_sources else "mixed"
+    status = "measured" if gold == "human" else "smoke"
+
+    items, corrs = [], []
+    for r in rows:
+        text = generate(args.provider, args.model, rubric_prompt(r["text"], dims), args.max_tokens)
+        pred = score.parse_ratings(text, dim_ids)
+        c = score.ratings_correlation(pred, r.get("ratings") or {}, dim_ids) if len(pred) >= 8 else None
+        items.append({"id": r["id"], "r": c})
+        if c is not None:
+            corrs.append(c)
+
+    slug = re.sub(r"[^a-z0-9]+", "-", args.model.lower()).strip("-")
+    result = {
+        "model": args.name or args.model,
+        "model_id": args.model,
+        "provider": args.provider,
+        "benchmark_version": (REPO / "VERSION").read_text().strip(),
+        "stimuli": "stimuli/text/vignettes_test.jsonl",
+        "gold_source": gold,
+        "status": status,
+        "run_at": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
+        "n_items": len(rows),
+        "n_parsed": len(corrs),
+        "appraisal_calibration": round(sum(corrs) / len(corrs), 4) if corrs else 0.0,
+        "per_item": items,
+    }
+    out_dir = REPO / "results"
+    out_dir.mkdir(exist_ok=True)
+    out = out_dir / f"{slug}.json"
+    out.write_text(json.dumps(result, indent=2), encoding="utf-8")
+
+    # rebuild the manifest the leaderboard page reads
+    files = sorted(f.name for f in out_dir.glob("*.json") if f.name != "index.json")
+    (out_dir / "index.json").write_text(json.dumps({"results": files}, indent=2), encoding="utf-8")
+
+    print(json.dumps({k: result[k] for k in ("model", "status", "n_parsed", "n_items", "appraisal_calibration")}))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
