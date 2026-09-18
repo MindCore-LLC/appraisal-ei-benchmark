@@ -1,0 +1,87 @@
+[
+  {
+    "id": "pleasantness",
+    "prompt": "Is this inherently positive or negative?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "goal_relevance",
+    "prompt": "Does this matter to the person's goals?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "goal_congruence",
+    "prompt": "Does this help or hinder their goals?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "certainty",
+    "prompt": "How predictable is the outcome?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "control",
+    "prompt": "How much control does the person have over the outcome?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "responsibility",
+    "prompt": "How responsible is the person for this situation?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "fairness",
+    "prompt": "How fair is this situation?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "effort",
+    "prompt": "How much effort is required?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "expectation",
+    "prompt": "Did they expect this?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "novelty",
+    "prompt": "Is this new to them?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "urgency",
+    "prompt": "How time-sensitive is this?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "intensity",
+    "prompt": "How strong is the emotional response?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "coping_potential",
+    "prompt": "Can they handle this?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "social_desirability",
+    "prompt": "Will others approve of their response?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "moral_worth",
+    "prompt": "Is this morally right or wrong?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "attribution",
+    "prompt": "Is this about them, others, or circumstances?",
+    "scale": "-3.0..3.0"
+  },
+  {
+    "id": "anticipated_emotion",
+    "prompt": "How will they feel about this later?",
+    "scale": "-3.0..3.0"
+  }
+]

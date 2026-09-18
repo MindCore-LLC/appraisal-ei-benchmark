@@ -1,0 +1,32 @@
+{
+  "version": "1.0.0",
+  "n_dimensions": 17,
+  "rating_min": -3.0,
+  "rating_max": 3.0,
+  "dimensions": [
+    {"id": "pleasantness", "prompt": "Is this inherently positive or negative?"},
+    {"id": "goal_relevance", "prompt": "Does this matter to the person's goals?"},
+    {"id": "goal_congruence", "prompt": "Does this help or hinder their goals?"},
+    {"id": "certainty", "prompt": "How predictable is the outcome?"},
+    {"id": "control", "prompt": "How much control does the person have over the outcome?"},
+    {"id": "responsibility", "prompt": "How responsible is the person for this situation?"},
+    {"id": "fairness", "prompt": "How fair is this situation?"},
+    {"id": "effort", "prompt": "How much effort is required?"},
+    {"id": "expectation", "prompt": "Did they expect this?"},
+    {"id": "novelty", "prompt": "Is this new to them?"},
+    {"id": "urgency", "prompt": "How time-sensitive is this?"},
+    {"id": "intensity", "prompt": "How strong is the emotional response?"},
+    {"id": "coping_potential", "prompt": "Can they handle this?"},
+    {"id": "social_desirability", "prompt": "Will others approve of their response?"},
+    {"id": "moral_worth", "prompt": "Is this morally right or wrong?"},
+    {"id": "attribution", "prompt": "Is this about them, others, or circumstances?"},
+    {"id": "anticipated_emotion", "prompt": "How will they feel about this later?"}
+  ],
+  "situation_families": [
+    "job_loss", "promotion", "medical_result", "betrayal", "reunion",
+    "deadline", "public_error", "inheritance", "caregiving", "legal_dispute",
+    "move", "exam", "accident", "credit", "breakup", "newborn",
+    "layoff_colleague", "audit", "sports_loss", "neighborhood"
+  ],
+  "taxonomy_sources": ["Smith & Ellsworth", "Scherer's CPM", "OCC"]
+}
