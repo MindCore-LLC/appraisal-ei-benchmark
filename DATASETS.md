@@ -115,10 +115,11 @@ measures.
 
 ## Known gaps (no public dataset found — own annotation required)
 
-- Human appraisal ratings on **our own** vignette families (the 500-item,
-  κ > 0.6 preregistered requirement; annotation pool = seeded draw across
-  all splits of the 560-item corpus). enVENT is adjacent gold, not a
-  substitute: different text register, different situation families.
+- Human appraisal ratings on **our own** vignette families (κ > 0.6
+  preregistered requirement; the FULL 560-item corpus is the annotation
+  pool - all splits annotated, amended up from the 300-500 range). enVENT
+  is adjacent gold, not a substitute: different text register, different
+  situation families.
 - `fairness` appraisals: ISEAR does carry FAIR/MORL questionnaire codes
   (raw, needs codebook mapping), but no SEC-style corpus rates fairness as a
   clean dimension - still an own-annotation item for gold.

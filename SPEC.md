@@ -25,9 +25,9 @@ Taxonomy: Smith & Ellsworth; Scherer's Component Process Model; OCC.
   `vignettes_test.jsonl` (84) - 560 scenario vignettes across 20 situation
   families, generated to be **keyword-free**: no emotion words in the text, so
   ratings measure appraisal inference rather than sentiment lexicon matching.
-  v1.2.0 appended 210 items for the 500-item human-annotation pool; all
-  pre-1.2.0 ids keep their original text AND split, so prior results remain
-  comparable
+  v1.2.0 appended 210 items so the FULL corpus can be human-annotated
+  (prereg amended to annotate all items, not a subset); all pre-1.2.0 ids
+  keep their original text AND split, so prior results remain comparable
 - Each row: `{id, text, ratings, source, split}` - `ratings` in the shipped
   corpus are generator priors; human gold ratings replace them downstream
   (see §4). The `synthetic_sketch` source marks prior labels - they are NOT
