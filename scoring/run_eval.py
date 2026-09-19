@@ -94,18 +94,40 @@ def main() -> int:
     if args.limit:
         rows = rows[: args.limit]
 
-    gold_sources = {r.get("source", "unknown") for r in rows}
-    gold = "generator_priors" if gold_sources == {"synthetic_sketch"} else "human" if "human" in gold_sources else "mixed"
+    # Gold provenance is declared per stimulus dir (gold_status.json), not
+    # inferred per-row - vignette rows don't carry a source field.
+    gs_path = STIMULI.parent / "gold_status.json"
+    declared = json.loads(gs_path.read_text(encoding="utf-8")).get("ratings_provenance") if gs_path.exists() else None
+    gold_sources = {r.get("source") for r in rows} - {None}
+    gold = declared or ("human" if "human" in gold_sources else "generator_priors" if gold_sources == {"synthetic_sketch"} else "mixed")
     status = "measured" if gold == "human" else "smoke"
 
-    items, corrs = [], []
+    items, corrs, preds = [], [], []
     for r in rows:
         text = generate(args.provider, args.model, rubric_prompt(r["text"], dims), args.max_tokens)
         pred = score.parse_ratings(text, dim_ids)
         c = score.ratings_correlation(pred, r.get("ratings") or {}, dim_ids) if len(pred) >= 8 else None
-        items.append({"id": r["id"], "r": c})
+        items.append({"id": r["id"], "r": c, "pred": pred if len(pred) >= 8 else None, "gold": r.get("ratings")})
         if c is not None:
             corrs.append(c)
+
+    # Per-dimension calibration: Pearson r of pred[d] vs gold[d] across items,
+    # plus mean absolute error - feeds the radar/heatmap visuals downstream.
+    per_dim = []
+    for d in dim_ids:
+        xs, ys, errs = [], [], []
+        for it in items:
+            p, g = it.get("pred"), it.get("gold")
+            if p and g and d in p and d in g:
+                xs.append(float(p[d]))
+                ys.append(float(g[d]))
+                errs.append(abs(float(p[d]) - float(g[d])))
+        dim_r = 0.0
+        if len(xs) >= 8 and (max(xs) - min(xs) > 1e-8) and (max(ys) - min(ys) > 1e-8):
+            from scipy.stats import pearsonr
+
+            dim_r = float(pearsonr(xs, ys)[0])
+        per_dim.append({"id": d, "r": round(dim_r, 4), "mae": round(sum(errs) / len(errs), 3) if errs else None, "n": len(xs)})
 
     slug = re.sub(r"[^a-z0-9]+", "-", args.model.lower()).strip("-")
     result = {
@@ -120,6 +142,7 @@ def main() -> int:
         "n_items": len(rows),
         "n_parsed": len(corrs),
         "appraisal_calibration": round(sum(corrs) / len(corrs), 4) if corrs else 0.0,
+        "per_dim": per_dim,
         "per_item": items,
     }
     out_dir = REPO / "results"

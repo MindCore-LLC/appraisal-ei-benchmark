@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
 <title>Appraisal-EI Benchmark - Leaderboard</title>
 <style>
   :root { --ink:#141414; --paper:#fafaf8; --line:#d8d8d4; --muted:#6b6b66; --smoke:#8a5a00; --meas:#1a6b3c; }
@@ -40,6 +41,12 @@
   .cmp-col h3 { font-size: 14px; }
   .bar { height: 6px; background: var(--ink); margin-top: 6px; }
   .kv { font-size: 12px; color: var(--muted); margin-top: 6px; }
+  #charts { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 20px; }
+  @media (min-width: 1100px) { #charts { grid-template-columns: 1fr 1fr; } }
+  .chart-block { border: 1px solid var(--line); padding: 14px 16px; }
+  .chart-title { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+  .chart-wrap { position: relative; height: 300px; }
+  .chart-wrap.radar { height: 340px; }
   .detail td { background: #f4f4f1; font-size: 12px; }
   .spark { display: flex; gap: 1px; align-items: flex-end; height: 28px; }
   .spark i { width: 3px; background: var(--ink); display: block; }
@@ -58,6 +65,16 @@
 <div class="controls" id="controls"></div>
 
 <main>
+  <div id="charts">
+    <div class="chart-block">
+      <div class="chart-title">Calibration r by model</div>
+      <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+    </div>
+    <div class="chart-block" id="radarBlock" style="display:none">
+      <div class="chart-title">Per-dimension calibration (17 appraisal dims)</div>
+      <div class="chart-wrap radar"><canvas id="radarChart"></canvas></div>
+    </div>
+  </div>
   <table>
     <thead><tr id="head"></tr></thead>
     <tbody id="rows"></tbody>
@@ -100,7 +117,87 @@ async function boot() {
     : allMeas ? "Scored against human gold ratings." : "Mixed gold sources - check per-model status.";
   state.data = payload.results;
   buildControls();
+  // Shareable comparisons: ?compare=<model_id>,<model_id> or ?compare=all
+  const q = new URLSearchParams(location.search).get("compare");
+  if (q) {
+    const want = q === "all" ? state.data.map(r => r.model_id) : q.split(",");
+    want.forEach(id => state.selected.add(id));
+    showCompare();
+  }
   render();
+  renderBar();
+}
+
+const PALETTE = ["#141414", "#1a6b3c", "#8a5a00", "#4a5f8a", "#7a4a6b", "#2e6b6b", "#8a3a2e", "#5a6b2e"];
+let barChart = null, radarChart = null;
+
+function renderBar() {
+  const rows = [...state.data].sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
+  const ctx = document.getElementById("barChart");
+  if (barChart) barChart.destroy();
+  barChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: rows.map(r => r.model),
+      datasets: [{
+        data: rows.map(r => r.appraisal_calibration),
+        backgroundColor: rows.map((r, i) => PALETTE[i % PALETTE.length]),
+        borderWidth: 0,
+      }],
+    },
+    options: {
+      indexAxis: "y",
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: c => ` r=${c.parsed.x.toFixed(3)} · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
+          },
+        },
+      },
+      scales: {
+        x: { min: 0, suggestedMax: 1, grid: { color: "#e8e8e4" }, ticks: { font: { family: "ui-monospace,monospace", size: 11 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 12 } } },
+      },
+    },
+  });
+}
+
+function renderRadar(sel) {
+  const block = document.getElementById("radarBlock");
+  const withDims = sel.filter(r => r.per_dim && r.per_dim.length);
+  if (!withDims.length) { block.style.display = "none"; return; }
+  block.style.display = "";
+  const labels = withDims[0].per_dim.map(d => d.id.replace(/_/g, " "));
+  const ctx = document.getElementById("radarChart");
+  if (radarChart) radarChart.destroy();
+  radarChart = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels,
+      datasets: withDims.map((r, i) => ({
+        label: r.model,
+        data: r.per_dim.map(d => d.r),
+        borderColor: PALETTE[i % PALETTE.length],
+        backgroundColor: PALETTE[i % PALETTE.length] + "22",
+        borderWidth: 2,
+        pointRadius: 2,
+      })),
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 11 } } } },
+      scales: {
+        r: {
+          suggestedMin: -0.2, suggestedMax: 0.8,
+          ticks: { font: { size: 9 }, backdropColor: "transparent", color: "#6b6b66" },
+          grid: { color: "#e0e0dc" }, angleLines: { color: "#e0e0dc" },
+          pointLabels: { font: { size: 10 } },
+        },
+      },
+    },
+  });
 }
 
 function buildControls() {
@@ -202,8 +299,9 @@ function toggleDetail(tr, r) {
 function showCompare() {
   const el = document.getElementById("compare");
   const sel = state.data.filter(r => state.selected.has(r.model_id));
-  if (!sel.length) { el.className = ""; el.innerHTML = ""; return; }
+  if (!sel.length) { el.className = ""; el.innerHTML = ""; renderRadar([]); return; }
   el.className = "open";
+  renderRadar(sel);
   const allItems = [...new Set(sel.flatMap(r => (r.per_item || []).map(p => p.id)))];
   el.innerHTML = `<h2>Comparison (${sel.length} models · ${allItems.length} items)</h2><div class="cmp-grid" style="grid-template-columns:repeat(${sel.length},1fr)">` +
     sel.map(r => {

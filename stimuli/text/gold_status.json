@@ -1,0 +1,5 @@
+{
+  "ratings_provenance": "generator_priors",
+  "note": "vignette ratings are generator priors (synthetic_sketch), NOT human gold. All eval results against this stimulus version are status=smoke until human gold lands (planned v1.1).",
+  "version": "1.0.0"
+}
