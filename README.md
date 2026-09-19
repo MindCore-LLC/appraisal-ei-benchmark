@@ -14,7 +14,7 @@ dimensions that appraisal theory says *produce* the emotion.
 
 ```
 schema/rating_schema.json     # 17 dims, prompts, -3..+3 scale (normative)
-stimuli/text/                 # 350 keyword-free vignettes + 1,200 crowd-enVENT
+stimuli/text/                 # 560 keyword-free vignettes + 1,200 crowd-enVENT
                               # human-rated events (train/val/test each)
 stimuli/audio/manifest_v1     # 1,440 RAVDESS refs (wavs not redistributed)
 annotation/                   # Prolific/MTurk task exports (text + audio)

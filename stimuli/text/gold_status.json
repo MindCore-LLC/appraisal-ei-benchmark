@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "files": {
     "vignettes_*.jsonl": {
       "ratings_provenance": "generator_priors",
@@ -15,6 +15,7 @@
   "note": "per-file provenance. mindcore vignettes remain generator_priors (smoke) until the human annotation study lands; the envent_* split is human-rated (measured).",
   "version_history": {
     "1.0.0": "single ratings_provenance field, all stimuli generator_priors",
-    "1.1.0": "per-file provenance; added envent_* measured split (crowd-enVENT human gold)"
+    "1.1.0": "per-file provenance; added envent_* measured split (crowd-enVENT human gold)",
+    "1.2.0": "appended 210 vignettes (560 total) for the 500-item annotation pool; pre-1.2.0 ids keep original text+split"
   }
 }
