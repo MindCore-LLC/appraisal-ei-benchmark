@@ -61,21 +61,49 @@ questionnaires (`questionnaires/` in the corpus zip).
 | **Appraisal-enISEAR** (COLING 2020) | 1,001 enISEAR events, 7 Smith-Ellsworth dims, 3 annotators | citation required |
 | **enISEAR / deISEAR** (ACL 2019) | 1,001 EN + 1,001 DE event descriptions, emotion gold | citation required |
 | **HTK appraisal experiments** (WASSA 2021) | manual vs automatic appraisal annotation experiments | citation required |
-| **EmoBank** (EACL 2017) | 10k sentences, VAD ratings | citation required |
+| **ISEAR** (Scherer & Wallbott) | 7,666 situation reports, 37-country survey, appraisal questionnaire codes (CON/EXPC/PLEA/FAIR/CAUS/COPING/MORL...) | free for research via JULIELab CSV mirror of official data; cite Scherer & Wallbott |
+| **EmoBank** (EACL 2017) | 10k sentences, VAD ratings, writer + reader perspectives incl. per-annotator ratings | citation required |
 | **GoEmotions** (ACL 2020) | 54k Reddit comments, 27 emotion labels | Apache-2.0 |
+| **SSEC** (Schuff et al. 2017) | SemEval stance/sentiment tweets + 8-emotion labels | citation required |
+| **ATOMIC** (Sap et al. 2019) | 250k if-then commonsense relations incl. xReact/oReact emotional reactions | public release |
+| **StoryCommonsense** (ACL 2018) | 280k character emotion/motivation annotations in stories | public release |
 | **ESConv** (ACL 2021) | 1.3k emotional-support conversations, strategy labels | research use |
 | **EPITOME / Empathy-Mental-Health** (EMNLP 2020) | 9k annotated support responses, 3 empathy mechanisms + rationales | research use |
 | **EmpatheticDialogues** (ACL 2019) | 23k grounded dialogues, 32 emotion contexts | CC-BY-NC |
 | **CREMA-D** (IEEE TAC 2014) | 7,442 acted clips x 3 presentation modes, crowd emotion votes | public release |
+| **MACHIAVELLI** (Pan et al. 2023) | value-action gap benchmark: text games + harm/morality annotations + published agent results | MIT |
+
+## Requires a signed agreement / registration (not fetched)
+
+These are public for research but gated behind license requests or
+registration forms - someone has to sign/request personally:
+
+| Dataset | How to get it | Why we want it |
+|---|---|---|
+| **MSP-Podcast** | UT Dallas license request (free for research/education) | naturalistic speech, V/A/D - fixes "acted emotion" concern for H3 |
+| **IEMOCAP** | USC SAIL license request | 12h dyadic speech, categorical + dimensional labels |
+| **DAIC-WOZ / E-DAIC** | USC ICT data use agreement | real clinical distress (PHQ-8) - only corpus where "risk detection" means something |
+| **DEAP** | Queen Mary / DEAP EULA | EEG/physio + V/A/D on music videos - cross-modal affect ground truth |
+| **MAHNOB-HCI** | registration + agreement | multimodal affect (EEG + video + gaze) |
+| **Aff-Wild2 / ABAW** | workshop registration | in-the-wild VA + expressions |
+| **LIRIS-ACCEDE** | request form | movie clips, continuous VA - empathic-stimulus pool |
+| **IAPS / NAPS / OASIS** | IAPS: license order; NAPS/OASIS: request forms | normed image stimuli w/ VA ratings |
+| **WASSA empathy datasets** | credentials form at lt3.ugent.be/resources/wassa-2021-shared-task | Batson empathic-concern/personal-distress gold on essays |
+| **RECCON** | request via project page | emotion-cause annotations in conversation |
+| **GEMEP** | paid license via University of Geneva | enacted emotion portrayals (costs money) |
+| **TalkLife (EPITOME)** | research@talklife.co | 235k peer-support interactions (non-commercial) |
 
 ## Known gaps (no public dataset found — own annotation required)
 
 - Human appraisal ratings on **our own** vignette families (the 300-500
   item, κ > 0.6 preregistered requirement). enVENT is adjacent gold, not a
   substitute: different text register, different situation families.
-- `fairness` appraisals (no SEC-style corpus annotates fairness directly).
+- `fairness` appraisals: ISEAR does carry FAIR/MORL questionnaire codes
+  (raw, needs codebook mapping), but no SEC-style corpus rates fairness as a
+  clean dimension - still an own-annotation item for gold.
 - Multi-party / multi-experiencer appraisals beyond x-enVENT's scope.
 - Naturalistic (non-acted) acoustic distress: MSP-Podcast / DAIC-WOZ need
-  license agreements; not yet fetched.
-- ISEAR proper (37-country survey): free for research but behind a
-  download agreement; enISEAR/deISEAR cover the same questions crowdsourced.
+  license agreements; see the gated table above.
+- ISEAR IS fetched (JULIELab CSV of the official mdb, 7,666 rows, appraisal
+  questionnaire codes + country). Country codes need the ISEAR codebook to
+  decode; 16 distinct COUN values present in this export.
