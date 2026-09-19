@@ -5,15 +5,19 @@ model returns a 17-dim JSON vector, per-item score = Pearson r vs gold.
 
     python scoring/run_eval.py --provider together --model deepseek-ai/DeepSeek-V4-Pro-0813
     python scoring/run_eval.py --provider openai --model gpt-5.4 --limit 20
+    python scoring/run_eval.py --provider openai --model gpt-5.4 --stimuli envent_test.jsonl
 
-The result records gold_source. Until human gold ratings land (v1.1), every
-result is status "smoke" - scored against generator priors, shown as such.
+The result records gold_source. Stimuli whose gold_status.json entry (or row
+source fields) resolves to human* produce status "measured"; generator_priors
+and anything else produce "smoke". The vignettes_* files are still priors; the
+envent_* files carry crowd-enVENT reader-consensus human gold (v1.1).
 """
 
 from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import fnmatch
 import json
 import os
 import re
@@ -23,7 +27,7 @@ from pathlib import Path
 import score  # scoring/score.py, same dir
 
 REPO = Path(__file__).resolve().parents[1]
-STIMULI = REPO / "stimuli" / "text" / "vignettes_test.jsonl"
+STIMULI_DIR = REPO / "stimuli" / "text"
 SCHEMA = REPO / "schema" / "rating_schema.json"
 
 BASE_URLS = {
@@ -85,22 +89,32 @@ def main() -> int:
     p.add_argument("--max-tokens", type=int, default=4000,
                    help="completion cap; reasoning models need headroom for thinking + JSON")
     p.add_argument("--env-file", default=None, help="optional KEY=VALUE file for API keys")
+    p.add_argument("--stimuli", default="vignettes_test.jsonl",
+                   help="file under stimuli/text/ to score against (e.g. envent_test.jsonl)")
     args = p.parse_args()
     load_env(args.env_file)
+    stimuli_path = STIMULI_DIR / args.stimuli
 
     dims = json.loads(SCHEMA.read_text(encoding="utf-8"))["dimensions"]
     dim_ids = [d["id"] for d in dims]
-    rows = [json.loads(l) for l in STIMULI.read_text(encoding="utf-8").splitlines() if l.strip()]
+    rows = [json.loads(l) for l in stimuli_path.read_text(encoding="utf-8").splitlines() if l.strip()]
     if args.limit:
         rows = rows[: args.limit]
 
-    # Gold provenance is declared per stimulus dir (gold_status.json), not
-    # inferred per-row - vignette rows don't carry a source field.
-    gs_path = STIMULI.parent / "gold_status.json"
-    declared = json.loads(gs_path.read_text(encoding="utf-8")).get("ratings_provenance") if gs_path.exists() else None
+    # Gold provenance: per-file declarations in gold_status.json (glob-matched),
+    # then a top-level default, then per-row source fields as a fallback.
+    gs_path = STIMULI_DIR / "gold_status.json"
+    declared = None
+    if gs_path.exists():
+        gs = json.loads(gs_path.read_text(encoding="utf-8"))
+        for pat, meta in (gs.get("files") or {}).items():
+            if fnmatch.fnmatch(stimuli_path.name, pat):
+                declared = meta.get("ratings_provenance")
+                break
+        declared = declared or gs.get("ratings_provenance")
     gold_sources = {r.get("source") for r in rows} - {None}
     gold = declared or ("human" if "human" in gold_sources else "generator_priors" if gold_sources == {"synthetic_sketch"} else "mixed")
-    status = "measured" if gold == "human" else "smoke"
+    status = "measured" if gold.startswith("human") else "smoke"
 
     items, corrs, preds = [], [], []
     for r in rows:
@@ -135,7 +149,7 @@ def main() -> int:
         "model_id": args.model,
         "provider": args.provider,
         "benchmark_version": (REPO / "VERSION").read_text().strip(),
-        "stimuli": "stimuli/text/vignettes_test.jsonl",
+        "stimuli": f"stimuli/text/{stimuli_path.name}",
         "gold_source": gold,
         "status": status,
         "run_at": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),

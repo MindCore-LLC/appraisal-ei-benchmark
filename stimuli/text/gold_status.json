@@ -1,5 +1,20 @@
 {
-  "ratings_provenance": "generator_priors",
-  "note": "vignette ratings are generator priors (synthetic_sketch), NOT human gold. All eval results against this stimulus version are status=smoke until human gold lands (planned v1.1).",
-  "version": "1.0.0"
+  "version": "1.1.0",
+  "files": {
+    "vignettes_*.jsonl": {
+      "ratings_provenance": "generator_priors",
+      "note": "vignette ratings are generator priors (synthetic_sketch), NOT human gold. All eval results against this stimulus version are status=smoke until human gold lands."
+    },
+    "envent_*.jsonl": {
+      "ratings_provenance": "human_reader_consensus",
+      "corpus": "crowd-enVENT",
+      "note": "1200 event descriptions, each rated by 5 independent readers reconstructing the experiencer's appraisal on 21 variables; consensus mapped onto our 17-dim schema (fairness unmapped - no SEC analog). anticipated_emotion is author-grounded. Human gold. Troiano, Oberlander & Klinger (2023), Computational Linguistics 49(1), doi:10.1162/coli_a_00461.",
+      "annotation_source": "https://www.romanklinger.de/data-sets/crowd-enVent2023.zip"
+    }
+  },
+  "note": "per-file provenance. mindcore vignettes remain generator_priors (smoke) until the human annotation study lands; the envent_* split is human-rated (measured).",
+  "version_history": {
+    "1.0.0": "single ratings_provenance field, all stimuli generator_priors",
+    "1.1.0": "per-file provenance; added envent_* measured split (crowd-enVENT human gold)"
+  }
 }

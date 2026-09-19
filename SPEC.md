@@ -29,6 +29,13 @@ Taxonomy: Smith & Ellsworth; Scherer's Component Process Model; OCC.
   corpus are generator priors; human gold ratings replace them downstream
   (see §4). The `synthetic_sketch` source marks prior labels - they are NOT
   evaluation ground truth
+- `envent_train.jsonl` (973), `envent_val.jsonl` (113),
+  `envent_test.jsonl` (114) - 1,200 event descriptions from the crowd-enVENT
+  corpus (Troiano, Oberlander & Klinger 2023), each with reader-consensus
+  human appraisal ratings (5 annotators/item) mapped onto our 17-dim schema.
+  Rows carry `source: "human"` and score as `measured`. Mapping and
+  provenance: DATASETS.md. `fairness` is unmapped (no SEC analog);
+  `anticipated_emotion` is author-grounded
 
 ### Audio (`stimuli/audio/`)
 

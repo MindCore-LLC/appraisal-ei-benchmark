@@ -1,0 +1,81 @@
+# External datasets
+
+This file is the provenance record for third-party corpora used by the
+Appraisal-EI Benchmark and the MindCore POC eval pipeline. Raw corpora are
+fetched from upstream sources (`mindcore-poc/scripts/fetch_corpora.py`) and
+converted (`mindcore-poc/scripts/prepare_corpora.py`); we do not claim
+authorship of any of them. Each entry lists what we use it for, access
+terms as we understand them, and the required citation.
+
+## Benchmark stimuli (committed to this repo)
+
+### crowd-enVENT (envent_{train,val,test}.jsonl — MEASURED split)
+
+- **What**: 1,200 event descriptions, each rated by 5 independent readers
+  reconstructing the experiencer's appraisal on 21 variables (6,000 reader
+  annotations over the validation subset of a 6,600-item corpus).
+- **How we use it**: `stimuli/text/envent_*.jsonl`. Reader-consensus ratings
+  mapped onto our 17-dim schema; these rows carry `source: "human"` and
+  produce `status: "measured"` results. `anticipated_emotion` is
+  author-grounded (writer's stated emotion x writer's intensity).
+- **Access**: free download, citation required; the corpus consent states
+  the data is made publicly available in anonymised form.
+- **Cite**: Troiano, E., Oberlander, L.A.M., & Klinger, R. (2023).
+  Dimensional Modeling of Emotions in Text with Appraisal Theories: Corpus
+  Creation, Annotation Reliability, and Prediction. *Computational
+  Linguistics* 49(1). doi:10.1162/coli_a_00461
+- **Source**: https://www.romanklinger.de/data-sets/crowd-enVent2023.zip
+
+### Dimension mapping (enVENT 21 vars → our 17 dims)
+
+enVENT items are 1-5 Likert ("Not at all" to "Extremely"); our schema is
+-3..+3. `L(x) = (x-3)*1.5`; inverted items use `L(6-x)`. Composites average
+the mapped components. Verified against the published annotation
+questionnaires (`questionnaires/` in the corpus zip).
+
+| Our dim | enVENT variable(s) | Item wording (validation form) |
+|---|---|---|
+| pleasantness | pleasantness - unpleasantness | "The event was pleasant/unpleasant for the experiencer." |
+| goal_relevance | goal_relevance | "expected the event to have important consequences" |
+| goal_congruence | goal_support | "expected positive consequences" |
+| certainty | predict_event + predict_conseq | "could have predicted the occurrence/consequences" |
+| control | self_control | "was able to influence what was going on" |
+| responsibility | self_responsblt | "caused by the experiencer's own behavior" |
+| fairness | *unmapped* | no SEC analog — left empty rather than proxied |
+| effort | effort | "required a great deal of energy to deal with" |
+| expectation | predict_event | "could have predicted the occurrence" |
+| novelty | suddenness + inv(familiarity) | "sudden or abrupt" / "familiar" |
+| urgency | urgency | "required an immediate response" |
+| intensity | intensity | "how intense was the experience" |
+| coping_potential | accept_conseq + self_control | "could live with the unavoidable consequences" |
+| social_desirability | inv(social_norms) | "violated laws or socially accepted norms" (inverted) |
+| moral_worth | inv(standards) | "clashed with her/his standards and ideals" (inverted) |
+| attribution | self - max(other, chance) responsblt | locus of causation, signed |
+| anticipated_emotion | author emotion sign x author intensity | author-grounded |
+
+## POC-side prepared corpora (not committed; fetched + converted by scripts)
+
+| Corpus | What | Access terms |
+|---|---|---|
+| **x-enVENT** (LREC 2022) | Experiencer-specific appraisal annotations (~20 dims) | CC-BY-4.0 |
+| **Appraisal-enISEAR** (COLING 2020) | 1,001 enISEAR events, 7 Smith-Ellsworth dims, 3 annotators | citation required |
+| **enISEAR / deISEAR** (ACL 2019) | 1,001 EN + 1,001 DE event descriptions, emotion gold | citation required |
+| **HTK appraisal experiments** (WASSA 2021) | manual vs automatic appraisal annotation experiments | citation required |
+| **EmoBank** (EACL 2017) | 10k sentences, VAD ratings | citation required |
+| **GoEmotions** (ACL 2020) | 54k Reddit comments, 27 emotion labels | Apache-2.0 |
+| **ESConv** (ACL 2021) | 1.3k emotional-support conversations, strategy labels | research use |
+| **EPITOME / Empathy-Mental-Health** (EMNLP 2020) | 9k annotated support responses, 3 empathy mechanisms + rationales | research use |
+| **EmpatheticDialogues** (ACL 2019) | 23k grounded dialogues, 32 emotion contexts | CC-BY-NC |
+| **CREMA-D** (IEEE TAC 2014) | 7,442 acted clips x 3 presentation modes, crowd emotion votes | public release |
+
+## Known gaps (no public dataset found — own annotation required)
+
+- Human appraisal ratings on **our own** vignette families (the 300-500
+  item, κ > 0.6 preregistered requirement). enVENT is adjacent gold, not a
+  substitute: different text register, different situation families.
+- `fairness` appraisals (no SEC-style corpus annotates fairness directly).
+- Multi-party / multi-experiencer appraisals beyond x-enVENT's scope.
+- Naturalistic (non-acted) acoustic distress: MSP-Podcast / DAIC-WOZ need
+  license agreements; not yet fetched.
+- ISEAR proper (37-country survey): free for research but behind a
+  download agreement; enISEAR/deISEAR cover the same questions crowdsourced.

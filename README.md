@@ -14,29 +14,36 @@ dimensions that appraisal theory says *produce* the emotion.
 
 ```
 schema/rating_schema.json     # 17 dims, prompts, -3..+3 scale (normative)
-stimuli/text/                 # 350 keyword-free vignettes (train/val/test)
+stimuli/text/                 # 350 keyword-free vignettes + 1,200 crowd-enVENT
+                              # human-rated events (train/val/test each)
 stimuli/audio/manifest_v1     # 1,440 RAVDESS refs (wavs not redistributed)
 annotation/                   # Prolific/MTurk task exports (text + audio)
 scoring/score.py              # reference scorer (numpy+scipy only)
 scripts/                      # RAVDESS download helper
+DATASETS.md                   # external corpus provenance, licenses, dim mapping
 ```
 
 ## Consuming
 
 Pin a tag. Never float on a branch.
 
-- Text stimuli: `stimuli/text/vignettes_{train,val,test}.jsonl`
+- Text stimuli: `stimuli/text/vignettes_{train,val,test}.jsonl` (generator
+  priors - `smoke`) and `stimuli/text/envent_{train,val,test}.jsonl`
+  (crowd-enVENT reader-consensus human gold - `measured`)
 - Audio stimuli: `stimuli/audio/manifest_v1.jsonl` + your own RAVDESS
   download (`scripts/fetch_ravdess.py` maps `wav_ref`)
 - Rating schema: `schema/rating_schema.json`
 - Scoring: `scoring/score.py` - `aggregate_ei`, `ratings_correlation`,
   `pairwise_kappa`, `paired_test` (Wilcoxon). Stdlib + numpy + scipy only
+- Runner: `scoring/run_eval.py --stimuli <file>` selects the stimulus file;
+  `gold_status.json` declares provenance per file
 
 ## Status
 
-v1.0.0 - stimuli + schema + scorer frozen. Human gold ratings pending
-(see SPEC §4); generator priors in the corpus are explicitly marked
-`synthetic_sketch` and are not ground truth.
+v1.0.0 - stimuli + schema + scorer frozen. The envent_* files carry human
+gold (crowd-enVENT, see DATASETS.md) and score as `measured`. MindCore
+vignettes remain `generator_priors`/`smoke` until our own human annotation
+study lands (see SPEC §4).
 
 ## License
 
