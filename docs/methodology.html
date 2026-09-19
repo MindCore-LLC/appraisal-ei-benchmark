@@ -4,39 +4,51 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Methodology - Appraisal-EI Benchmark</title>
+<link rel="stylesheet" href="assets/tokens.css">
 <style>
-  :root { --ink:#141414; --paper:#fafaf8; --line:#d8d8d4; --muted:#6b6b66; --smoke:#8a5a00; --meas:#1a6b3c; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Display-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Display-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Commissioner Fallback"; src: local("Helvetica Neue"), local("Helvetica"), local("Arial");
+               size-adjust: 96%; ascent-override: 96%; descent-override: 26%; line-gap-override: 0%; }
+  :root {
+    --font-sans: "Commissioner", "Commissioner Fallback", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --ink: var(--color-text-primary); --paper: var(--color-canvas); --line: var(--color-border-default);
+    --muted: var(--color-text-muted); --smoke: var(--color-warning); --meas: var(--color-success);
+  }
   * { box-sizing: border-box; margin: 0; }
-  body { background: var(--paper); color: var(--ink); font: 15px/1.6 system-ui, -apple-system, sans-serif; }
-  .mono { font-family: ui-monospace, "JetBrains Mono", Menlo, monospace; font-size: 0.92em; }
+  body { background: var(--paper); color: var(--ink); font: 400 15px/1.6 var(--font-sans); }
+  .mono { font-family: var(--font-mono); font-size: 0.92em; }
   header { border-bottom: 1px solid var(--ink); padding: 28px 24px 20px; }
-  h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
   .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
   nav { font-size: 12px; margin-bottom: 8px; }
   nav a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: .08em; }
   nav a:hover { color: var(--ink); }
   main { max-width: 760px; padding: 32px 24px 64px; }
-  h2 { font-size: 17px; font-weight: 600; margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--ink); }
+  h2 { font-size: 17px; font-weight: 500; margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--ink); }
   h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-  h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; }
-  p { margin: 10px 0; color: #2a2a28; }
-  ul { margin: 10px 0 10px 20px; color: #2a2a28; }
+  h3 { font-size: 14px; font-weight: 500; margin: 20px 0 8px; }
+  p { margin: 10px 0; color: var(--color-text-secondary); }
+  ul { margin: 10px 0 10px 20px; color: var(--color-text-secondary); }
   li { margin: 4px 0; }
-  code { font-family: ui-monospace, "JetBrains Mono", Menlo, monospace; font-size: 13px; background: #efefec; padding: 1px 5px; }
-  pre { background: #efefec; padding: 14px 16px; overflow-x: auto; font-size: 12.5px; margin: 12px 0; border: 1px solid var(--line); }
+  code { font-family: var(--font-mono); font-size: 13px; background: var(--color-sunken); padding: 1px 5px; }
+  pre { background: var(--color-sunken); padding: 14px 16px; overflow-x: auto; font-size: 12.5px; margin: 12px 0; border: 1px solid var(--line); }
   pre code { background: none; padding: 0; }
   table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
   th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--ink); }
   td { padding: 7px 10px; border-bottom: 1px solid var(--line); }
   .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
-  .badge.smoke { color: var(--smoke); border-color: var(--smoke); }
-  .badge.measured { color: var(--meas); border-color: var(--meas); }
+  .badge.smoke { color: var(--smoke); border-color: var(--smoke); background: var(--color-warning-tint); }
+  .badge.measured { color: var(--meas); border-color: var(--meas); background: var(--color-success-tint); }
   .callout { border: 1px solid var(--line); border-left: 3px solid var(--ink); padding: 12px 16px; margin: 16px 0; font-size: 14px; }
   .callout.warn { border-left-color: var(--smoke); }
   .steps { counter-reset: s; list-style: none; margin-left: 0; }
   .steps li { counter-increment: s; padding: 10px 0 10px 44px; position: relative; border-bottom: 1px solid var(--line); }
   .steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 10px;
-                      font: 600 13px ui-monospace, monospace; color: var(--muted); }
+                      font: 500 13px var(--font-mono); color: var(--muted); }
   footer { padding: 16px 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
   a { color: var(--ink); }
 </style>

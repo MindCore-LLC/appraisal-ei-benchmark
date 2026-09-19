@@ -6,40 +6,52 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <title>Appraisal-EI Benchmark - Leaderboard</title>
+<link rel="stylesheet" href="assets/tokens.css">
 <style>
-  :root { --ink:#141414; --paper:#fafaf8; --line:#d8d8d4; --muted:#6b6b66; --smoke:#8a5a00; --meas:#1a6b3c; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Display-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Display-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
+  @font-face { font-family: "Commissioner Fallback"; src: local("Helvetica Neue"), local("Helvetica"), local("Arial");
+               size-adjust: 96%; ascent-override: 96%; descent-override: 26%; line-gap-override: 0%; }
+  :root {
+    --font-sans: "Commissioner", "Commissioner Fallback", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    --ink: var(--color-text-primary); --paper: var(--color-canvas); --line: var(--color-border-default);
+    --muted: var(--color-text-muted); --smoke: var(--color-warning); --meas: var(--color-success);
+  }
   * { box-sizing: border-box; margin: 0; }
-  body { background: var(--paper); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, sans-serif; }
-  .mono { font-family: ui-monospace, "JetBrains Mono", Menlo, monospace; }
+  body { background: var(--paper); color: var(--ink); font: 400 15px/1.5 var(--font-sans); }
+  .mono { font-family: var(--font-mono); }
   header { border-bottom: 1px solid var(--ink); padding: 28px 24px 20px; }
-  h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
   .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
-  .banner { margin: 0 24px; padding: 10px 12px; border: 1px solid var(--smoke); color: var(--smoke);
+  .banner { margin: 0 24px; padding: 10px 12px; border: 1px solid var(--smoke); background: var(--color-warning-tint); color: var(--smoke);
             font-size: 12px; margin-top: 16px; max-width: 720px; }
   .controls { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px 24px; border-bottom: 1px solid var(--line); }
   .group { font-size: 12px; }
   .group .label { text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-size: 10px; margin-bottom: 6px; }
   .chip { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 4px 10px;
-          font-size: 12px; cursor: pointer; margin-right: 4px; }
+          font: 500 12px var(--font-sans); cursor: pointer; margin-right: 4px; }
   .chip.on { background: var(--ink); color: var(--paper); }
   main { padding: 0 24px 60px; }
   table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-  th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+  th { text-align: left; font: 500 11px var(--font-sans); text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
        padding: 8px 10px; border-bottom: 1px solid var(--ink); cursor: pointer; user-select: none; white-space: nowrap; }
   th .arrow { font-size: 10px; }
   td { padding: 10px; border-bottom: 1px solid var(--line); font-size: 14px; }
-  tr:hover td { background: #efefec; }
+  tr:hover td { background: var(--color-sunken); }
   .num { font-variant-numeric: tabular-nums; }
   .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
-  .badge.smoke { color: var(--smoke); border-color: var(--smoke); }
-  .badge.measured { color: var(--meas); border-color: var(--meas); }
+  .badge.smoke { color: var(--smoke); border-color: var(--smoke); background: var(--color-warning-tint); }
+  .badge.measured { color: var(--meas); border-color: var(--meas); background: var(--color-success-tint); }
   .origin { font-size: 12px; color: var(--muted); }
   #compare { display: none; margin-top: 24px; border: 1px solid var(--ink); padding: 16px; }
   #compare.open { display: block; }
-  #compare h2 { font-size: 15px; margin-bottom: 12px; }
+  #compare h2 { font-size: 15px; font-weight: 500; margin-bottom: 12px; }
   .cmp-grid { display: grid; gap: 12px; }
   .cmp-col { border: 1px solid var(--line); padding: 10px; }
-  .cmp-col h3 { font-size: 14px; }
+  .cmp-col h3 { font-size: 14px; font-weight: 500; }
   .bar { height: 6px; background: var(--ink); margin-top: 6px; }
   .kv { font-size: 12px; color: var(--muted); margin-top: 6px; }
   #charts { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 20px; }
@@ -48,7 +60,7 @@
   .chart-title { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
   .chart-wrap { position: relative; height: 300px; }
   .chart-wrap.radar { height: 340px; }
-  .detail td { background: #f4f4f1; font-size: 12px; }
+  .detail td { background: var(--color-sunken); font-size: 12px; }
   .spark { display: flex; gap: 1px; align-items: flex-end; height: 28px; }
   .spark i { width: 3px; background: var(--ink); display: block; }
   footer { padding: 16px 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
@@ -133,7 +145,13 @@ async function boot() {
   renderBar();
 }
 
-const PALETTE = ["#141414", "#1a6b3c", "#8a5a00", "#4a5f8a", "#7a4a6b", "#2e6b6b", "#8a3a2e", "#5a6b2e"];
+// Chart colors come from the kit's data-viz series tokens, not a local palette.
+const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const PALETTE = [1, 2, 3, 4, 5, 6].map(i => cssVar(`--color-series-${i}`) || "#141414");
+const INK = cssVar("--color-text-primary") || "#141414";
+const MUTED = cssVar("--color-text-muted") || "#6b6b66";
+const LINE = cssVar("--color-border-default") || "#d8d8d4";
+const CANVAS = cssVar("--color-canvas") || "#faf7f2";
 let barChart = null, radarChart = null;
 if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
@@ -170,7 +188,7 @@ function renderBar() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: "#141414", titleFont: { size: 12 }, bodyFont: { size: 11 },
+          backgroundColor: INK, titleFont: { size: 12 }, bodyFont: { size: 11 },
           padding: 10, cornerRadius: 0, displayColors: false,
           callbacks: {
             label: c => ` ${(c.parsed.x * 100).toFixed(1)}% alignment (r=${c.parsed.x.toFixed(3)}) · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
@@ -180,12 +198,12 @@ function renderBar() {
           anchor: "end", align: "end", offset: 6, clamp: true,
           formatter: v => (v * 100).toFixed(1) + "%",
           font: { family: "ui-monospace,monospace", size: 12, weight: "bold" },
-          color: "#141414",
+          color: INK,
         },
       },
       scales: {
-        x: { min: 0, suggestedMax: 0.6, grid: { color: "#ececea" }, border: { display: false },
-             ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 }, color: "#6b6b66" } },
+        x: { min: 0, suggestedMax: 0.6, grid: { color: LINE }, border: { display: false },
+             ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
         y: { grid: { display: false }, border: { display: false },
              ticks: { font: { size: 12.5, weight: "500" }, color: "#141414" } },
       },
@@ -214,7 +232,7 @@ function renderRadar(sel) {
         pointRadius: 3,
         pointHoverRadius: 6,
         pointBackgroundColor: PALETTE[i % PALETTE.length],
-        pointBorderColor: "#fafaf8",
+        pointBorderColor: CANVAS,
         pointBorderWidth: 1,
       })),
     },
@@ -222,9 +240,9 @@ function renderRadar(sel) {
       maintainAspectRatio: false,
       animation: { duration: 600, easing: "easeOutQuart" },
       plugins: {
-        legend: { position: "bottom", labels: { boxWidth: 12, padding: 14, font: { size: 11.5 }, color: "#141414" } },
+        legend: { position: "bottom", labels: { boxWidth: 12, padding: 14, font: { size: 11.5 }, color: INK } },
         tooltip: {
-          backgroundColor: "#141414", padding: 10, cornerRadius: 0, displayColors: false,
+          backgroundColor: INK, padding: 10, cornerRadius: 0, displayColors: false,
           callbacks: { label: c => ` ${c.dataset.label}: r=${c.parsed.r.toFixed(3)}` },
         },
         datalabels: { display: false },
@@ -232,9 +250,9 @@ function renderRadar(sel) {
       scales: {
         r: {
           suggestedMin: -0.6, suggestedMax: 0.8,
-          ticks: { stepSize: 0.2, font: { size: 9 }, backdropColor: "transparent", color: "#9a9a94" },
-          grid: { color: "#e4e4e0" }, angleLines: { color: "#e4e4e0" },
-          pointLabels: { font: { size: 10.5 }, color: "#3a3a38" },
+          ticks: { stepSize: 0.2, font: { size: 9 }, backdropColor: "transparent", color: MUTED },
+          grid: { color: LINE }, angleLines: { color: LINE },
+          pointLabels: { font: { size: 10.5 }, color: cssVar("--color-text-secondary") || "#57534c" },
         },
       },
     },
