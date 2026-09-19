@@ -92,6 +92,26 @@ registration forms - someone has to sign/request personally:
 | **RECCON** | request via project page | emotion-cause annotations in conversation |
 | **GEMEP** | paid license via University of Geneva | enacted emotion portrayals (costs money) |
 | **TalkLife (EPITOME)** | research@talklife.co | 235k peer-support interactions (non-commercial) |
+| **ALOE** (Yang et al. 2024, arXiv:2405.00948) | HF dataset `Blablablab/ALOE`, gated=manual - request access on the dataset page | target + observer appraisals + 3,262 alignment labels = empathic accuracy as data; CC-BY-NC-SA |
+
+## Adjacent models (eval-only baselines, not our data)
+
+Models trained on appraisal/emotion tasks that can serve as external
+baselines or validators. The first two are fetched to
+`data/external_models/` by `fetch_corpora.py`; all are CC-BY-NC-SA or
+similarly non-commercial - usable for evaluation, not for shipping.
+
+| Model | What | Why it matters to us |
+|---|---|---|
+| `Blablablab/empathy-appraisal-span` | OpenPrompt+RoBERTa, 9 appraisal-label span classifier trained on ALOE | trained appraisal model baseline; macro-F1 0.56 shows task difficulty |
+| `Blablablab/empathy-appraisal-alignment` | Siamese mpnet scoring whether two appraisals align | off-the-shelf empathic-accuracy scorer: inferred vs. self-reported appraisal |
+| `Nikhil0097/wavlm-large-emotion-vad` | WavLM on MSP-Podcast, speaker-independent V/A/D regression | ready-made dimensional-emotion audio baseline for H3 |
+| `BenRongey/deberta-v3-base-emobank-vad` etc. | text VAD regressors | the competing 3-dim emotion theory as sanity baseline |
+| `ZebangCheng/Emotion-LLaMA` | multimodal emotion reasoning + explanation | closest "why not just what" artifact; free-text reasoning, no appraisal dims |
+
+No HF model ships "situation -> 17-dim appraisal vector"; the de-facto
+approach is frontier LLM + rubric prompt, which is what this benchmark
+measures.
 
 ## Known gaps (no public dataset found — own annotation required)
 
