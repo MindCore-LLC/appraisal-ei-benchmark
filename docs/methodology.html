@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology - Appraisal-EI Benchmark</title>
+<style>
+  :root { --ink:#141414; --paper:#fafaf8; --line:#d8d8d4; --muted:#6b6b66; --smoke:#8a5a00; --meas:#1a6b3c; }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--paper); color: var(--ink); font: 15px/1.6 system-ui, -apple-system, sans-serif; }
+  .mono { font-family: ui-monospace, "JetBrains Mono", Menlo, monospace; font-size: 0.92em; }
+  header { border-bottom: 1px solid var(--ink); padding: 28px 24px 20px; }
+  h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
+  nav { font-size: 12px; margin-bottom: 8px; }
+  nav a { color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: .08em; }
+  nav a:hover { color: var(--ink); }
+  main { max-width: 760px; padding: 32px 24px 64px; }
+  h2 { font-size: 17px; font-weight: 600; margin: 40px 0 12px; padding-top: 20px; border-top: 1px solid var(--ink); }
+  h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+  h3 { font-size: 14px; font-weight: 600; margin: 20px 0 8px; }
+  p { margin: 10px 0; color: #2a2a28; }
+  ul { margin: 10px 0 10px 20px; color: #2a2a28; }
+  li { margin: 4px 0; }
+  code { font-family: ui-monospace, "JetBrains Mono", Menlo, monospace; font-size: 13px; background: #efefec; padding: 1px 5px; }
+  pre { background: #efefec; padding: 14px 16px; overflow-x: auto; font-size: 12.5px; margin: 12px 0; border: 1px solid var(--line); }
+  pre code { background: none; padding: 0; }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+  th { text-align: left; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--ink); }
+  td { padding: 7px 10px; border-bottom: 1px solid var(--line); }
+  .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
+  .badge.smoke { color: var(--smoke); border-color: var(--smoke); }
+  .badge.measured { color: var(--meas); border-color: var(--meas); }
+  .callout { border: 1px solid var(--line); border-left: 3px solid var(--ink); padding: 12px 16px; margin: 16px 0; font-size: 14px; }
+  .callout.warn { border-left-color: var(--smoke); }
+  .steps { counter-reset: s; list-style: none; margin-left: 0; }
+  .steps li { counter-increment: s; padding: 10px 0 10px 44px; position: relative; border-bottom: 1px solid var(--line); }
+  .steps li::before { content: counter(s, decimal-leading-zero); position: absolute; left: 0; top: 10px;
+                      font: 600 13px ui-monospace, monospace; color: var(--muted); }
+  footer { padding: 16px 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
+  a { color: var(--ink); }
+</style>
+</head>
+<body>
+<header>
+  <nav><a href="index.html">&larr; Leaderboard</a></nav>
+  <h1>Methodology <span class="mono" style="font-size:13px;color:var(--muted)">v1.0.0</span></h1>
+  <div class="sub">How the Appraisal-EI Benchmark works, end to end - no code reading required.</div>
+</header>
+
+<main>
+
+<h2>What it measures</h2>
+<p>Most emotion evaluations ask <em>what</em> a person feels. This benchmark asks whether a model represents
+<em>why</em> - the causal structure appraisal theory says produces the emotion. Every stimulus is scored as a
+<strong>17-dimensional appraisal vector</strong> (each dimension -3.0 to +3.0), not an emotion label. A model's
+answer is compared to human gold ratings dimension-by-dimension.</p>
+<p>The dimensions come from appraisal theory (Smith &amp; Ellsworth, Scherer's CPM, OCC): pleasantness,
+goal relevance, goal congruence, certainty, control, responsibility, fairness, effort, expectation, novelty,
+urgency, intensity, coping potential, social desirability, moral worth, attribution, and anticipated emotion.</p>
+
+<h2>The stimuli</h2>
+<table>
+  <tr><th>Set</th><th>Size</th><th>Form</th><th>Used for</th></tr>
+  <tr><td>Text vignettes</td><td>350 (244 train / 52 val / 54 test)</td><td>Scenario paragraphs, keyword-free</td><td>Appraisal calibration eval</td></tr>
+  <tr><td>Audio clips</td><td>1,440 RAVDESS references</td><td>Acted emotional speech</td><td>Audio-side alignment (H9)</td></tr>
+</table>
+<p><strong>Keyword-free matters:</strong> vignettes contain no emotion words. "After eight years at the firm, Sam
+was told the role would end in thirty days" - the model must infer the appraisal structure, not pattern-match a
+sentiment lexicon. The 350 items span 20 situation families (job loss, betrayal, inheritance, public error...).</p>
+<p>Audio stimuli are <em>references</em>, not files: <code>wav_ref</code> paths map to a standard RAVDESS download
+(research-licensed, not redistributed). The same 17 dims are rated on vocal delivery, not transcripts.</p>
+
+<h2>The protocol, step by step</h2>
+<ol class="steps">
+  <li><strong>Prompt.</strong> Each test item is sent zero-shot with the canonical rubric: the 17 dimension
+  definitions, the scale, the scenario, and "Return JSON only, keys exactly those 17 names."</li>
+  <li><strong>Parse.</strong> The first <code>{...}</code> JSON object in the response is extracted. A response
+  counts as parsed only if it yields &ge;8 of the 17 dimensions.</li>
+  <li><strong>Score per item.</strong> Per-item score = <strong>Pearson correlation</strong> between the model's
+  17-dim vector and the gold vector for that item. r captures <em>profile shape</em> - which dimensions are
+  extreme vs neutral - not just magnitude matching.</li>
+  <li><strong>Aggregate.</strong> Headline <strong>appraisal calibration</strong> = mean per-item r across the
+  test split. <strong>Per-dimension calibration</strong> = Pearson r of predicted-vs-gold on each single
+  dimension across all items (the radar chart on the leaderboard).</li>
+  <li><strong>Record.</strong> Everything lands in <code>results/&lt;model&gt;.json</code>: the score, the
+  per-item r values, the per-dim stats, the raw predictions, the gold source, the timestamp, and the status.</li>
+</ol>
+
+<div class="callout"><strong>Same prompt, every model.</strong> The rubric is fixed by SPEC, not tuned per model.
+Zero-shot (no examples) keeps the test about the model's representation, not prompt engineering.</div>
+
+<h2>Status badges - read these first</h2>
+<table>
+  <tr><th>Badge</th><th>Means</th></tr>
+  <tr><td><span class="badge smoke">smoke</span></td><td>Scored against <em>generator priors</em> - plausible ratings written by the vignette generator, not humans. Provisional by definition.</td></tr>
+  <tr><td><span class="badge measured">measured</span></td><td>Scored against <em>human gold</em> - real annotator ratings meeting the &kappa;&gt;0.6 agreement bar.</td></tr>
+</table>
+<p>Gold provenance is declared per stimulus directory in <code>gold_status.json</code> - a versioned statement,
+not guessed from the data. Today's v1.0.0 stimuli are generator priors, so every current row is SMOKE. Human gold
+(Prolific annotation, &ge;2 annotators/item) lands in v1.1 and results re-badge automatically.</p>
+
+<h2>The leaderboard pipeline</h2>
+<ul>
+  <li><code>scoring/run_eval.py</code> - the runner. One command per model; supports OpenAI, Together, Fireworks
+  (any OpenAI-compatible endpoint). Writes a result JSON.</li>
+  <li><code>models.json</code> - the registry the filters read: display name, org, origin (ISO country of the
+  publishing org), open/closed weights, family, params.</li>
+  <li><code>site/build_site.py</code> - merges results + registry into <code>docs/data.json</code>, the single
+  payload this site fetches.</li>
+  <li><code>docs/index.html</code> - the leaderboard: sortable columns, origin/weights/org chips, checkbox
+  compare, per-item sparklines, the bar chart and 17-axis radar.</li>
+</ul>
+
+<h2>Adding a model</h2>
+<pre><code># 1. registry entry in models.json (name, org, origin, weights)
+# 2. run it:
+python scoring/run_eval.py --provider together \
+    --model org/model-id --name "Display Name"
+# 3. rebuild the site payload and push:
+python site/build_site.py && git add -A && git commit -m "add X" && git push</code></pre>
+<p>Compare links are shareable: <code>?compare=all</code> or
+<code>?compare=gpt-5.4,deepseek-ai/DeepSeek-V4-Pro-0813</code>.</p>
+
+<h2>Auditing a score</h2>
+<p>Every leaderboard number is reproducible from the repo alone:</p>
+<ul>
+  <li><code>results/&lt;model&gt;.json</code> → <code>per_item</code> has every item's r, prediction, and gold vector</li>
+  <li><code>per_dim</code> has per-dimension r + mean absolute error</li>
+  <li><code>scoring/score.py</code> is the reference implementation of every metric (numpy+scipy only)</li>
+  <li>The prompt text is generated deterministically from <code>schema/rating_schema.json</code></li>
+</ul>
+
+<div class="callout warn"><strong>Honest caveat:</strong> a model's vignette text is public, so frontier training
+corpora may contain it. This is the standard public-benchmark contamination tradeoff - mitigated by keyword-free
+stimuli, private gold labels (planned), and versioned releases. Report anything that looks gamed.</div>
+
+<h2>Versioning</h2>
+<p><code>VERSION</code> + git tags pin the artifact; the leaderboard and all results record which version scored
+them. Stimuli are append-only within a major version - corrections bump minor (1.0&rarr;1.1), schema changes bump
+major (2.0). Full rules and the sub-score definitions are in
+<a href="https://github.com/MindCore-LLC/appraisal-ei-benchmark/blob/main/SPEC.md">SPEC.md</a> - the normative document.</p>
+
+</main>
+
+<footer>
+  Appraisal-EI Benchmark v1.0.0 · <a href="https://github.com/MindCore-LLC/appraisal-ei-benchmark">repo</a> ·
+  <a href="index.html">leaderboard</a>
+</footer>
+</body>
+</html>
