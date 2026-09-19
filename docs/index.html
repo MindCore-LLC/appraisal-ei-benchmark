@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <title>Appraisal-EI Benchmark - Leaderboard</title>
 <style>
   :root { --ink:#141414; --paper:#fafaf8; --line:#d8d8d4; --muted:#6b6b66; --smoke:#8a5a00; --meas:#1a6b3c; }
@@ -134,6 +135,7 @@ async function boot() {
 
 const PALETTE = ["#141414", "#1a6b3c", "#8a5a00", "#4a5f8a", "#7a4a6b", "#2e6b6b", "#8a3a2e", "#5a6b2e"];
 let barChart = null, radarChart = null;
+if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
 function renderBar() {
   const rows = [...state.data].sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
@@ -145,24 +147,47 @@ function renderBar() {
       labels: rows.map(r => r.model),
       datasets: [{
         data: rows.map(r => r.appraisal_calibration),
-        backgroundColor: rows.map((r, i) => PALETTE[i % PALETTE.length]),
+        backgroundColor: c => {
+          const { ctx: g, chartArea } = c.chart;
+          if (!chartArea) return PALETTE[c.dataIndex % PALETTE.length];
+          const grad = g.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
+          const col = PALETTE[c.dataIndex % PALETTE.length];
+          grad.addColorStop(0, col + "cc");
+          grad.addColorStop(1, col);
+          return grad;
+        },
+        hoverBackgroundColor: c => PALETTE[c.dataIndex % PALETTE.length],
         borderWidth: 0,
+        barPercentage: 0.72,
+        categoryPercentage: 0.9,
       }],
     },
     options: {
       indexAxis: "y",
       maintainAspectRatio: false,
+      animation: { duration: 700, easing: "easeOutQuart" },
+      layout: { padding: { right: 48 } },
       plugins: {
         legend: { display: false },
         tooltip: {
+          backgroundColor: "#141414", titleFont: { size: 12 }, bodyFont: { size: 11 },
+          padding: 10, cornerRadius: 0, displayColors: false,
           callbacks: {
             label: c => ` ${(c.parsed.x * 100).toFixed(1)}% alignment (r=${c.parsed.x.toFixed(3)}) · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
           },
         },
+        datalabels: {
+          anchor: "end", align: "end", offset: 6, clamp: true,
+          formatter: v => (v * 100).toFixed(1) + "%",
+          font: { family: "ui-monospace,monospace", size: 12, weight: "bold" },
+          color: "#141414",
+        },
       },
       scales: {
-        x: { min: 0, suggestedMax: 1, grid: { color: "#e8e8e4" }, ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 } } },
-        y: { grid: { display: false }, ticks: { font: { size: 12 } } },
+        x: { min: 0, suggestedMax: 0.6, grid: { color: "#ececea" }, border: { display: false },
+             ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 }, color: "#6b6b66" } },
+        y: { grid: { display: false }, border: { display: false },
+             ticks: { font: { size: 12.5, weight: "500" }, color: "#141414" } },
       },
     },
   });
@@ -184,20 +209,32 @@ function renderRadar(sel) {
         label: r.model,
         data: r.per_dim.map(d => d.r),
         borderColor: PALETTE[i % PALETTE.length],
-        backgroundColor: PALETTE[i % PALETTE.length] + "22",
-        borderWidth: 2,
-        pointRadius: 2,
+        backgroundColor: PALETTE[i % PALETTE.length] + "18",
+        borderWidth: 2.5,
+        pointRadius: 3,
+        pointHoverRadius: 6,
+        pointBackgroundColor: PALETTE[i % PALETTE.length],
+        pointBorderColor: "#fafaf8",
+        pointBorderWidth: 1,
       })),
     },
     options: {
       maintainAspectRatio: false,
-      plugins: { legend: { position: "bottom", labels: { boxWidth: 10, font: { size: 11 } } } },
+      animation: { duration: 600, easing: "easeOutQuart" },
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 12, padding: 14, font: { size: 11.5 }, color: "#141414" } },
+        tooltip: {
+          backgroundColor: "#141414", padding: 10, cornerRadius: 0, displayColors: false,
+          callbacks: { label: c => ` ${c.dataset.label}: r=${c.parsed.r.toFixed(3)}` },
+        },
+        datalabels: { display: false },
+      },
       scales: {
         r: {
-          suggestedMin: -0.2, suggestedMax: 0.8,
-          ticks: { font: { size: 9 }, backdropColor: "transparent", color: "#6b6b66" },
-          grid: { color: "#e0e0dc" }, angleLines: { color: "#e0e0dc" },
-          pointLabels: { font: { size: 10 } },
+          suggestedMin: -0.6, suggestedMax: 0.8,
+          ticks: { stepSize: 0.2, font: { size: 9 }, backdropColor: "transparent", color: "#9a9a94" },
+          grid: { color: "#e4e4e0" }, angleLines: { color: "#e4e4e0" },
+          pointLabels: { font: { size: 10.5 }, color: "#3a3a38" },
         },
       },
     },
