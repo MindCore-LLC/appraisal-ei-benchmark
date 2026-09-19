@@ -59,7 +59,9 @@
 <header>
   <nav style="font-size:12px;margin-bottom:8px"><a href="methodology.html" style="color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.08em">Methodology &rarr;</a></nav>
   <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:13px;color:var(--muted)" id="ver"></span></h1>
-  <div class="sub">17-dimension appraisal calibration vs human gold. Per-item Pearson r, vignette test split.</div>
+  <div class="sub">17-dimension appraisal calibration vs human gold. Per-item Pearson r, vignette test split.
+    <strong>Alignment</strong> = how closely a model's appraisal profile matches the reference (r &times; 100).
+    <strong>Direction %</strong> = how often it rated a dimension in the same direction as the reference.</div>
   <div class="banner" id="banner">Loading...</div>
 </header>
 
@@ -68,7 +70,7 @@
 <main>
   <div id="charts">
     <div class="chart-block">
-      <div class="chart-title">Calibration r by model</div>
+      <div class="chart-title">Alignment (%) by model</div>
       <div class="chart-wrap"><canvas id="barChart"></canvas></div>
     </div>
     <div class="chart-block" id="radarBlock" style="display:none">
@@ -95,7 +97,8 @@ const COLS = [
   {k:"org", label:"Org", sort:"org"},
   {k:"origin", label:"Origin", sort:"origin"},
   {k:"weights", label:"Weights", sort:"weights"},
-  {k:"cal", label:"Calibration r", sort:"cal", num:true},
+  {k:"cal", label:"Alignment", sort:"cal", num:true},
+  {k:"dir", label:"Direction %", sort:"dir", num:true},
   {k:"n", label:"Items", sort:"n", num:true},
   {k:"status", label:"Status", sort:"status"},
   {k:"run_at", label:"Run", sort:"run_at"},
@@ -153,12 +156,12 @@ function renderBar() {
         legend: { display: false },
         tooltip: {
           callbacks: {
-            label: c => ` r=${c.parsed.x.toFixed(3)} · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
+            label: c => ` ${(c.parsed.x * 100).toFixed(1)}% alignment (r=${c.parsed.x.toFixed(3)}) · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
           },
         },
       },
       scales: {
-        x: { min: 0, suggestedMax: 1, grid: { color: "#e8e8e4" }, ticks: { font: { family: "ui-monospace,monospace", size: 11 } } },
+        x: { min: 0, suggestedMax: 1, grid: { color: "#e8e8e4" }, ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 } } },
         y: { grid: { display: false }, ticks: { font: { size: 12 } } },
       },
     },
@@ -242,6 +245,7 @@ function key(r, k) {
     case "origin": return meta(r, "origin");
     case "weights": return meta(r, "weights");
     case "cal": return r.appraisal_calibration;
+    case "dir": return r.direction_pct ?? -1;
     case "n": return r.n_parsed;
     case "status": return r.status;
     case "run_at": return r.run_at;
@@ -272,7 +276,8 @@ function render() {
       <td>${meta(r, "org")}</td>
       <td class="origin">${meta(r, "origin")}</td>
       <td>${meta(r, "weights")}</td>
-      <td class="num mono"><strong>${fmt(r.appraisal_calibration)}</strong></td>
+      <td class="num mono"><strong>${(r.appraisal_calibration * 100).toFixed(1)}%</strong><div class="mono" style="font-size:10px;color:var(--muted)">r=${fmt(r.appraisal_calibration)}</div></td>
+      <td class="num mono">${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</td>
       <td class="num mono">${r.n_parsed}/${r.n_items}</td>
       <td><span class="badge ${r.status}">${r.status}</span></td>
       <td class="mono" style="font-size:11px">${(r.run_at || "").slice(0, 10)}</td>
@@ -311,8 +316,10 @@ function showCompare() {
       const min = Math.min(...items), max = Math.max(...items);
       return `<div class="cmp-col"><h3>${r.model}</h3>
         <div class="kv">${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")}</div>
-        <div class="num mono" style="font-size:22px;margin-top:8px">${fmt(r.appraisal_calibration)}</div>
+        <div class="num mono" style="font-size:22px;margin-top:8px">${(r.appraisal_calibration * 100).toFixed(1)}%</div>
+        <div class="kv">alignment (r=${fmt(r.appraisal_calibration)})</div>
         <div class="bar" style="width:${Math.max(0, r.appraisal_calibration) * 100}%"></div>
+        <div class="kv">direction match: <strong>${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</strong></div>
         <div class="kv">per-item: mean ${mean.toFixed(3)} · min ${min.toFixed(3)} · max ${max.toFixed(3)}</div>
         <div class="kv">status: ${r.status} · gold: ${r.gold_source}</div></div>`;
     }).join("") + `</div>`;

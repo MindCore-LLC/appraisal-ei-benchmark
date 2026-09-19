@@ -2358,7 +2358,8 @@
         "weights": "open",
         "family": "DeepSeek V4",
         "params": "MoE ~670B"
-      }
+      },
+      "direction_pct": 85.9
     },
     {
       "model": "GPT-5.4",
@@ -4753,7 +4754,8 @@
         "weights": "closed",
         "family": "GPT-5",
         "params": null
-      }
+      },
+      "direction_pct": 86.7
     },
     {
       "model": "Llama 3.3 70B Turbo",
@@ -7148,7 +7150,8 @@
         "weights": "open",
         "family": "Llama 3.3",
         "params": "70B"
-      }
+      },
+      "direction_pct": 87.2
     }
   ]
 }

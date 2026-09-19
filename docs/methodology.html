@@ -90,6 +90,15 @@ sentiment lexicon. The 350 items span 20 situation families (job loss, betrayal,
 <div class="callout"><strong>Same prompt, every model.</strong> The rubric is fixed by SPEC, not tuned per model.
 Zero-shot (no examples) keeps the test about the model's representation, not prompt engineering.</div>
 
+<h2>Reading the numbers</h2>
+<table>
+  <tr><th>Metric</th><th>Plain meaning</th><th>Technical</th></tr>
+  <tr><td><strong>Alignment %</strong></td><td>How closely the model's 17-dim appraisal profile matches the reference ratings. Higher = closer.</td><td>mean per-item Pearson r &times; 100</td></tr>
+  <tr><td><strong>Direction %</strong></td><td>How often the model rated a dimension in the same direction (positive/negative) as the reference. A true percentage - 50% would be coin-flip.</td><td>% of (item, dim) pairs with matching sign; exact zeros skipped</td></tr>
+</table>
+<p>Direction % answers "does it feel the right shape at all?"; Alignment answers "how precisely?". A model can
+get directions mostly right and still show modest alignment - magnitudes are harder than signs.</p>
+
 <h2>Status badges - read these first</h2>
 <table>
   <tr><th>Badge</th><th>Means</th></tr>
