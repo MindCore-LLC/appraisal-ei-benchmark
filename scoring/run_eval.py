@@ -36,8 +36,16 @@ SCHEMA = REPO / "schema" / "rating_schema.json"
 BASE_URLS = {
     "together": "https://api.together.xyz/v1",
     "fireworks": "https://api.fireworks.ai/inference/v1",
+    "anthropic": "https://api.anthropic.com/v1/",
+    "google": "https://generativelanguage.googleapis.com/v1beta/openai/",
 }
-KEY_ENV = {"openai": "OPENAI_API_KEY", "together": "TOGETHER_API_KEY", "fireworks": "FIREWORKS_API_KEY"}
+KEY_ENV = {
+    "openai": "OPENAI_API_KEY",
+    "together": "TOGETHER_API_KEY",
+    "fireworks": "FIREWORKS_API_KEY",
+    "anthropic": "ANTHROPIC_API_KEY",
+    "google": "GEMINI_API_KEY",
+}
 PROVIDERS = sorted(KEY_ENV) + ["mock"]
 
 
@@ -98,6 +106,9 @@ def generate(provider: str, model: str, prompt: str, max_tokens: int) -> tuple[s
     if provider == "openai" and model.startswith(("gpt-5", "o1", "o3", "o4")):
         params.pop("temperature")
         params["max_completion_tokens"] = params.pop("max_tokens")
+    # Claude 5 generation: adaptive thinking is always on, sampling params are rejected.
+    if provider == "anthropic":
+        params.pop("temperature", None)
     resp = OpenAI(**kwargs).chat.completions.create(**params)
     u = getattr(resp, "usage", None)
     usage = {"prompt_tokens": u.prompt_tokens, "completion_tokens": u.completion_tokens} if u else None
@@ -139,7 +150,9 @@ def main() -> int:
         declared = declared or gs.get("ratings_provenance")
     gold_sources = {r.get("source") for r in rows} - {None}
     gold = declared or ("human" if "human" in gold_sources else "generator_priors" if gold_sources == {"synthetic_sketch"} else "mixed")
-    status = "measured" if gold.startswith("human") else "smoke"
+    # A mock run emits hash noise - never let it present as measured, whatever
+    # gold it was pointed at.
+    status = "smoke" if args.provider == "mock" else ("measured" if gold.startswith("human") else "smoke")
 
     items, corrs, preds = [], [], []
     latencies_ms: list[float] = []
