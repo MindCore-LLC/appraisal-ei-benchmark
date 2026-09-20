@@ -7,6 +7,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
 <title>Appraisal-EI Benchmark - Leaderboard</title>
 <link rel="stylesheet" href="assets/tokens.css">
+<script>
+  // Theme bootstrap: apply saved choice before first paint (no flash).
+  (function () {
+    if (localStorage.getItem("ae-theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
+  })();
+</script>
 <style>
   @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
   @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
@@ -70,7 +77,10 @@
 </head>
 <body>
 <header>
-  <nav style="font-size:12px;margin-bottom:8px"><a href="methodology.html" style="color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.08em">Methodology &rarr;</a></nav>
+  <nav style="font-size:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+    <a href="methodology.html" style="color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.08em">Methodology &rarr;</a>
+    <button id="themeBtn" class="plain" style="text-decoration:none;border:1px solid var(--line);padding:3px 10px;font-size:11px" title="Toggle dark mode">◐ dark</button>
+  </nav>
   <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:13px;color:var(--muted)" id="ver"></span></h1>
   <div class="sub">17-dimension appraisal calibration vs human gold. Per-item Pearson r, vignette test split.
     <strong>Alignment</strong> = how closely a model's appraisal profile matches the reference (r &times; 100).
@@ -146,17 +156,21 @@ async function boot() {
 }
 
 // Chart colors come from the kit's data-viz series tokens, not a local palette.
+// Read fresh on every render so a theme toggle re-themes the charts.
 const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-const PALETTE = [1, 2, 3, 4, 5, 6].map(i => cssVar(`--color-series-${i}`) || "#141414");
-const INK = cssVar("--color-text-primary") || "#141414";
-const MUTED = cssVar("--color-text-muted") || "#6b6b66";
-const LINE = cssVar("--color-border-default") || "#d8d8d4";
-const CANVAS = cssVar("--color-canvas") || "#faf7f2";
+const palette = () => ({
+  series: [1, 2, 3, 4, 5, 6].map(i => cssVar(`--color-series-${i}`) || "#141414"),
+  ink: cssVar("--color-text-primary") || "#141414",
+  muted: cssVar("--color-text-muted") || "#6b6b66",
+  line: cssVar("--color-border-default") || "#d8d8d4",
+  canvas: cssVar("--color-canvas") || "#faf7f2",
+});
 let barChart = null, radarChart = null;
 if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
 function renderBar() {
   const rows = [...state.data].sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
+  const { series: PALETTE, ink: INK, muted: MUTED, line: LINE } = palette();
   const ctx = document.getElementById("barChart");
   if (barChart) barChart.destroy();
   barChart = new Chart(ctx, {
@@ -188,7 +202,8 @@ function renderBar() {
       plugins: {
         legend: { display: false },
         tooltip: {
-          backgroundColor: INK, titleFont: { size: 12 }, bodyFont: { size: 11 },
+          backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS,
+          titleFont: { size: 12 }, bodyFont: { size: 11 },
           padding: 10, cornerRadius: 0, displayColors: false,
           callbacks: {
             label: c => ` ${(c.parsed.x * 100).toFixed(1)}% alignment (r=${c.parsed.x.toFixed(3)}) · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
@@ -205,7 +220,7 @@ function renderBar() {
         x: { min: 0, suggestedMax: 0.6, grid: { color: LINE }, border: { display: false },
              ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
         y: { grid: { display: false }, border: { display: false },
-             ticks: { font: { size: 12.5, weight: "500" }, color: "#141414" } },
+             ticks: { font: { size: 12.5, weight: "500" }, color: INK } },
       },
     },
   });
@@ -216,6 +231,7 @@ function renderRadar(sel) {
   const withDims = sel.filter(r => r.per_dim && r.per_dim.length);
   if (!withDims.length) { block.style.display = "none"; return; }
   block.style.display = "";
+  const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
   const labels = withDims[0].per_dim.map(d => d.id.replace(/_/g, " "));
   const ctx = document.getElementById("radarChart");
   if (radarChart) radarChart.destroy();
@@ -381,6 +397,26 @@ function showCompare() {
 }
 
 boot();
+
+// Theme toggle: swap the data-theme attribute, persist, re-render charts
+// (they read CSS vars fresh on every render).
+function renderRadarForSelection() {
+  const sel = state.data.filter(r => state.selected.has(r.model_id));
+  renderRadar(sel);
+}
+document.getElementById("themeBtn").onclick = () => {
+  const dark = document.documentElement.getAttribute("data-theme") === "dark";
+  const next = dark ? "light" : "dark";
+  if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
+  else document.documentElement.removeAttribute("data-theme");
+  localStorage.setItem("ae-theme", next);
+  document.getElementById("themeBtn").textContent = next === "dark" ? "◐ light" : "◐ dark";
+  renderBar();
+  renderRadarForSelection();
+};
+// keep the button label honest on load
+document.getElementById("themeBtn").textContent =
+  localStorage.getItem("ae-theme") === "dark" ? "◐ light" : "◐ dark";
 </script>
 </body>
 </html>

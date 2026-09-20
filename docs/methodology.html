@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Methodology - Appraisal-EI Benchmark</title>
 <link rel="stylesheet" href="assets/tokens.css">
+<script>
+  // Theme bootstrap: apply saved choice before first paint (no flash).
+  (function () {
+    if (localStorage.getItem("ae-theme") === "dark")
+      document.documentElement.setAttribute("data-theme", "dark");
+  })();
+</script>
 <style>
   @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Regular.ttf") format("truetype"); font-weight: 400; font-display: swap; }
   @font-face { font-family: "Commissioner"; src: url("assets/fonts/Commissioner-Body-Medium.ttf") format("truetype"); font-weight: 500; font-display: swap; }
@@ -55,7 +62,7 @@
 </head>
 <body>
 <header>
-  <nav><a href="index.html">&larr; Leaderboard</a></nav>
+  <nav style="display:flex;justify-content:space-between;align-items:center"><a href="index.html">&larr; Leaderboard</a><button id="themeBtn" class="plain" style="text-decoration:none;border:1px solid var(--line);padding:3px 10px;font-size:11px;cursor:pointer;color:var(--muted);background:none;font-family:inherit" title="Toggle dark mode">◐ dark</button></nav>
   <h1>Methodology <span class="mono" style="font-size:13px;color:var(--muted)">v1.0.0</span></h1>
   <div class="sub">How the Appraisal-EI Benchmark works, end to end - no code reading required.</div>
 </header>
@@ -168,5 +175,17 @@ major (2.0). Full rules and the sub-score definitions are in
   Appraisal-EI Benchmark v1.0.0 · <a href="https://github.com/MindCore-LLC/appraisal-ei-benchmark">repo</a> ·
   <a href="index.html">leaderboard</a>
 </footer>
+<script>
+  const tb = document.getElementById("themeBtn");
+  if (tb) tb.onclick = () => {
+    const dark = document.documentElement.getAttribute("data-theme") === "dark";
+    const next = dark ? "light" : "dark";
+    if (next === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    else document.documentElement.removeAttribute("data-theme");
+    localStorage.setItem("ae-theme", next);
+    tb.textContent = next === "dark" ? "◐ light" : "◐ dark";
+  }
+  tb.textContent = localStorage.getItem("ae-theme") === "dark" ? "◐ light" : "◐ dark";
+</script>
 </body>
 </html>
