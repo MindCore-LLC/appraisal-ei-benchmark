@@ -1,53 +1,53 @@
 # Appraisal-EI Benchmark
 
-A benchmark for **appraisal structure** in language models: does a model
-represent *why* someone feels a way - a 17-dimensional appraisal vector -
-rather than just *what* they feel.
+Does a model represent *why* someone feels a way — a 17-dimensional appraisal
+vector — rather than just *what* they feel.
 
-Companion to [EQ-Bench](https://eqbench.com) and EmoBench, not a replacement:
-those test emotional reasoning and recognition; this tests the appraisal
-dimensions that appraisal theory says *produce* the emotion.
+Companion to [EQ-Bench](https://eqbench.com) and EmoBench, not a replacement.
 
-**Spec: [SPEC.md](SPEC.md) - the normative document. Version: 1.5.0.**
+**Spec: [SPEC.md](SPEC.md). Version: 2.0.0. Pin a tag, never `main`.**
+
+## Headline numbers
+
+Ranked on **appraisal calibration** (mean per-item Pearson r vs human gold)
+on the frozen 84-item holdout (`vignettes_test_human.jsonl` — 23 unique
+scenarios). Second public metric: **discriminant validity** (did the model
+recover 17 dimensions, or smear valence?).
+
+A **Human ceiling** row sits on the board: leave-one-rater-out r = **0.821**.
+See [HUMAN_CEILING.md](HUMAN_CEILING.md).
+
+```
+python scoring/run_eval.py --provider openai --model gpt-5.4
+python scoring/test_score.py
+python site/build_site.py
+```
+
+Default stimuli are the human-gold holdout. Generator-prior files exist for
+history and score as `smoke`; they do not enter the main board.
 
 ## Layout
 
 ```
-schema/rating_schema.json     # 17 dims, prompts, -3..+3 scale (normative)
-stimuli/text/                 # 560 template vignettes + 2,038 round-4 AI vignettes
-                              # + 84 human-gold test items (vignettes_test_human.jsonl)
-                              # + 1,200 crowd-enVENT human-rated events
-stimuli/audio/manifest_v1     # 1,440 RAVDESS refs (wavs not redistributed)
-annotation/                   # Prolific/MTurk task exports (text + audio)
-scoring/score.py              # reference scorer (numpy+scipy only)
-scripts/                      # RAVDESS download helper
-DATASETS.md                   # external corpus provenance, licenses, dim mapping
+schema/rating_schema.json              # 17 dims, -3..+3 (normative)
+stimuli/text/vignettes_test_human.jsonl  # frozen 84-item holdout
+stimuli/text/vignettes_unique_human.jsonl # 94 distinct scenarios
+stimuli/text/QC_FINDINGS.md            # why 560 ≠ 560
+annotation/rater_vectors.jsonl         # per-rater gold, anonymized
+scoring/score.py                       # reference scorer
+scoring/human_ceiling.py               # recompute the human row
+HUMAN_CEILING.md
+CONTRIBUTING.md                        # eval contract
 ```
-
-## Consuming
-
-Pin a tag. Never float on a branch.
-
-- Text stimuli: `stimuli/text/vignettes_{train,val,test}.jsonl` (generator
-  priors - `smoke`) and `stimuli/text/envent_{train,val,test}.jsonl`
-  (crowd-enVENT reader-consensus human gold - `measured`)
-- Audio stimuli: `stimuli/audio/manifest_v1.jsonl` + your own RAVDESS
-  download (`scripts/fetch_ravdess.py` maps `wav_ref`)
-- Rating schema: `schema/rating_schema.json`
-- Scoring: `scoring/score.py` - `aggregate_ei`, `ratings_correlation`,
-  `pairwise_kappa`, `paired_test` (Wilcoxon). Stdlib + numpy + scipy only
-- Runner: `scoring/run_eval.py --stimuli <file>` selects the stimulus file;
-  `gold_status.json` declares provenance per file
 
 ## Status
 
-v1.0.0 - stimuli + schema + scorer frozen. The envent_* files carry human
-gold (crowd-enVENT, see DATASETS.md) and score as `measured`. MindCore
-vignettes remain `generator_priors`/`smoke` until our own human annotation
-study lands (see SPEC §4).
+v2.0.0 — protocol freeze. Public metrics are calibration + discriminant
+validity. Roadmap arms (audio, value–action, persistence, steering) are
+named and null; `human_mimicry` is measured and reported per model, never
+averaged into a headline. crowd-enVENT mapping onto this rubric is not yet
+validated; do not lead with it.
 
 ## License
 
-Code and original stimuli: MIT (see LICENSE). RAVDESS audio is **not**
-redistributed - `wav_ref` paths map to the official corpus, which is
-research-licensed; get it from the source.
+Code and original stimuli: MIT. RAVDESS audio is **not** redistributed.

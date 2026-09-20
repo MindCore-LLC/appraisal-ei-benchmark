@@ -1,4 +1,4 @@
-"""Appraisal-EI Benchmark reference scorer (v1.1.0).
+"""Appraisal-EI Benchmark reference scorer (v2.0.0).
 
 Standalone - numpy + scipy only, no benchmark-consumer dependencies.
 Normative definitions live in SPEC.md section 3; this file is the executable
@@ -17,15 +17,22 @@ from scipy.stats import pearsonr, wilcoxon
 
 N_APPRAISAL = 17
 
-AGGREGATE_KEYS = (
+# Public leaderboard metrics. Everything else is a named roadmap slot, not a
+# score that gets averaged into a headline.
+PUBLIC_KEYS = (
     "appraisal_calibration",
+    "discriminant_validity",
+)
+
+ROADMAP_KEYS = (
     "value_action",
     "persistence",
     "acoustic_risk_f1",
     "steering_score",
-    "discriminant_validity",
     "human_mimicry",
 )
+
+AGGREGATE_KEYS = PUBLIC_KEYS + ROADMAP_KEYS
 
 
 def load_dimensions(schema_path: str | Path | None = None) -> list[str]:
@@ -38,25 +45,23 @@ def load_dimensions(schema_path: str | Path | None = None) -> list[str]:
 def aggregate_ei(
     parts: dict[str, float | None], structural_zeros: tuple[str, ...] = ()
 ) -> float | None:
-    """Unweighted mean over the sub-scores that were actually measured.
+    """Mean of the *public* metrics that were actually measured.
 
-    A sub-score that is absent or None was NOT measured and is excluded from the
-    mean - it is not evidence of a zero. A sub-score named in `structural_zeros`
-    is a real zero by construction (e.g. `acoustic_risk_f1` for a text-only
-    model, SPEC.md section 3) and is averaged in as 0.0.
+    Headline rank is `appraisal_calibration`, not this value. This exists so a
+    two-number summary (calibration + discriminant validity) can be quoted
+    together. Roadmap keys and structural zeros are never averaged in: a
+    text-only run is not an acoustic failure, and an unimplemented sub-score
+    is not a zero.
 
-    Returns None when nothing was measured. Always report the value alongside
-    the count from `measured_subscores`, never bare: a mean over two sub-scores
-    is not comparable to a mean over seven.
+    `structural_zeros` is accepted for back-compat with v1 callers and is
+    ignored. Status still records them via `measured_subscores`.
 
-    Changed in 1.1.0: pre-1.1.0 this scored missing keys as 0.0, which silently
-    diluted the aggregate by the number of unimplemented sub-scores.
+    Changed in 2.0.0: structural zeros no longer dilute the mean.
+    Changed in 1.1.0: missing keys stopped scoring as 0.0.
     """
+    del structural_zeros  # recorded in status, never averaged
     vals = []
-    for k in AGGREGATE_KEYS:
-        if k in structural_zeros:
-            vals.append(0.0)
-            continue
+    for k in PUBLIC_KEYS:
         v = parts.get(k)
         if v is None:
             continue

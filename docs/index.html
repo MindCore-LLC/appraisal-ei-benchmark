@@ -59,6 +59,7 @@
   .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
   .badge.smoke { color: var(--smoke); border-color: var(--smoke); background: var(--color-warning-tint); }
   .badge.measured { color: var(--meas); border-color: var(--meas); background: var(--color-success-tint); }
+  .badge.human { color: var(--ink); border-color: var(--ink); background: var(--color-sunken); }
   .origin { font-size: 12px; color: var(--muted); }
   #compare { display: none; margin-top: 24px; border: 1px solid var(--ink); padding: 16px; }
   #compare.open { display: block; }
@@ -118,10 +119,11 @@
     <button id="themeBtn" class="plain" style="text-decoration:none;border:1px solid var(--line);padding:3px 10px;font-size:11px" title="Toggle dark mode">◐ dark</button>
   </nav>
   <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:13px;color:var(--muted)" id="ver"></span></h1>
-  <div class="sub">17-dimension appraisal calibration vs human gold. Per-item Pearson r, vignette test split.
-    <strong>Alignment</strong> = how closely a model's appraisal profile matches the reference (r &times; 100).
-    <strong>Direction %</strong> = how often it rated a dimension in the same direction as the reference.
-    <strong>Speed</strong> = median wall-clock per item; <strong>$/item</strong> = token usage &times; registry pricing.</div>
+  <div class="sub">17-dimension appraisal structure vs human gold. Headline =
+    <strong>calibration</strong> (mean per-item Pearson r). Second metric =
+    <strong>discriminant validity</strong> (dimension-specific vs valence smear).
+    Human ceiling is leave-one-rater-out on the same 84-item holdout
+    (23 unique scenarios). Pin tag v2.0.0, never <span class="mono">main</span>.</div>
   <div class="banner" id="banner">Loading...</div>
 </header>
 
@@ -132,7 +134,7 @@
   <section class="view" id="view-board">
     <div id="charts">
       <div class="chart-block">
-        <div class="chart-title">Alignment (%) by model</div>
+        <div class="chart-title">Calibration (Pearson r) by model</div>
         <div class="chart-wrap"><canvas id="barChart"></canvas></div>
       </div>
       <div class="chart-block" id="radarBlock" style="display:none">
@@ -179,19 +181,26 @@
 
   <section class="view" id="view-ei" hidden>
     <div class="chart-block" style="max-width:780px">
-      <div class="chart-title">Aggregate EI by model</div>
+      <div class="chart-title">Public metrics</div>
       <div class="chart-wrap"><canvas id="eiChart"></canvas></div>
     </div>
     <div id="eiMatrix"></div>
-    <p class="note"><strong>Aggregate EI</strong> = unweighted mean of the sub-scores that were actually measured;
-      a structural zero (acoustic risk for text-only runs) averages in as 0. A sub-score that was not measured is
-      excluded, not zero. A mean over 2 sub-scores is not comparable to one over 7 &mdash; always read it with n/7.</p>
+    <p class="note"><strong>v2.0.0 public metrics</strong> are calibration and discriminant
+      validity only. Roadmap slots (value–action, persistence, acoustic risk, steering)
+      are named and <em>null</em> — they are not zeros and they are not averaged into a
+      headline. <strong>Human mimicry</strong> is measured (reported, not averaged): can a
+      discriminator tell the model’s vectors from rater vectors? 1.0 = indistinguishable
+      from the rater pool. The human reference band — the same test run with each real
+      rater as the “model” — is 0.08–0.46, because every rater has a fingerprint; all
+      three measured models (0.15–0.18) sit inside that band. Discriminant validity near
+      0.25 means models recover “this is bad” better than they separate unfair vs
+      uncontrollable vs urgent.</p>
   </section>
 </main>
 
 <footer>
   <span id="count"></span> · <a href="https://github.com/MindCore-LLC/appraisal-ei-benchmark">repo</a> ·
-  per-item scores in each result JSON · protocol: SPEC.md · speed &amp; cost populate as models are re-run with runtime capture
+  per-item scores in each result JSON · protocol: SPEC.md v2.0.0 · human ceiling: HUMAN_CEILING.md
 </footer>
 
 <script>
@@ -201,7 +210,8 @@ const COLS = [
   {k:"org", label:"Org", sort:"org"},
   {k:"origin", label:"Origin", sort:"origin"},
   {k:"weights", label:"Weights", sort:"weights"},
-  {k:"cal", label:"Alignment", sort:"cal", num:true},
+  {k:"cal", label:"Calibration", sort:"cal", num:true},
+  {k:"disc", label:"Disc. validity", sort:"disc", num:true},
   {k:"dir", label:"Direction %", sort:"dir", num:true},
   {k:"ms", label:"Median ms", sort:"ms", num:true},
   {k:"tps", label:"Tok/s", sort:"tps", num:true},
@@ -217,21 +227,23 @@ const VIEWS = [
   {id:"pareto", label:"Quality vs Speed"},
   {id:"dims", label:"Dimensions"},
   {id:"dist", label:"Distributions"},
-  {id:"ei", label:"EI Index"},
+  {id:"ei", label:"Metrics"},
 ];
 
-const SUBSCORES = [
-  {k:"appraisal_calibration", label:"Appraisal cal."},
+const PUBLIC_METRICS = [
+  {k:"appraisal_calibration", label:"Calibration"},
+  {k:"discriminant_validity", label:"Discriminant validity"},
+];
+const ROADMAP = [
   {k:"value_action", label:"Value–action"},
   {k:"persistence", label:"Persistence"},
   {k:"acoustic_risk_f1", label:"Acoustic risk F1"},
   {k:"steering_score", label:"Steering"},
-  {k:"discriminant_validity", label:"Discriminant validity"},
   {k:"human_mimicry", label:"Human mimicry"},
 ];
 
 const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "cal", dir: -1,
-                selected: new Set(), data: [], view: "board", paretoX: "ms" };
+                selected: new Set(), data: [], view: "board", paretoX: "ms", showSmoke: false };
 
 const fmt = v => v == null ? "—" : (typeof v === "number" ? v.toFixed(3) : v);
 
@@ -250,10 +262,10 @@ async function boot() {
   const payload = await fetch("data.json").then(r => r.json());
   document.getElementById("ver").textContent = "v" + payload.benchmark_version;
   const anySmoke = payload.results.some(r => r.status === "smoke");
-  const allMeas = payload.results.every(r => r.status === "measured");
+  const nMeas = payload.results.filter(r => r.status === "measured").length;
   document.getElementById("banner").textContent = anySmoke
-    ? "PRE-GOLD: results scored against generator priors, not human ratings (gold lands v1.1). Rankings are provisional and marked SMOKE."
-    : allMeas ? "Scored against human gold ratings." : "Mixed gold sources - check per-model status.";
+    ? `v${payload.benchmark_version}: ${nMeas} measured runs on human gold. Smoke/provisional runs are hidden until you toggle them.`
+    : `v${payload.benchmark_version}: scored against human gold. Headline is calibration, not an aggregate of unimplemented arms.`;
   state.data = payload.results;
   const q = new URLSearchParams(location.search);
   const v = q.get("view");
@@ -351,19 +363,19 @@ function renderBar() {
           titleFont: { size: 12 }, bodyFont: { size: 11 },
           padding: 10, cornerRadius: 0, displayColors: false,
           callbacks: {
-            label: c => ` ${(c.parsed.x * 100).toFixed(1)}% alignment (r=${c.parsed.x.toFixed(3)}) · ${meta(rows[c.dataIndex], "org")} · ${meta(rows[c.dataIndex], "origin")} · ${meta(rows[c.dataIndex], "weights")}`,
+            label: c => ` r=${c.parsed.x.toFixed(3)} calibration · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)} · ${meta(rows[c.dataIndex], "org")}`,
           },
         },
         datalabels: {
           anchor: "end", align: "end", offset: 6, clamp: true,
-          formatter: v => (v * 100).toFixed(1) + "%",
+          formatter: v => v.toFixed(3),
           font: { family: "ui-monospace,monospace", size: 12, weight: "bold" },
           color: INK,
         },
       },
       scales: {
-        x: { min: 0, suggestedMax: 0.6, grid: { color: LINE }, border: { display: false },
-             ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
+        x: { min: 0, suggestedMax: 1, grid: { color: LINE }, border: { display: false },
+             ticks: { callback: v => v.toFixed(1), font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
         y: { grid: { display: false }, border: { display: false },
              ticks: { font: { size: 12.5, weight: "500" }, color: INK } },
       },
@@ -558,19 +570,19 @@ function renderDist() {
 }
 
 function renderEI() {
-  const rows = filtered().filter(r => r.aggregate_ei != null)
-    .sort((a, b) => b.aggregate_ei - a.aggregate_ei);
+  const rows = filtered().filter(r => r.appraisal_calibration != null)
+    .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
   const ctxEl = document.getElementById("eiChart");
   if (eiChart) { eiChart.destroy(); eiChart = null; }
   const host = document.getElementById("eiMatrix");
-  if (!rows.length) { host.innerHTML = `<p class="note">No aggregate EI scores available.</p>`; return; }
+  if (!rows.length) { host.innerHTML = `<p class="note">No measured scores.</p>`; return; }
   const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
   eiChart = new Chart(ctxEl, {
     type: "bar",
     data: {
       labels: rows.map(r => r.model),
       datasets: [{
-        data: rows.map(r => r.aggregate_ei),
+        data: rows.map(r => r.appraisal_calibration),
         backgroundColor: c => PALETTE[c.dataIndex % PALETTE.length] + "cc",
         hoverBackgroundColor: c => PALETTE[c.dataIndex % PALETTE.length],
         borderWidth: 0, barPercentage: 0.7, categoryPercentage: 0.9,
@@ -584,7 +596,7 @@ function renderEI() {
         legend: { display: false },
         tooltip: {
           backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS, padding: 10, cornerRadius: 0, displayColors: false,
-          callbacks: { label: c => ` aggregate EI ${c.parsed.x.toFixed(3)} · ${rows[c.dataIndex].n_subscores_measured}/${rows[c.dataIndex].n_subscores_total} subscores measured` },
+          callbacks: { label: c => ` calibration r=${c.parsed.x.toFixed(3)} · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)}` },
         },
         datalabels: {
           anchor: "end", align: "end", offset: 6, clamp: true,
@@ -599,17 +611,17 @@ function renderEI() {
       },
     },
   });
-  const head = `<tr><th class="row-h">Model</th>${SUBSCORES.map(s => `<th>${s.label}</th>`).join("")}<th>Aggregate EI</th><th>n/7</th></tr>`;
+  const cols = PUBLIC_METRICS.concat(ROADMAP);
+  const head = `<tr><th class="row-h">Model</th>${cols.map(s => `<th>${s.label}</th>`).join("")}</tr>`;
   const body = rows.map(r => {
     const cell = s => {
       const st = r.subscore_status?.[s.k];
       const v = r.subscores?.[s.k];
-      if (st === "structural_zero") return `<td class="sc sz" title="structural zero - not applicable to this run type">0*</td>`;
       if (st === "measured" && v != null) return `<td class="sc">${v.toFixed(3)}</td>`;
-      return `<td class="sc na" title="not measured">—</td>`;
+      return `<td class="sc na" title="roadmap — not measured">—</td>`;
     };
-    return `<tr><th class="row-h">${r.model} <span class="badge ${r.status}">${r.status}</span></th>${SUBSCORES.map(s => cell(s)).join("")}
-      <td class="sc agg">${r.aggregate_ei.toFixed(3)}</td><td class="sc">${r.n_subscores_measured}/${r.n_subscores_total}</td></tr>`;
+    const badge = r.model_id === "human" ? "human" : r.status;
+    return `<tr><th class="row-h">${r.model} <span class="badge ${badge}">${badge}</span></th>${cols.map(s => cell(s)).join("")}</tr>`;
   }).join("");
   host.innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
@@ -623,9 +635,17 @@ function buildControls() {
     group("Origin", origins, "origin") +
     group("Weights", weights, "weights") +
     group("Org", orgs, "orgs") +
-    `<div class="group"><div class="label">Compare</div><button class="chip" id="cmpBtn">Compare selected</button></div>`;
+    `<div class="group"><div class="label">Board</div>
+      <button class="chip" id="smokeBtn">${state.showSmoke ? "hiding smoke" : "show provisional"}</button>
+      <button class="chip" id="cmpBtn">Compare selected</button></div>`;
   c.querySelectorAll(".chip[data-set]").forEach(b => b.onclick = () => toggle(b));
   document.getElementById("cmpBtn").onclick = showCompare;
+  document.getElementById("smokeBtn").onclick = () => {
+    state.showSmoke = !state.showSmoke;
+    document.getElementById("smokeBtn").textContent = state.showSmoke ? "hide provisional" : "show provisional";
+    render();
+    renderCurrent();
+  };
 }
 
 function group(label, vals, setName) {
@@ -644,6 +664,7 @@ function toggle(btn) {
 }
 
 function passes(r) {
+  if (!state.showSmoke && r.status === "smoke") return false;
   return (!state.origin.size || state.origin.has(meta(r, "origin"))) &&
          (!state.weights.size || state.weights.has(meta(r, "weights"))) &&
          (!state.orgs.size || state.orgs.has(meta(r, "org")));
@@ -656,6 +677,7 @@ function key(r, k) {
     case "origin": return meta(r, "origin");
     case "weights": return meta(r, "weights");
     case "cal": return r.appraisal_calibration;
+    case "disc": return r.subscores?.discriminant_validity ?? null;
     case "dir": return r.direction_pct ?? -1;
     case "ms": return r.runtime?.median_ms ?? null;
     case "tps": return r.runtime?.tokens_per_sec ?? null;
@@ -695,13 +717,14 @@ function render() {
       <td>${meta(r, "org")}</td>
       <td class="origin">${meta(r, "origin")}</td>
       <td>${meta(r, "weights")}</td>
-      <td class="num mono"><strong>${r.appraisal_calibration == null ? "—" : (r.appraisal_calibration * 100).toFixed(1) + "%"}</strong><div class="mono" style="font-size:10px;color:var(--muted)">r=${fmt(r.appraisal_calibration)}</div></td>
+      <td class="num mono"><strong>${r.appraisal_calibration == null ? "—" : r.appraisal_calibration.toFixed(3)}</strong></td>
+      <td class="num mono">${fmt(r.subscores?.discriminant_validity)}</td>
       <td class="num mono">${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</td>
       <td class="num mono">${rt?.median_ms != null ? rt.median_ms.toFixed(0) : "—"}</td>
       <td class="num mono">${rt?.tokens_per_sec != null ? rt.tokens_per_sec.toFixed(0) : "—"}</td>
       <td class="num mono">${r.cost_per_item_usd != null ? "$" + r.cost_per_item_usd.toFixed(4) : "—"}</td>
       <td class="num mono">${r.n_parsed}/${r.n_items}</td>
-      <td><span class="badge ${r.status}">${r.status}</span></td>
+      <td><span class="badge ${r.model_id === "human" ? "human" : r.status}">${r.model_id === "human" ? "human" : r.status}</span></td>
       <td class="mono" style="font-size:11px">${(r.run_at || "").slice(0, 10)}</td>
       <td><input type="checkbox" ${sel ? "checked" : ""}></td>`;
     tr.querySelector("input").onchange = e => {
@@ -743,9 +766,10 @@ function showCompare() {
       const speed = rt ? ` · ${rt.median_ms?.toFixed(0) ?? "—"} ms/item` : "";
       return `<div class="cmp-col"><h3>${r.model}</h3>
         <div class="kv">${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")}</div>
-        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_calibration == null ? "—" : (r.appraisal_calibration * 100).toFixed(1) + "%"}</div>
-        <div class="kv">alignment (r=${fmt(r.appraisal_calibration)})</div>
+        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_calibration == null ? "—" : r.appraisal_calibration.toFixed(3)}</div>
+        <div class="kv">calibration (Pearson r)</div>
         <div class="bar" style="width:${Math.max(0, r.appraisal_calibration ?? 0) * 100}%"></div>
+        <div class="kv">discriminant validity: <strong>${fmt(r.subscores?.discriminant_validity)}</strong></div>
         <div class="kv">direction match: <strong>${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</strong></div>
         <div class="kv">per-item: mean ${mean.toFixed(3)} · min ${min.toFixed(3)} · max ${max.toFixed(3)}</div>
         <div class="kv">status: ${r.status} · gold: ${r.gold_source}${speed}</div></div>`;

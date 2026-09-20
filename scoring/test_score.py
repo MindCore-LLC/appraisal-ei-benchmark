@@ -9,15 +9,23 @@ import score
 
 def test_unmeasured_is_excluded_not_zero():
     one = {"appraisal_calibration": 0.42}
-    assert score.aggregate_ei(one) == 0.42, "a lone measured sub-score must not be diluted"
+    assert score.aggregate_ei(one) == 0.42, "a lone public metric must not be diluted"
     assert score.aggregate_ei({}) is None, "nothing measured must be None, not 0.0"
-    # a structural zero is a real observation and must drag the mean down
+    # v2.0.0: a structural zero is recorded in status, never averaged in
     both = score.aggregate_ei(one, ("acoustic_risk_f1",))
-    assert abs(both - 0.21) < 1e-9, both
+    assert abs(both - 0.42) < 1e-9, both
     st = score.measured_subscores(one, ("acoustic_risk_f1",))
     assert st["appraisal_calibration"] == "measured"
     assert st["acoustic_risk_f1"] == "structural_zero"
     assert st["human_mimicry"] == "not_measured"
+
+
+def test_aggregate_is_public_metrics_only():
+    parts = {"appraisal_calibration": 0.80, "discriminant_validity": 0.20, "value_action": 0.99}
+    got = score.aggregate_ei(parts)
+    assert abs(got - 0.50) < 1e-9, got
+    assert "appraisal_calibration" in score.PUBLIC_KEYS
+    assert "value_action" not in score.PUBLIC_KEYS
 
 
 def test_discriminant_validity_separates_specific_from_smeared():

@@ -64,7 +64,9 @@ const PALETTE = [1, 2, 3, 4, 5, 6].map(i => cssVar(`--color-series-${i}`) || "#1
   const d = await fetch("data.json").then(r => r.json());
   document.getElementById("ver").textContent = "v" + d.benchmark_version;
   const n = +(new URLSearchParams(location.search).get("n") || 3);
-  const rows = [...d.results].sort((a, b) => b.appraisal_calibration - a.appraisal_calibration).slice(0, n);
+  const rows = [...d.results]
+    .filter(r => r.status === "measured")
+    .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration).slice(0, n);
   document.getElementById("rows").innerHTML = rows.map((r, i) => `
     <div class="row">
       <span class="rank">${String(i + 1).padStart(2, "0")}</span>
@@ -72,13 +74,11 @@ const PALETTE = [1, 2, 3, 4, 5, 6].map(i => cssVar(`--color-series-${i}`) || "#1
         <div class="name">${r.model}</div>
         <div class="meta">${(r.meta && r.meta.org) || ""} · ${(r.meta && r.meta.origin) || ""} · ${r.n_parsed}/${r.n_items} items</div>
       </div>
-      <div class="score">${(r.appraisal_calibration * 100).toFixed(1)}%<small>alignment</small></div>
+      <div class="score">${r.appraisal_calibration.toFixed(3)}<small>calibration r</small></div>
       <div class="bar"><i style="width:${r.appraisal_calibration * 100}%;background:${PALETTE[i % PALETTE.length]}"></i></div>
     </div>`).join("");
-  const smoke = rows.some(r => r.status === "smoke");
-  document.getElementById("badge").textContent = smoke ? "pre-gold" : "measured";
-  document.getElementById("note").textContent = smoke
-    ? "scored vs generator priors - provisional" : "scored vs human gold";
+  document.getElementById("badge").textContent = "measured";
+  document.getElementById("note").textContent = "headline = calibration vs human gold · v" + d.benchmark_version;
 })();
 </script>
 </body>

@@ -2,7 +2,7 @@
   "results": [
     "deepseek-ai-deepseek-v4-pro-0813.json",
     "gpt-5-4.json",
-    "meta-llama-llama-3-3-70b-instruct-turbo.json",
+    "human.json",
     "qwen-qwen3-8-2-4t-a95b.json"
   ]
 }

@@ -68,8 +68,13 @@ def main() -> None:
         r["cost_per_item_usd"] = _cost_per_item(r, meta)
         results.append(r)
 
+    # Smoke stays in the payload so the "show provisional" toggle works; the
+    # site hides it by default. Archive lives under results/archive/ and is
+    # never globbed.
     payload = {
         "benchmark_version": (REPO / "VERSION").read_text().strip(),
+        "headline": "appraisal_calibration",
+        "public_metrics": ["appraisal_calibration", "discriminant_validity"],
         "results": results,
     }
     out = REPO / "docs" / "data.json"

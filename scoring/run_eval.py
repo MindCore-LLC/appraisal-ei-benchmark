@@ -9,8 +9,8 @@ model returns a 17-dim JSON vector, per-item score = Pearson r vs gold.
 
 The result records gold_source. Stimuli whose gold_status.json entry (or row
 source fields) resolves to human* produce status "measured"; generator_priors
-and anything else produce "smoke". The vignettes_* files are still priors; the
-envent_* files carry crowd-enVENT reader-consensus human gold (v1.1).
+and anything else produce "smoke". Default stimuli are the v2 frozen holdout
+vignettes_test_human.jsonl. Smoke results are not admitted to the main board.
 """
 
 from __future__ import annotations
@@ -26,6 +26,7 @@ import sys
 import time
 from pathlib import Path
 
+import human_mimicry  # scoring/human_mimicry.py, same dir
 import score  # scoring/score.py, same dir
 
 REPO = Path(__file__).resolve().parents[1]
@@ -113,8 +114,8 @@ def main() -> int:
     p.add_argument("--max-tokens", type=int, default=4000,
                    help="completion cap; reasoning models need headroom for thinking + JSON")
     p.add_argument("--env-file", default=None, help="optional KEY=VALUE file for API keys")
-    p.add_argument("--stimuli", default="vignettes_test.jsonl",
-                   help="file under stimuli/text/ to score against (e.g. envent_test.jsonl)")
+    p.add_argument("--stimuli", default="vignettes_test_human.jsonl",
+                   help="file under stimuli/text/; default is the frozen human-gold holdout")
     args = p.parse_args()
     load_env(args.env_file)
     stimuli_path = STIMULI_DIR / args.stimuli
@@ -214,9 +215,14 @@ def main() -> int:
         }
 
     disc = score.discriminant_validity(pred_by_dim, gold_by_dim)
-    # Text-only runs cannot produce an audio score; SPEC.md section 3 makes that
-    # a real zero rather than a gap. Everything else here is simply not built yet.
-    structural_zeros = ("acoustic_risk_f1",) if args.provider != "audio" else ()
+    # v2.0.0: a missing audio score is not_measured, never a zero averaged into
+    # a public number. Roadmap keys stay null until built. human_mimicry is
+    # computable post-hoc from the stored per-item vectors (SPEC section 3);
+    # it needs rater rows for these item ids, so non-vignette stimuli stay null.
+    mim = human_mimicry.mimicry(
+        {it["id"]: it["pred"] for it in items if it.get("pred")},
+        human_mimicry.human_ceiling.load_rater_file(),
+    )
     subscores = {
         "appraisal_calibration": calibration,
         "value_action": None,
@@ -224,10 +230,10 @@ def main() -> int:
         "acoustic_risk_f1": None,
         "steering_score": None,
         "discriminant_validity": round(disc, 4) if disc is not None else None,
-        "human_mimicry": None,
+        "human_mimicry": mim["human_mimicry"] if mim else None,
     }
-    status_map = score.measured_subscores(subscores, structural_zeros)
-    aggregate = score.aggregate_ei(subscores, structural_zeros)
+    status_map = score.measured_subscores(subscores)
+    aggregate = score.aggregate_ei(subscores)
 
     slug = re.sub(r"[^a-z0-9]+", "-", args.model.lower()).strip("-")
     result = {
@@ -245,8 +251,8 @@ def main() -> int:
         "runtime": runtime,
         "subscores": subscores,
         "subscore_status": status_map,
-        "n_subscores_measured": sum(1 for v in status_map.values() if v != "not_measured"),
-        "n_subscores_total": len(score.AGGREGATE_KEYS),
+        "n_subscores_measured": sum(1 for k in score.PUBLIC_KEYS if status_map.get(k) == "measured"),
+        "n_subscores_total": len(score.PUBLIC_KEYS),
         "aggregate_ei": round(aggregate, 4) if aggregate is not None else None,
         "per_dim": per_dim,
         "per_item": items,
@@ -262,7 +268,7 @@ def main() -> int:
 
     print(json.dumps({k: result[k] for k in (
         "model", "status", "n_parsed", "n_items", "appraisal_calibration",
-        "aggregate_ei", "n_subscores_measured", "n_subscores_total", "runtime")}))
+        "n_subscores_measured", "n_subscores_total", "runtime")}))
     return 0
 
 

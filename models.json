@@ -1,7 +1,19 @@
 {
   "version": 1,
-  "note": "Model registry powering leaderboard filters. origin = ISO country of the publishing org. weights = open | closed. pricing = USD per 1M tokens (input/output), null until supplied - the cost axis stays hidden for models without it. Add entries as results land; the leaderboard joins results/<slug>.json on model_id.",
+  "note": "Model registry powering leaderboard filters. origin = ISO country of the publishing org. weights = open | closed | human. pricing = USD per 1M tokens (input/output), null until supplied. The leaderboard joins results/<slug>.json on model_id.",
   "models": {
+    "human": {
+      "name": "Human ceiling",
+      "org": "MindCore raters",
+      "origin": "—",
+      "weights": "human",
+      "family": "human",
+      "params": "4 core raters, leave-one-out",
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
+    },
     "gpt-5.4": {
       "name": "GPT-5.4",
       "org": "OpenAI",

@@ -34,8 +34,7 @@ terms as we understand them, and the required citation.
 - **Agreement**: quadratic-weighted kappa 0.610, Krippendorff alpha (interval) 0.823,
   within-1 88% - gate PASSED under the ratified ordinal metric (PREREGISTRATION
   2026-09-20 in mindcore-poc). Unweighted kappa 0.235 reported for transparency.
-- **Role**: primary vignette evaluation set as of v1.5.0. Rows carry
-  `source: "human_core_consensus"`.
+- **Role**: frozen public holdout as of v2.0.0 (84 rows, 23 unique scenarios).
 
 ### Dimension mapping (enVENT 21 vars → our 17 dims)
 

@@ -2,7 +2,7 @@
   "model": "GPT-5.4",
   "model_id": "gpt-5.4",
   "provider": "openai",
-  "benchmark_version": "1.5.0",
+  "benchmark_version": "2.0.0",
   "stimuli": "stimuli/text/vignettes_test_human.jsonl",
   "gold_source": "human_core_consensus",
   "status": "measured",
@@ -27,20 +27,20 @@
     "acoustic_risk_f1": null,
     "steering_score": null,
     "discriminant_validity": 0.2471,
-    "human_mimicry": null
+    "human_mimicry": 0.1468
   },
   "subscore_status": {
     "appraisal_calibration": "measured",
+    "discriminant_validity": "measured",
     "value_action": "not_measured",
     "persistence": "not_measured",
-    "acoustic_risk_f1": "structural_zero",
+    "acoustic_risk_f1": "not_measured",
     "steering_score": "not_measured",
-    "discriminant_validity": "measured",
-    "human_mimicry": "not_measured"
+    "human_mimicry": "measured"
   },
-  "n_subscores_measured": 3,
-  "n_subscores_total": 7,
-  "aggregate_ei": 0.3585,
+  "n_subscores_measured": 2,
+  "n_subscores_total": 2,
+  "aggregate_ei": 0.5377,
   "per_dim": [
     {
       "id": "pleasantness",

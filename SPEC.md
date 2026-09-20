@@ -1,108 +1,138 @@
-# Appraisal-EI Benchmark - Specification v1.0.0
+# Appraisal-EI Benchmark - Specification v2.0.0
 
-Emotional-intelligence benchmark measuring **appraisal structure** - whether a
+Emotional-intelligence benchmark measuring **appraisal structure** — whether a
 model represents *why* someone feels a way (17 appraisal dimensions), not just
-*what* they feel (emotion labels). This distinguishes it from EQ-Bench
-(emotional reasoning QA) and EmoBench (emotion recognition) - here the scored
-object is a 17-dimensional appraisal vector compared to human gold ratings.
+*what* they feel (emotion labels). This is complementary to EQ-Bench
+(emotional reasoning QA) and EmoBench (emotion recognition). The scored object
+is a 17-dimensional appraisal vector compared to human gold ratings.
 
 Taxonomy: Smith & Ellsworth; Scherer's Component Process Model; OCC.
+
+Pin a **git tag**. Never evaluate against `main`.
+
+## Design principles (steal these)
+
+1. Score the structure that produces emotion, not the emotion label.
+2. Human gold, or the run is `smoke` and does not enter the main board.
+3. Never average a score you did not measure. A missing arm is `null`, not 0.
+4. Publish per-rater vectors, not only consensus.
+5. Publish a human ceiling computed the same way a model is scored
+   (leave-one-rater-out vs the others).
+6. Pin a tag. Stimuli are append-only within a major version.
+7. Document your own QC failures in-repo. Do not silently retire broken sets.
 
 ## 1. Rating schema (`schema/rating_schema.json`)
 
 - 17 dimensions, each scored on a continuous **-3.0 to +3.0** scale
-- Every scored item produces a JSON object keyed by the 17 dimension ids,
-  values numeric
+- Every scored item produces a JSON object keyed by the 17 dimension ids
 - `anticipated_emotion` is the 17th dimension (prospective affect), not a
-  categorical label - the benchmark deliberately has no emotion-classification
-  task
+  categorical label — the benchmark has no emotion-classification task
 
 ## 2. Stimuli
 
-### Text (`stimuli/text/`)
+### Frozen public holdout (headline)
 
-- `vignettes_train.jsonl` (392), `vignettes_val.jsonl` (84),
-  `vignettes_test.jsonl` (84) - 560 scenario vignettes across 20 situation
-  families, generated to be **keyword-free**: no emotion words in the text, so
-  ratings measure appraisal inference rather than sentiment lexicon matching.
-  v1.2.0 appended 210 items so the FULL corpus can be human-annotated
-  (prereg amended to annotate all items, not a subset); all pre-1.2.0 ids
-  keep their original text AND split, so prior results remain comparable
-- Each row: `{id, text, ratings, source, split}` - `ratings` in the shipped
-  corpus are generator priors; human gold ratings replace them downstream
-  (see §4). The `synthetic_sketch` source marks prior labels - they are NOT
-  evaluation ground truth
-- `envent_train.jsonl` (973), `envent_val.jsonl` (113),
-  `envent_test.jsonl` (114) - 1,200 event descriptions from the crowd-enVENT
-  corpus (Troiano, Oberlander & Klinger 2023), each with reader-consensus
-  human appraisal ratings (5 annotators/item) mapped onto our 17-dim schema.
-  Rows carry `source: "human"` and score as `measured`. Mapping and
-  provenance: DATASETS.md. `fairness` is unmapped (no SEC analog);
-  `anticipated_emotion` is author-grounded
+- `stimuli/text/vignettes_test_human.jsonl` — 84 rows, human consensus,
+  3–4 calibrated core raters per item. This is the **only** set the public
+  rank is computed on. Name-swapped duplicates mean these 84 rows are
+  **23 unique scenarios**; quote both numbers.
 
-### Audio (`stimuli/audio/`)
+### Unique-scenario gold (not the rank set)
 
-- `manifest_v1.jsonl` - 1,440 RAVDESS clips: `{id, stimulus, corpus, wav_ref,
-  emotion, intensity, speaker_id, risk_level, risk_positive, source}`
-- `wav_ref` is the canonical `Actor_XX/<clip>.wav` path in a standard RAVDESS
-  download. **The wavs are not redistributed** (RAVDESS is research-license);
-  consumers run the download script or supply their own copy
-- `emotion`/`intensity`/`risk_*` are corpus metadata for stratification and QC,
-  not the rating target - the rating target is the same 17-dim appraisal
-  vector scored from the *vocal delivery*
+- `stimuli/text/vignettes_unique_human.jsonl` — 94 distinct texts after
+  masking first names, from 560 rated rows. Use this when you need one
+  vector per scenario. Do not advertise 560 scenarios.
+
+### crowd-enVENT (mapping not yet validated against this rubric)
+
+- `envent_{train,val,test}.jsonl` — 1,200 event descriptions with
+  reader-consensus ratings mapped onto our 17 dims. `fairness` is unmapped.
+  Treat as adjacent human gold until the mapping study lands (see GitHub
+  issues). Not the headline set.
+
+### Deprecated
+
+- `vignettes_{train,val,test}.jsonl` — generator priors. 560 rows, 94 texts,
+  train/test leakage, intensity never reached the text. See
+  `stimuli/text/QC_FINDINGS.md`. Smoke only. Not on the main board.
+- `results/archive/` — historical smoke runs, retained so history is not
+  rewritten.
+
+### Audio
+
+- `stimuli/audio/manifest_v1.jsonl` — RAVDESS references. Wavs are not
+  redistributed. No public audio score in v2.0.0.
 
 ## 3. Scoring protocol (`scoring/score.py`)
 
-Per item: model emits a 17-dim vector; score = **Pearson correlation against
-the human gold vector** for that item (`ratings_correlation`).
+**Headline = `appraisal_calibration`:** mean per-item Pearson r between the
+model's 17-dim vector and the human gold vector.
 
-Aggregate EI = unweighted mean of the sub-scores **that were measured on that
-run**. A sub-score that is not implemented, or that the stimuli cannot support,
-is reported as `null` and excluded from the mean. It is never averaged in as 0:
-a zero is a claim about the model, and we do not make claims we did not measure.
+**Second public metric = `discriminant_validity`:** mean diagonal minus mean
+absolute off-diagonal of the multitrait matrix r(pred[i], gold[j]). High =
+dimension-specific appraisal. Near zero = one valence signal smeared across
+all 17 dimensions.
 
-Every result therefore carries `n_subscores_measured` / `n_subscores_total`, and
-`aggregate_ei` must always be quoted with that ratio. A mean over two sub-scores
-is not comparable to a mean over seven.
+These two numbers are the benchmark. A high calibration with low discriminant
+validity is a real result, not a UI problem.
 
-| Sub-score | Status | Source |
-|---|---|---|
-| `appraisal_calibration` | **implemented** | mean per-item Pearson r vs gold |
-| `discriminant_validity` | **implemented** | mean diagonal minus mean absolute off-diagonal of the multitrait matrix r(pred[i], gold[j]) across items. High = dimension-specific appraisal; near zero or negative = one valence signal smeared across all 17 dimensions |
-| `acoustic_risk_f1` | structural zero (text runs) | vocal-risk detection (audio arm) |
-| `value_action` | not implemented | stated appraisal vs chosen action consistency |
-| `persistence` | not implemented | appraisal-state stability across turns |
-| `steering_score` | not implemented | predicted direction of appraisal steering |
-| `human_mimicry` | **blocked** | human-vs-model output discrimination. Requires per-annotator rating vectors. The crowd-enVENT release supplies reader *consensus* only (`annotators` is a count), so this cannot be computed from current stimuli and needs an annotation round that retains individual raters |
+**Roadmap, measured: `human_mimicry`** (`scoring/human_mimicry.py`). Can a
+discriminator tell the model's vectors from rater vectors? For every holdout
+item with both rater rows and a model prediction, each human row is centered
+by its leave-one-rater-out consensus and the model row by the full consensus;
+a closed-form Gaussian discriminant (diagonal covariance, no hyperparameters)
+is trained leave-one-item-out to tell the two apart. The pooled out-of-fold
+Mann-Whitney AUC becomes `human_mimicry = 2 * (1 - max(AUC, 1 - AUC))`:
+1.0 = indistinguishable from the rater pool, 0.0 = fully separable. Read the
+score against the **human reference band** - the same protocol run with each
+real rater as the "model" - because every rater has a fingerprint the
+discriminator learns; a model inside the band is behaviorally exchangeable
+with an individual rater. Reported per model; never averaged into a headline.
 
-Text-only baselines score 0 on `acoustic_risk_f1` by construction; this is a
-documented structural zero, not a missing measurement. The distinction matters:
-structural zeros are averaged in, unmeasured sub-scores are not.
+| Slot | Status in v2.0.0 |
+|---|---|
+| `appraisal_calibration` | **public** |
+| `discriminant_validity` | **public** |
+| `value_action` | roadmap |
+| `persistence` | roadmap |
+| `acoustic_risk_f1` | roadmap (audio track) |
+| `steering_score` | roadmap |
+| `human_mimicry` | roadmap, **measured** (reported, not averaged) |
 
-Per-dimension results follow the same rule. A dimension the gold does not carry
-(`fairness` has no crowd-enVENT analogue) or one with fewer than 8 paired
-observations reports `r: null` and `measured: false`, never `r: 0.0`.
+Roadmap slots without a definition, a test, and gold that can support them
+stay `null`. They are not averaged into anything. A text-only
+run does **not** receive a structural zero on `acoustic_risk_f1`.
 
-Paired comparisons use **Wilcoxon signed-rank** (`paired_test`) with a
-minimum of 8 paired observations.
+Per-dimension results: a dim the gold does not carry, or one with fewer than
+8 paired observations, reports `r: null` and `measured: false`, never `r: 0.0`.
 
-## 4. Annotation protocol
+Paired comparisons use Wilcoxon signed-rank (`paired_test`), minimum 8 pairs.
 
-- Every item rated by **>= 2 annotators**; inter-annotator agreement =
-  mean pairwise Cohen's kappa across dimensions, target **kappa > 0.6**
-- Export formats are in `annotation/`: `prolific_export_text.csv` (text
-  ratings task) and `prolific_export_audio.csv` (audio ratings task, 296-clip
-  stratified subset of the manifest). `*.prompts.json` = the per-dimension
-  rating prompts and scale shown to annotators
-- Gold ratings = per-dimension mean across annotators; only items meeting
-  the agreement bar count as evaluation ground truth
+## 4. Human ceiling
 
-## 5. Versioning
+Computed by `scoring/human_ceiling.py` from `annotation/rater_vectors.jsonl`.
 
-- `VERSION` + git tag pin the immutable artifact. Consumers reference a
-  **tag**, never a branch
-- Stimuli are append-only within a major version: corrections land in a new
-  minor (1.0 -> 1.1); schema changes are a major (2.0)
-- Generator priors and annotator exports are reproducible artifacts, not
-  ground truth - the truth set is versioned separately once human ratings
-  land (planned `gold/` directory, v1.1)
+For each holdout item, each rater's 17-dim vector is correlated with the mean
+of the **other** raters on that item. The ceiling is the mean of those
+leave-one-out r values. See `HUMAN_CEILING.md`.
+
+Models are still scored against the full consensus. Do not read a model
+slightly above the LOO ceiling as "superhuman."
+
+## 5. Annotation protocol
+
+- Every holdout item rated by **>= 2** annotators
+- Gold = per-dimension mean across annotators
+- Agreement is reported as quadratic-weighted kappa **and** Krippendorff α
+  (interval). Gate: weighted κ ≥ 0.6 **or** α ≥ 0.8. Unweighted kappa is
+  reported for transparency and is not the gate.
+- Per-rater vectors are retained. Consensus-only gold is not sufficient.
+
+## 6. Versioning
+
+- `VERSION` + git tag pin the immutable artifact
+- Stimuli are append-only within a major version
+- Scoring-rule changes that alter published numbers are a major (2.0)
+- v2.0.0 changes vs 1.x: headline is calibration; structural zeros no longer
+  enter any mean; smoke is archived off the main board; human ceiling is a
+  first-class row
