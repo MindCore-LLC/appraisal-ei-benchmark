@@ -1,4 +1,4 @@
-"""Appraisal-EI Benchmark reference scorer (v1.0.0).
+"""Appraisal-EI Benchmark reference scorer (v1.1.0).
 
 Standalone - numpy + scipy only, no benchmark-consumer dependencies.
 Normative definitions live in SPEC.md section 3; this file is the executable
@@ -35,9 +35,90 @@ def load_dimensions(schema_path: str | Path | None = None) -> list[str]:
     return [d["id"] for d in schema["dimensions"]]
 
 
-def aggregate_ei(parts: dict[str, float]) -> float:
-    """Unweighted mean of the seven sub-scores. Missing keys count as 0."""
-    return float(np.mean([float(parts.get(k, 0.0)) for k in AGGREGATE_KEYS]))
+def aggregate_ei(
+    parts: dict[str, float | None], structural_zeros: tuple[str, ...] = ()
+) -> float | None:
+    """Unweighted mean over the sub-scores that were actually measured.
+
+    A sub-score that is absent or None was NOT measured and is excluded from the
+    mean - it is not evidence of a zero. A sub-score named in `structural_zeros`
+    is a real zero by construction (e.g. `acoustic_risk_f1` for a text-only
+    model, SPEC.md section 3) and is averaged in as 0.0.
+
+    Returns None when nothing was measured. Always report the value alongside
+    the count from `measured_subscores`, never bare: a mean over two sub-scores
+    is not comparable to a mean over seven.
+
+    Changed in 1.1.0: pre-1.1.0 this scored missing keys as 0.0, which silently
+    diluted the aggregate by the number of unimplemented sub-scores.
+    """
+    vals = []
+    for k in AGGREGATE_KEYS:
+        if k in structural_zeros:
+            vals.append(0.0)
+            continue
+        v = parts.get(k)
+        if v is None:
+            continue
+        vals.append(float(v))
+    return float(np.mean(vals)) if vals else None
+
+
+def measured_subscores(
+    parts: dict[str, float | None], structural_zeros: tuple[str, ...] = ()
+) -> dict[str, str]:
+    """Per sub-score: 'measured', 'structural_zero', or 'not_measured'."""
+    out = {}
+    for k in AGGREGATE_KEYS:
+        if k in structural_zeros:
+            out[k] = "structural_zero"
+        elif parts.get(k) is None:
+            out[k] = "not_measured"
+        else:
+            out[k] = "measured"
+    return out
+
+
+def discriminant_validity(
+    pred_by_dim: dict[str, list[float]],
+    gold_by_dim: dict[str, list[float]],
+    min_items: int = 8,
+) -> float | None:
+    """Convergent minus discriminant correlation across dimensions.
+
+    Builds the multitrait matrix M[i][j] = r(pred[dim_i], gold[dim_j]) over
+    items, then returns mean(diagonal) - mean(|off-diagonal|). A model that
+    tracks each appraisal dimension specifically scores high; one that emits a
+    single valence signal smeared across all 17 scores near zero, because its
+    off-diagonal correlations are as strong as its diagonal ones.
+
+    Returns None if fewer than 3 dimensions have >= min_items paired
+    observations with variance on both sides.
+    """
+    usable = [
+        d
+        for d in pred_by_dim
+        if d in gold_by_dim
+        and len(pred_by_dim[d]) >= min_items
+        and len(pred_by_dim[d]) == len(gold_by_dim[d])
+        and max(pred_by_dim[d]) - min(pred_by_dim[d]) > 1e-8
+        and max(gold_by_dim[d]) - min(gold_by_dim[d]) > 1e-8
+    ]
+    if len(usable) < 3:
+        return None
+    diag, off = [], []
+    for i in usable:
+        for j in usable:
+            n = min(len(pred_by_dim[i]), len(gold_by_dim[j]))
+            if n < min_items:
+                continue
+            r = float(pearsonr(pred_by_dim[i][:n], gold_by_dim[j][:n])[0])
+            if math.isnan(r):
+                continue
+            (diag if i == j else off).append(r if i == j else abs(r))
+    if not diag or not off:
+        return None
+    return float(np.mean(diag) - np.mean(off))
 
 
 def parse_ratings(text: str, dimensions: list[str] | None = None) -> dict[str, float]:

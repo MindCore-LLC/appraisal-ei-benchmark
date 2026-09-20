@@ -56,20 +56,32 @@ Taxonomy: Smith & Ellsworth; Scherer's Component Process Model; OCC.
 Per item: model emits a 17-dim vector; score = **Pearson correlation against
 the human gold vector** for that item (`ratings_correlation`).
 
-Aggregate EI = unweighted mean of seven sub-scores:
+Aggregate EI = unweighted mean of the sub-scores **that were measured on that
+run**. A sub-score that is not implemented, or that the stimuli cannot support,
+is reported as `null` and excluded from the mean. It is never averaged in as 0:
+a zero is a claim about the model, and we do not make claims we did not measure.
 
-| Sub-score | Source |
-|---|---|
-| `appraisal_calibration` | mean per-item Pearson r vs gold |
-| `value_action` | stated appraisal vs chosen action consistency |
-| `persistence` | appraisal-state stability across turns |
-| `acoustic_risk_f1` | vocal-risk detection (audio arm) |
-| `steering_score` | predicted direction of appraisal steering |
-| `discriminant_validity` | appraisal correlation vs unrelated constructs |
-| `human_mimicry` | human-vs-model output discrimination (lower = better mimicry gap closed) |
+Every result therefore carries `n_subscores_measured` / `n_subscores_total`, and
+`aggregate_ei` must always be quoted with that ratio. A mean over two sub-scores
+is not comparable to a mean over seven.
+
+| Sub-score | Status | Source |
+|---|---|---|
+| `appraisal_calibration` | **implemented** | mean per-item Pearson r vs gold |
+| `discriminant_validity` | **implemented** | mean diagonal minus mean absolute off-diagonal of the multitrait matrix r(pred[i], gold[j]) across items. High = dimension-specific appraisal; near zero or negative = one valence signal smeared across all 17 dimensions |
+| `acoustic_risk_f1` | structural zero (text runs) | vocal-risk detection (audio arm) |
+| `value_action` | not implemented | stated appraisal vs chosen action consistency |
+| `persistence` | not implemented | appraisal-state stability across turns |
+| `steering_score` | not implemented | predicted direction of appraisal steering |
+| `human_mimicry` | **blocked** | human-vs-model output discrimination. Requires per-annotator rating vectors. The crowd-enVENT release supplies reader *consensus* only (`annotators` is a count), so this cannot be computed from current stimuli and needs an annotation round that retains individual raters |
 
 Text-only baselines score 0 on `acoustic_risk_f1` by construction; this is a
-documented structural zero, not a missing measurement.
+documented structural zero, not a missing measurement. The distinction matters:
+structural zeros are averaged in, unmeasured sub-scores are not.
+
+Per-dimension results follow the same rule. A dimension the gold does not carry
+(`fairness` has no crowd-enVENT analogue) or one with fewer than 8 paired
+observations reports `r: null` and `measured: false`, never `r: 0.0`.
 
 Paired comparisons use **Wilcoxon signed-rank** (`paired_test`) with a
 minimum of 8 paired observations.

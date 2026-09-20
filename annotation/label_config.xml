@@ -1,0 +1,227 @@
+<View>
+  <View style="margin-bottom:16px; padding:14px; background:#f7f7f7; font-size:17px; line-height:1.5; border-radius:4px;">
+    <Text name="vig" value="$text"/>
+    <Text name="vid" value="$vignette_id" style="color:#888; font-size:11px;"/>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="pleasantness: Is this inherently positive or negative?" size="4"/>
+    <Header value="-3 = intensely unpleasant in itself   |   0 = neither pleasant nor unpleasant   |   +3 = intensely pleasant in itself" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="pleasantness" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="goal_relevance: Does this matter to the person's goals?" size="4"/>
+    <Header value="-3 = bears on nothing the person cares about   |   0 = moderately relevant to their goals   |   +3 = central to their goals" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="goal_relevance" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="goal_congruence: Does this help or hinder their goals?" size="4"/>
+    <Header value="-3 = strongly blocks their goals   |   0 = neither helps nor hinders   |   +3 = strongly advances their goals" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="goal_congruence" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="certainty: How predictable is the outcome?" size="4"/>
+    <Header value="-3 = outcome wholly unpredictable   |   0 = partly predictable   |   +3 = outcome already known or settled" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="certainty" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="control: How much control does the person have over the outcome?" size="4"/>
+    <Header value="-3 = no influence whatever over the outcome   |   0 = some influence over parts of it   |   +3 = the outcome is theirs to determine" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="control" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="responsibility: How responsible is the person for this situation?" size="4"/>
+    <Header value="-3 = in no way their doing   |   0 = partly their doing, partly not   |   +3 = entirely their doing   |   Causal responsibility for the situation arising, not blame for how they respond to it." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="responsibility" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="fairness: How fair is this situation?" size="4"/>
+    <Header value="-3 = grossly unfair to the person   |   0 = neither fair nor unfair   |   +3 = entirely fair" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="fairness" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="effort: How much effort is required?" size="4"/>
+    <Header value="-3 = no effort required of them   |   0 = moderate effort   |   +3 = sustained or exhausting effort" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="effort" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="expectation: Did they expect this?" size="4"/>
+    <Header value="-3 = completely unexpected   |   0 = neither expected nor surprising   |   +3 = fully anticipated" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="expectation" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="novelty: Is this new to them?" size="4"/>
+    <Header value="-3 = wholly familiar, they have been here before   |   0 = partly familiar   |   +3 = entirely new to them   |   Familiarity with this kind of situation. Distinct from expectation, which is about foreseeing this particular instance." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="novelty" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="urgency: How time-sensitive is this?" size="4"/>
+    <Header value="-3 = no time pressure at all   |   0 = some time pressure   |   +3 = must be acted on immediately" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="urgency" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="intensity: How strong is the emotional response?" size="4"/>
+    <Header value="-3 = no emotional response   |   0 = moderate emotional response   |   +3 = overwhelming emotional response   |   Strength only, irrespective of whether the emotion is positive or negative." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="intensity" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="coping_potential: Can they handle this?" size="4"/>
+    <Header value="-3 = cannot handle this at all   |   0 = can handle it, but with difficulty   |   +3 = handles it easily" size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="coping_potential" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="social_desirability: Will others approve of their response?" size="4"/>
+    <Header value="-3 = others would strongly disapprove of how they respond   |   0 = others would be indifferent   |   +3 = others would strongly approve of how they respond   |   Rate the person's response, not the event. An unfair event can still draw an approved-of response." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="social_desirability" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="moral_worth: Is this morally right or wrong?" size="4"/>
+    <Header value="-3 = clearly morally wrong   |   0 = morally neutral, or not a moral matter at all   |   +3 = clearly morally right   |   Rate the conduct that produced the situation. Most situations have no moral dimension and belong at 0." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="moral_worth" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="attribution: Is this about them, others, or circumstances?" size="4"/>
+    <Header value="-3 = caused by other people or by circumstance   |   0 = jointly caused, or cause unclear   |   +3 = caused by the person themselves   |   External-to-internal axis. 'Other people' and 'impersonal circumstance' share the negative pole and this scale cannot separate them; splitting agent-caused from chance-caused needs a second dimension." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="attribution" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+  <View style="margin:14px 0; padding:12px; border:1px solid #ddd; border-radius:4px;">
+    <Header value="anticipated_emotion: How will they feel about this later?" size="4"/>
+    <Header value="-3 = will feel much worse about it later than now   |   0 = will feel about the same later   |   +3 = will feel much better about it later than now   |   Valence of the later feeling relative to now, not its intensity." size="6" style="color:#666; font-weight:400; font-size:12px; margin:2px 0 8px;"/>
+    <Choices name="anticipated_emotion" toName="vig" choice="single" required="true" showInline="true">
+      <Choice value="-3" alias="-3"/>
+      <Choice value="-2" alias="-2"/>
+      <Choice value="-1" alias="-1"/>
+      <Choice value="0" alias="0"/>
+      <Choice value="1" alias="1"/>
+      <Choice value="2" alias="2"/>
+      <Choice value="3" alias="3"/>
+    </Choices>
+  </View>
+</View>

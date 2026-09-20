@@ -2,7 +2,7 @@
   "model": "DeepSeek V4 Pro",
   "model_id": "deepseek-ai/DeepSeek-V4-Pro-0813",
   "provider": "together",
-  "benchmark_version": "1.0.0",
+  "benchmark_version": "1.3.0",
   "stimuli": "stimuli/text/vignettes_test.jsonl",
   "gold_source": "generator_priors",
   "status": "smoke",
@@ -15,103 +15,120 @@
       "id": "pleasantness",
       "r": 0.5016,
       "mae": 1.666,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "goal_relevance",
       "r": -0.4115,
       "mae": 2.123,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "goal_congruence",
       "r": 0.4882,
       "mae": 1.735,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "certainty",
       "r": 0.2393,
       "mae": 1.588,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "control",
       "r": -0.1306,
       "mae": 1.363,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "responsibility",
       "r": 0.1079,
       "mae": 2.06,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "fairness",
-      "r": 0.0,
+      "r": null,
       "mae": 1.25,
-      "n": 52
+      "n": 52,
+      "measured": false
     },
     {
       "id": "effort",
       "r": 0.024,
       "mae": 1.194,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "expectation",
       "r": 0.179,
       "mae": 1.463,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "novelty",
       "r": 0.2711,
       "mae": 1.104,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "urgency",
       "r": 0.2364,
       "mae": 1.535,
-      "n": 52
+      "n": 52,
+      "measured": true
     },
     {
       "id": "intensity",
-      "r": 0.0,
+      "r": null,
       "mae": 1.885,
-      "n": 52
+      "n": 52,
+      "measured": false
     },
     {
       "id": "coping_potential",
-      "r": 0.0,
+      "r": null,
       "mae": 1.365,
-      "n": 52
+      "n": 52,
+      "measured": false
     },
     {
       "id": "social_desirability",
-      "r": 0.0,
+      "r": null,
       "mae": 0.731,
-      "n": 52
+      "n": 52,
+      "measured": false
     },
     {
       "id": "moral_worth",
-      "r": 0.0,
+      "r": null,
       "mae": 0.25,
-      "n": 52
+      "n": 52,
+      "measured": false
     },
     {
       "id": "attribution",
-      "r": 0.0,
+      "r": null,
       "mae": 1.654,
-      "n": 52
+      "n": 52,
+      "measured": false
     },
     {
       "id": "anticipated_emotion",
-      "r": 0.0,
+      "r": null,
       "mae": 1.654,
-      "n": 52
+      "n": 52,
+      "measured": false
     }
   ],
   "per_item": [
@@ -2347,5 +2364,26 @@
         "anticipated_emotion": 0.0
       }
     }
-  ]
+  ],
+  "subscores": {
+    "appraisal_calibration": 0.4099,
+    "value_action": null,
+    "persistence": null,
+    "acoustic_risk_f1": null,
+    "steering_score": null,
+    "discriminant_validity": -0.1171,
+    "human_mimicry": null
+  },
+  "subscore_status": {
+    "appraisal_calibration": "measured",
+    "value_action": "not_measured",
+    "persistence": "not_measured",
+    "acoustic_risk_f1": "structural_zero",
+    "steering_score": "not_measured",
+    "discriminant_validity": "measured",
+    "human_mimicry": "not_measured"
+  },
+  "n_subscores_measured": 3,
+  "n_subscores_total": 7,
+  "aggregate_ei": 0.0976
 }

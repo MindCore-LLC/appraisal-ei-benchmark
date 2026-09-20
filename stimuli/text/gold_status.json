@@ -1,21 +1,37 @@
 {
-  "version": "1.2.0",
+  "version": "1.4.0",
   "files": {
     "vignettes_*.jsonl": {
       "ratings_provenance": "generator_priors",
-      "note": "vignette ratings are generator priors (synthetic_sketch), NOT human gold. All eval results against this stimulus version are status=smoke until human gold lands."
+      "note": "DEPRECATED as an evaluation set as of 1.4.0. 560 rows carry only 94 distinct texts (2 names x 3 intensity levels, text byte-identical across levels), 9 scenarios leak across the train/test boundary, and attribution has zero variance. Retained for reproducing pre-1.4.0 results only. See QC_FINDINGS.md; use vignettes_diagnostic.jsonl.",
+      "deprecated": true
     },
     "envent_*.jsonl": {
       "ratings_provenance": "human_reader_consensus",
       "corpus": "crowd-enVENT",
       "note": "1200 event descriptions, each rated by 5 independent readers reconstructing the experiencer's appraisal on 21 variables; consensus mapped onto our 17-dim schema (fairness unmapped - no SEC analog). anticipated_emotion is author-grounded. Human gold. Troiano, Oberlander & Klinger (2023), Computational Linguistics 49(1), doi:10.1162/coli_a_00461.",
-      "annotation_source": "https://www.romanklinger.de/data-sets/crowd-enVent2023.zip"
+      "annotation_source": "https://www.romanklinger.de/data-sets/crowd-enVent2023.zip",
+      "role": "primary evaluation set as of 1.4.0"
+    },
+    "annotation/pilot_model_annotations.json": {
+      "ratings_provenance": "model_annotation",
+      "annotator": "claude-opus-5",
+      "note": "20-vignette pilot rated by a model, NOT human gold and never to be merged into one. Ran to validate the Label Studio label config and scale behaviour before the Prolific study. The rows were deleted from the Label Studio project on 2026-09-19; this archived file is all that remains of them.",
+      "excluded_from_gold": true
+    },
+    "vignettes_diagnostic.jsonl": {
+      "ratings_provenance": "generator_priors",
+      "note": "The 94 distinct scenarios behind vignettes_*, one row per text, priors averaged across the intensity levels that shared that text (prior_spread records the disagreement). Family-balanced diagnostic probe, NOT the flagship eval set and NOT human gold - eval runs against it stay status=smoke. Do not carve a holdout from it: nothing is trained, so a split only discards power.",
+      "excluded_from_gold": true,
+      "n_scenarios": 94
     }
   },
   "note": "per-file provenance. mindcore vignettes remain generator_priors (smoke) until the human annotation study lands; the envent_* split is human-rated (measured).",
   "version_history": {
     "1.0.0": "single ratings_provenance field, all stimuli generator_priors",
     "1.1.0": "per-file provenance; added envent_* measured split (crowd-enVENT human gold)",
-    "1.2.0": "appended 210 vignettes (560 total) so the FULL corpus can be human-annotated; pre-1.2.0 ids keep original text+split"
+    "1.2.0": "appended 210 vignettes (560 total) so the FULL corpus can be human-annotated; pre-1.2.0 ids keep original text+split",
+    "1.3.0": "registered the model-annotated pilot (20 vignettes) as an explicitly non-gold file; vignettes remain generator_priors and eval status stays smoke",
+    "1.4.0": "deprecated vignettes_* as an eval set after QC (94 real scenarios, split leakage, constant attribution); added deduped vignettes_diagnostic.jsonl; named envent_* the primary evaluation set, the only human-gold stimuli in the repo"
   }
 }

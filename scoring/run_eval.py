@@ -35,6 +35,11 @@ BASE_URLS = {
     "fireworks": "https://api.fireworks.ai/inference/v1",
 }
 KEY_ENV = {"openai": "OPENAI_API_KEY", "together": "TOGETHER_API_KEY", "fireworks": "FIREWORKS_API_KEY"}
+PROVIDERS = sorted(KEY_ENV) + ["mock"]
+
+
+def load_dimension_ids() -> list[str]:
+    return [d["id"] for d in json.loads(SCHEMA.read_text(encoding="utf-8"))["dimensions"]]
 
 
 def load_env(path: str | None) -> None:
@@ -59,6 +64,17 @@ def rubric_prompt(vignette: str, dimensions: list[dict]) -> str:
 
 
 def generate(provider: str, model: str, prompt: str, max_tokens: int) -> str:
+    # `mock` exercises the whole pipeline - stimulus load, gold/status
+    # resolution, parsing, scoring, output shape - without an API call, so a
+    # paid run can be rehearsed first. Emits a deliberately poor but parseable
+    # vector; the numbers are meaningless by design.
+    if provider == "mock":
+        import hashlib
+
+        h = hashlib.sha256(prompt.encode()).digest()
+        dims = load_dimension_ids()
+        return json.dumps({d: (h[i] % 7) - 3 for i, d in enumerate(dims)})
+
     from openai import OpenAI
 
     kwargs: dict = {"api_key": os.environ.get(KEY_ENV[provider])}
@@ -82,7 +98,8 @@ def generate(provider: str, model: str, prompt: str, max_tokens: int) -> str:
 
 def main() -> int:
     p = argparse.ArgumentParser()
-    p.add_argument("--provider", required=True, choices=sorted(KEY_ENV))
+    p.add_argument("--provider", required=True, choices=PROVIDERS,
+                   help="'mock' rehearses the run with no API call")
     p.add_argument("--model", required=True)
     p.add_argument("--name", default=None, help="display name for the leaderboard")
     p.add_argument("--limit", type=int, default=None)
@@ -127,7 +144,13 @@ def main() -> int:
 
     # Per-dimension calibration: Pearson r of pred[d] vs gold[d] across items,
     # plus mean absolute error - feeds the radar/heatmap visuals downstream.
+    # A dimension the gold does not carry (envent has no `fairness` analogue) or
+    # one with too few paired observations is NOT MEASURED. It emits null, never
+    # 0.0 - a zero reads as "the model failed on this dimension" and is a
+    # misreported result on the leaderboard.
     per_dim = []
+    pred_by_dim: dict[str, list[float]] = {}
+    gold_by_dim: dict[str, list[float]] = {}
     for d in dim_ids:
         xs, ys, errs = [], [], []
         for it in items:
@@ -136,12 +159,36 @@ def main() -> int:
                 xs.append(float(p[d]))
                 ys.append(float(g[d]))
                 errs.append(abs(float(p[d]) - float(g[d])))
-        dim_r = 0.0
+        pred_by_dim[d], gold_by_dim[d] = xs, ys
+        dim_r = None
         if len(xs) >= 8 and (max(xs) - min(xs) > 1e-8) and (max(ys) - min(ys) > 1e-8):
             from scipy.stats import pearsonr
 
-            dim_r = float(pearsonr(xs, ys)[0])
-        per_dim.append({"id": d, "r": round(dim_r, 4), "mae": round(sum(errs) / len(errs), 3) if errs else None, "n": len(xs)})
+            dim_r = round(float(pearsonr(xs, ys)[0]), 4)
+        per_dim.append({
+            "id": d,
+            "r": dim_r,
+            "mae": round(sum(errs) / len(errs), 3) if errs else None,
+            "n": len(xs),
+            "measured": dim_r is not None,
+        })
+
+    calibration = round(sum(corrs) / len(corrs), 4) if corrs else None
+    disc = score.discriminant_validity(pred_by_dim, gold_by_dim)
+    # Text-only runs cannot produce an audio score; SPEC.md section 3 makes that
+    # a real zero rather than a gap. Everything else here is simply not built yet.
+    structural_zeros = ("acoustic_risk_f1",) if args.provider != "audio" else ()
+    subscores = {
+        "appraisal_calibration": calibration,
+        "value_action": None,
+        "persistence": None,
+        "acoustic_risk_f1": None,
+        "steering_score": None,
+        "discriminant_validity": round(disc, 4) if disc is not None else None,
+        "human_mimicry": None,
+    }
+    status_map = score.measured_subscores(subscores, structural_zeros)
+    aggregate = score.aggregate_ei(subscores, structural_zeros)
 
     slug = re.sub(r"[^a-z0-9]+", "-", args.model.lower()).strip("-")
     result = {
@@ -155,7 +202,12 @@ def main() -> int:
         "run_at": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
         "n_items": len(rows),
         "n_parsed": len(corrs),
-        "appraisal_calibration": round(sum(corrs) / len(corrs), 4) if corrs else 0.0,
+        "appraisal_calibration": calibration,
+        "subscores": subscores,
+        "subscore_status": status_map,
+        "n_subscores_measured": sum(1 for v in status_map.values() if v != "not_measured"),
+        "n_subscores_total": len(score.AGGREGATE_KEYS),
+        "aggregate_ei": round(aggregate, 4) if aggregate is not None else None,
         "per_dim": per_dim,
         "per_item": items,
     }
@@ -168,7 +220,9 @@ def main() -> int:
     files = sorted(f.name for f in out_dir.glob("*.json") if f.name != "index.json")
     (out_dir / "index.json").write_text(json.dumps({"results": files}, indent=2), encoding="utf-8")
 
-    print(json.dumps({k: result[k] for k in ("model", "status", "n_parsed", "n_items", "appraisal_calibration")}))
+    print(json.dumps({k: result[k] for k in (
+        "model", "status", "n_parsed", "n_items", "appraisal_calibration",
+        "aggregate_ei", "n_subscores_measured", "n_subscores_total")}))
     return 0
 
 
