@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "note": "Model registry powering leaderboard filters. origin = ISO country of the publishing org. weights = open | closed. Add entries as results land; the leaderboard joins results/<slug>.json on model_id.",
+  "note": "Model registry powering leaderboard filters. origin = ISO country of the publishing org. weights = open | closed. pricing = USD per 1M tokens (input/output), null until supplied - the cost axis stays hidden for models without it. Add entries as results land; the leaderboard joins results/<slug>.json on model_id.",
   "models": {
     "gpt-5.4": {
       "name": "GPT-5.4",
@@ -8,7 +8,11 @@
       "origin": "US",
       "weights": "closed",
       "family": "GPT-5",
-      "params": null
+      "params": null,
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     },
     "deepseek-ai/DeepSeek-V4-Pro-0813": {
       "name": "DeepSeek V4 Pro",
@@ -16,7 +20,11 @@
       "origin": "CN",
       "weights": "open",
       "family": "DeepSeek V4",
-      "params": "MoE ~670B"
+      "params": "MoE ~670B",
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     },
     "meta-llama/Llama-3.3-70B-Instruct-Turbo": {
       "name": "Llama 3.3 70B Turbo",
@@ -24,7 +32,11 @@
       "origin": "US",
       "weights": "open",
       "family": "Llama 3.3",
-      "params": "70B"
+      "params": "70B",
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     },
     "Qwen/Qwen3.8-2.4T-A95B": {
       "name": "Qwen 3.8 2.4T",
@@ -32,7 +44,11 @@
       "origin": "CN",
       "weights": "open",
       "family": "Qwen3",
-      "params": "2.4T MoE"
+      "params": "2.4T MoE",
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     },
     "zai-org/GLM-5.3": {
       "name": "GLM-5.3",
@@ -40,7 +56,11 @@
       "origin": "CN",
       "weights": "open",
       "family": "GLM",
-      "params": null
+      "params": null,
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     },
     "moonshotai/Kimi-K3": {
       "name": "Kimi K3",
@@ -48,7 +68,11 @@
       "origin": "CN",
       "weights": "open",
       "family": "Kimi",
-      "params": null
+      "params": null,
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     },
     "openai/gpt-oss-120b": {
       "name": "GPT-OSS 120B",
@@ -56,7 +80,11 @@
       "origin": "US",
       "weights": "open",
       "family": "GPT-OSS",
-      "params": "120B"
+      "params": "120B",
+      "pricing": {
+        "input_per_1m": null,
+        "output_per_1m": null
+      }
     }
   }
 }

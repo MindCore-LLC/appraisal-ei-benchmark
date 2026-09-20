@@ -19,9 +19,11 @@ import argparse
 import datetime as _dt
 import fnmatch
 import json
+import math
 import os
 import re
 import sys
+import time
 from pathlib import Path
 
 import score  # scoring/score.py, same dir
@@ -63,7 +65,10 @@ def rubric_prompt(vignette: str, dimensions: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def generate(provider: str, model: str, prompt: str, max_tokens: int) -> str:
+def generate(provider: str, model: str, prompt: str, max_tokens: int) -> tuple[str, dict | None]:
+    """Run one prompt. Returns (text, usage) - usage is None when the provider
+    does not report token counts (e.g. mock). Callers time the call for the
+    runtime block; this function only extracts what the API already reports."""
     # `mock` exercises the whole pipeline - stimulus load, gold/status
     # resolution, parsing, scoring, output shape - without an API call, so a
     # paid run can be rehearsed first. Emits a deliberately poor but parseable
@@ -73,7 +78,7 @@ def generate(provider: str, model: str, prompt: str, max_tokens: int) -> str:
 
         h = hashlib.sha256(prompt.encode()).digest()
         dims = load_dimension_ids()
-        return json.dumps({d: (h[i] % 7) - 3 for i, d in enumerate(dims)})
+        return json.dumps({d: (h[i] % 7) - 3 for i, d in enumerate(dims)}), None
 
     from openai import OpenAI
 
@@ -93,7 +98,9 @@ def generate(provider: str, model: str, prompt: str, max_tokens: int) -> str:
         params.pop("temperature")
         params["max_completion_tokens"] = params.pop("max_tokens")
     resp = OpenAI(**kwargs).chat.completions.create(**params)
-    return resp.choices[0].message.content or ""
+    u = getattr(resp, "usage", None)
+    usage = {"prompt_tokens": u.prompt_tokens, "completion_tokens": u.completion_tokens} if u else None
+    return resp.choices[0].message.content or "", usage
 
 
 def main() -> int:
@@ -134,8 +141,14 @@ def main() -> int:
     status = "measured" if gold.startswith("human") else "smoke"
 
     items, corrs, preds = [], [], []
+    latencies_ms: list[float] = []
+    usage_list: list[dict] = []
     for r in rows:
-        text = generate(args.provider, args.model, rubric_prompt(r["text"], dims), args.max_tokens)
+        t0 = time.perf_counter()
+        text, usage = generate(args.provider, args.model, rubric_prompt(r["text"], dims), args.max_tokens)
+        latencies_ms.append((time.perf_counter() - t0) * 1000)
+        if usage:
+            usage_list.append(usage)
         pred = score.parse_ratings(text, dim_ids)
         c = score.ratings_correlation(pred, r.get("ratings") or {}, dim_ids) if len(pred) >= 8 else None
         items.append({"id": r["id"], "r": c, "pred": pred if len(pred) >= 8 else None, "gold": r.get("ratings")})
@@ -174,6 +187,32 @@ def main() -> int:
         })
 
     calibration = round(sum(corrs) / len(corrs), 4) if corrs else None
+
+    # Runtime block: per-call wall time + token usage, feeding the speed axis
+    # of the quality-vs-speed visuals. Median/p95 over per-item calls; tok/s
+    # uses completion tokens over summed call time (no concurrency, so the
+    # sum is the honest denominator). Mock runs time the local stub - the
+    # numbers are pipeline-rehearsal artifacts, not model speed.
+    runtime = None
+    if latencies_ms:
+        ls = sorted(latencies_ms)
+        n = len(ls)
+        median = ls[n // 2] if n % 2 else (ls[n // 2 - 1] + ls[n // 2]) / 2
+        p95 = ls[min(n - 1, math.ceil(0.95 * n) - 1)]
+        prompt_tok = sum(u["prompt_tokens"] for u in usage_list)
+        completion_tok = sum(u["completion_tokens"] for u in usage_list)
+        total_s = sum(ls) / 1000
+        runtime = {
+            "n_timed": n,
+            "total_ms": round(sum(ls)),
+            "median_ms": round(median, 1),
+            "p95_ms": round(p95, 1),
+            "mean_ms": round(sum(ls) / n, 1),
+            "prompt_tokens": prompt_tok or None,
+            "completion_tokens": completion_tok or None,
+            "tokens_per_sec": round(completion_tok / total_s, 1) if completion_tok and total_s > 0 else None,
+        }
+
     disc = score.discriminant_validity(pred_by_dim, gold_by_dim)
     # Text-only runs cannot produce an audio score; SPEC.md section 3 makes that
     # a real zero rather than a gap. Everything else here is simply not built yet.
@@ -203,6 +242,7 @@ def main() -> int:
         "n_items": len(rows),
         "n_parsed": len(corrs),
         "appraisal_calibration": calibration,
+        "runtime": runtime,
         "subscores": subscores,
         "subscore_status": status_map,
         "n_subscores_measured": sum(1 for v in status_map.values() if v != "not_measured"),
@@ -222,7 +262,7 @@ def main() -> int:
 
     print(json.dumps({k: result[k] for k in (
         "model", "status", "n_parsed", "n_items", "appraisal_calibration",
-        "aggregate_ei", "n_subscores_measured", "n_subscores_total")}))
+        "aggregate_ei", "n_subscores_measured", "n_subscores_total", "runtime")}))
     return 0
 
 

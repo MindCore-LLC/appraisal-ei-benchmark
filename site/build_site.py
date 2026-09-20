@@ -39,6 +39,22 @@ def _direction_pct(result: dict) -> float | None:
     return round(100 * match / total, 1) if total else None
 
 
+def _cost_per_item(result: dict, meta: dict) -> float | None:
+    """Mean USD per parsed item from the run's token usage and registry pricing.
+
+    Needs all four inputs (in/out price, prompt/completion tokens); anything
+    missing -> None, and the cost axis hides that model rather than guessing.
+    """
+    p = meta.get("pricing") or {}
+    i_in, i_out = p.get("input_per_1m"), p.get("output_per_1m")
+    rt = result.get("runtime") or {}
+    pt, ct = rt.get("prompt_tokens"), rt.get("completion_tokens")
+    n = result.get("n_parsed")
+    if None in (i_in, i_out, pt, ct) or not n:
+        return None
+    return round((pt * i_in + ct * i_out) / 1e6 / n, 6)
+
+
 def main() -> None:
     registry = json.loads((REPO / "models.json").read_text(encoding="utf-8"))["models"]
     results = []
@@ -49,6 +65,7 @@ def main() -> None:
         meta = registry.get(r.get("model_id"), {})
         r["meta"] = meta
         r["direction_pct"] = _direction_pct(r)
+        r["cost_per_item_usd"] = _cost_per_item(r, meta)
         results.append(r)
 
     payload = {

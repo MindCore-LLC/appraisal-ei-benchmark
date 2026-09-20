@@ -35,13 +35,20 @@
   .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
   .banner { margin: 0 24px; padding: 10px 12px; border: 1px solid var(--smoke); background: var(--color-warning-tint); color: var(--smoke);
             font-size: 12px; margin-top: 16px; max-width: 720px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 24px 0; border-bottom: 1px solid var(--line); }
+  .tab { border: 1px solid var(--line); border-bottom: none; background: transparent; color: var(--muted); padding: 7px 14px;
+         font: 500 12.5px var(--font-sans); cursor: pointer; }
+  .tab.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
   .controls { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px 24px; border-bottom: 1px solid var(--line); }
   .group { font-size: 12px; }
   .group .label { text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-size: 10px; margin-bottom: 6px; }
   .chip { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 4px 10px;
           font: 500 12px var(--font-sans); cursor: pointer; margin-right: 4px; }
   .chip.on { background: var(--ink); color: var(--paper); }
+  select.plain { font: 500 12px var(--font-sans); padding: 4px 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
   main { padding: 0 24px 60px; }
+  .view[hidden] { display: none; }
+  .note { font-size: 12px; color: var(--muted); margin: 14px 0 0; max-width: 900px; }
   table { width: 100%; border-collapse: collapse; margin-top: 16px; }
   th { text-align: left; font: 500 11px var(--font-sans); text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
        padding: 8px 10px; border-bottom: 1px solid var(--ink); cursor: pointer; user-select: none; white-space: nowrap; }
@@ -63,13 +70,42 @@
   .kv { font-size: 12px; color: var(--muted); margin-top: 6px; }
   #charts { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 20px; }
   @media (min-width: 1100px) { #charts { grid-template-columns: 1fr 1fr; } }
-  .chart-block { border: 1px solid var(--line); padding: 14px 16px; }
+  .chart-block { border: 1px solid var(--line); padding: 14px 16px; margin-top: 20px; }
   .chart-title { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
   .chart-wrap { position: relative; height: 300px; }
   .chart-wrap.radar { height: 340px; }
   .detail td { background: var(--color-sunken); font-size: 12px; }
   .spark { display: flex; gap: 1px; align-items: flex-end; height: 28px; }
   .spark i { width: 3px; background: var(--ink); display: block; }
+  /* heatmap */
+  #heatTable { margin-top: 8px; font-size: 12px; }
+  #heatTable th.dim { writing-mode: vertical-rl; transform: rotate(180deg); height: 130px; vertical-align: bottom;
+                      text-align: left; padding: 4px 3px; font-size: 10px; cursor: default; }
+  #heatTable th.row-h { font-weight: 500; white-space: nowrap; border-bottom: 1px solid var(--line); padding: 8px 10px; }
+  #heatTable td { border: 1px solid var(--line); text-align: center; padding: 7px 9px; font: 500 11px var(--font-mono); }
+  #heatTable td.na { color: var(--color-disabled-text); }
+  .legend { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); margin-top: 14px; }
+  .legend .grad { width: 140px; height: 10px; border: 1px solid var(--line);
+                  background: linear-gradient(90deg, var(--color-error), var(--color-canvas), var(--color-success)); }
+  /* distributions */
+  .dist-scale { position: relative; height: 16px; margin: 12px 0 0 212px; font: 400 10px var(--font-mono); color: var(--muted); }
+  .dist-scale span { position: absolute; transform: translateX(-50%); }
+  .dist-row { display: grid; grid-template-columns: 200px 1fr 190px; gap: 12px; align-items: center;
+              padding: 8px 0; border-bottom: 1px solid var(--line); }
+  .dist-row .name { font-weight: 500; font-size: 13px; }
+  .dist-row .name-sub { font-size: 10.5px; color: var(--muted); }
+  .dist-track { position: relative; height: 36px; background: var(--color-sunken); }
+  .dist-track i { position: absolute; width: 5px; height: 5px; border-radius: 50%; transform: translate(-50%, -50%); }
+  .dist-box { position: absolute; top: 7px; bottom: 7px; border: 1px solid var(--ink); }
+  .dist-med { position: absolute; top: 3px; bottom: 3px; width: 2px; background: var(--ink); transform: translateX(-1px); }
+  .dist-stats { font: 400 11px var(--font-mono); color: var(--muted); }
+  /* EI index */
+  #eiMatrix table { margin-top: 8px; }
+  #eiMatrix td, #eiMatrix th { font-size: 12px; }
+  #eiMatrix td.sc { text-align: center; font: 500 11.5px var(--font-mono); padding: 8px; border-bottom: 1px solid var(--line); }
+  #eiMatrix td.na { color: var(--color-disabled-text); }
+  #eiMatrix td.sz { color: var(--muted); font-style: italic; background: var(--color-sunken); }
+  #eiMatrix td.agg { font-weight: 500; }
   footer { padding: 16px 24px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
   a { color: var(--ink); }
   button.plain { border: none; background: none; cursor: pointer; text-decoration: underline; font-size: 12px; color: var(--muted); }
@@ -84,33 +120,78 @@
   <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:13px;color:var(--muted)" id="ver"></span></h1>
   <div class="sub">17-dimension appraisal calibration vs human gold. Per-item Pearson r, vignette test split.
     <strong>Alignment</strong> = how closely a model's appraisal profile matches the reference (r &times; 100).
-    <strong>Direction %</strong> = how often it rated a dimension in the same direction as the reference.</div>
+    <strong>Direction %</strong> = how often it rated a dimension in the same direction as the reference.
+    <strong>Speed</strong> = median wall-clock per item; <strong>$/item</strong> = token usage &times; registry pricing.</div>
   <div class="banner" id="banner">Loading...</div>
 </header>
 
+<div class="tabs" id="tabs"></div>
 <div class="controls" id="controls"></div>
 
 <main>
-  <div id="charts">
+  <section class="view" id="view-board">
+    <div id="charts">
+      <div class="chart-block">
+        <div class="chart-title">Alignment (%) by model</div>
+        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+      </div>
+      <div class="chart-block" id="radarBlock" style="display:none">
+        <div class="chart-title">Per-dimension calibration (17 appraisal dims)</div>
+        <div class="chart-wrap radar"><canvas id="radarChart"></canvas></div>
+      </div>
+    </div>
+    <table>
+      <thead><tr id="head"></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div id="compare"></div>
+  </section>
+
+  <section class="view" id="view-pareto" hidden>
+    <div class="controls" style="border-bottom:none;padding-left:0">
+      <div class="group"><div class="label">X axis</div>
+        <select id="paretoX" class="plain">
+          <option value="ms">Latency &mdash; median ms/item (lower is better)</option>
+          <option value="tps">Throughput &mdash; tok/s (higher is better)</option>
+          <option value="cost">Cost &mdash; $/item (lower is better)</option>
+        </select>
+      </div>
+    </div>
+    <p class="note" id="paretoNote"></p>
     <div class="chart-block">
-      <div class="chart-title">Alignment (%) by model</div>
-      <div class="chart-wrap"><canvas id="barChart"></canvas></div>
+      <div class="chart-title" id="paretoTitle">Alignment vs speed</div>
+      <div class="chart-wrap" style="height:400px"><canvas id="paretoChart"></canvas></div>
     </div>
-    <div class="chart-block" id="radarBlock" style="display:none">
-      <div class="chart-title">Per-dimension calibration (17 appraisal dims)</div>
-      <div class="chart-wrap radar"><canvas id="radarChart"></canvas></div>
+  </section>
+
+  <section class="view" id="view-dims" hidden>
+    <p class="note">Per-dimension Pearson r between model and gold ratings across the test split.
+      Green = tracks the dimension, red = anti-correlated, &mdash; = not measured (too few paired observations or gold lacks the dimension).</p>
+    <div class="legend"><span>-1</span><div class="grad"></div><span>+1</span></div>
+    <div id="heatWrap"></div>
+  </section>
+
+  <section class="view" id="view-dist" hidden>
+    <p class="note" id="distNote"></p>
+    <div class="dist-scale"><span style="left:0%">-0.2</span><span style="left:16.7%">0</span><span style="left:58.3%">0.5</span><span style="left:100%">+1.0</span></div>
+    <div id="distRows"></div>
+  </section>
+
+  <section class="view" id="view-ei" hidden>
+    <div class="chart-block" style="max-width:780px">
+      <div class="chart-title">Aggregate EI by model</div>
+      <div class="chart-wrap"><canvas id="eiChart"></canvas></div>
     </div>
-  </div>
-  <table>
-    <thead><tr id="head"></tr></thead>
-    <tbody id="rows"></tbody>
-  </table>
-  <div id="compare"></div>
+    <div id="eiMatrix"></div>
+    <p class="note"><strong>Aggregate EI</strong> = unweighted mean of the sub-scores that were actually measured;
+      a structural zero (acoustic risk for text-only runs) averages in as 0. A sub-score that was not measured is
+      excluded, not zero. A mean over 2 sub-scores is not comparable to one over 7 &mdash; always read it with n/7.</p>
+  </section>
 </main>
 
 <footer>
   <span id="count"></span> · <a href="https://github.com/MindCore-LLC/appraisal-ei-benchmark">repo</a> ·
-  per-item scores in each result JSON · protocol: SPEC.md
+  per-item scores in each result JSON · protocol: SPEC.md · speed &amp; cost populate as models are re-run with runtime capture
 </footer>
 
 <script>
@@ -122,17 +203,48 @@ const COLS = [
   {k:"weights", label:"Weights", sort:"weights"},
   {k:"cal", label:"Alignment", sort:"cal", num:true},
   {k:"dir", label:"Direction %", sort:"dir", num:true},
+  {k:"ms", label:"Median ms", sort:"ms", num:true},
+  {k:"tps", label:"Tok/s", sort:"tps", num:true},
+  {k:"cost", label:"$/item", sort:"cost", num:true},
   {k:"n", label:"Items", sort:"n", num:true},
   {k:"status", label:"Status", sort:"status"},
   {k:"run_at", label:"Run", sort:"run_at"},
   {k:"cmp", label:"", sort:null},
 ];
 
-const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "cal", dir: -1, selected: new Set(), data: [] };
+const VIEWS = [
+  {id:"board", label:"Leaderboard"},
+  {id:"pareto", label:"Quality vs Speed"},
+  {id:"dims", label:"Dimensions"},
+  {id:"dist", label:"Distributions"},
+  {id:"ei", label:"EI Index"},
+];
+
+const SUBSCORES = [
+  {k:"appraisal_calibration", label:"Appraisal cal."},
+  {k:"value_action", label:"Value–action"},
+  {k:"persistence", label:"Persistence"},
+  {k:"acoustic_risk_f1", label:"Acoustic risk F1"},
+  {k:"steering_score", label:"Steering"},
+  {k:"discriminant_validity", label:"Discriminant validity"},
+  {k:"human_mimicry", label:"Human mimicry"},
+];
+
+const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "cal", dir: -1,
+                selected: new Set(), data: [], view: "board", paretoX: "ms" };
 
 const fmt = v => v == null ? "—" : (typeof v === "number" ? v.toFixed(3) : v);
 
 function meta(r, k) { return (r.meta && r.meta[k]) ?? "—"; }
+
+const PARETO_X = {
+  ms:   { label: "Median latency (ms/item)", get: r => r.runtime?.median_ms, lowerBetter: true,
+          fmt: v => v.toFixed(0) + " ms" },
+  tps:  { label: "Output throughput (tok/s)", get: r => r.runtime?.tokens_per_sec, lowerBetter: false,
+          fmt: v => v.toFixed(0) + " tok/s" },
+  cost: { label: "Cost ($/item)", get: r => r.cost_per_item_usd, lowerBetter: true,
+          fmt: v => "$" + v.toFixed(4) },
+};
 
 async function boot() {
   const payload = await fetch("data.json").then(r => r.json());
@@ -143,16 +255,22 @@ async function boot() {
     ? "PRE-GOLD: results scored against generator priors, not human ratings (gold lands v1.1). Rankings are provisional and marked SMOKE."
     : allMeas ? "Scored against human gold ratings." : "Mixed gold sources - check per-model status.";
   state.data = payload.results;
+  const q = new URLSearchParams(location.search);
+  const v = q.get("view");
+  if (VIEWS.some(x => x.id === v)) state.view = v;
+  state.paretoX = PARETO_X[q.get("paretoX")] ? q.get("paretoX") : state.paretoX;
+  document.getElementById("paretoX").value = state.paretoX;
+  buildTabs();
   buildControls();
   // Shareable comparisons: ?compare=<model_id>,<model_id> or ?compare=all
-  const q = new URLSearchParams(location.search).get("compare");
-  if (q) {
-    const want = q === "all" ? state.data.map(r => r.model_id) : q.split(",");
+  const cmp = q.get("compare");
+  if (cmp) {
+    const want = cmp === "all" ? state.data.map(r => r.model_id) : cmp.split(",");
     want.forEach(id => state.selected.add(id));
     showCompare();
   }
   render();
-  renderBar();
+  showView(state.view);
 }
 
 // Chart colors come from the kit's data-viz series tokens, not a local palette.
@@ -165,14 +283,41 @@ const palette = () => ({
   line: cssVar("--color-border-default") || "#d8d8d4",
   canvas: cssVar("--color-canvas") || "#faf7f2",
 });
-let barChart = null, radarChart = null;
+let barChart = null, radarChart = null, paretoChart = null, eiChart = null;
 if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
+const filtered = () => state.data.filter(passes);
+
+function renderCurrent() {
+  if (state.view === "board") {
+    renderBar();
+    if (document.getElementById("compare").classList.contains("open")) renderRadarForSelection();
+  } else if (state.view === "pareto") renderPareto();
+  else if (state.view === "dims") renderHeatmap();
+  else if (state.view === "dist") renderDist();
+  else if (state.view === "ei") renderEI();
+}
+
+function showView(v) {
+  state.view = v;
+  document.querySelectorAll(".view").forEach(s => s.hidden = s.id !== "view-" + v);
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  if (v === "board") render();
+  renderCurrent();
+  try {
+    const url = new URL(location);
+    url.searchParams.set("view", v);
+    history.replaceState(null, "", url);
+  } catch (e) { /* file:// or sandboxed - ignore */ }
+}
+
 function renderBar() {
-  const rows = [...state.data].sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
-  const { series: PALETTE, ink: INK, muted: MUTED, line: LINE } = palette();
+  const rows = filtered().filter(r => r.appraisal_calibration != null)
+    .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
+  const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
   const ctx = document.getElementById("barChart");
   if (barChart) barChart.destroy();
+  if (!rows.length) return;
   barChart = new Chart(ctx, {
     type: "bar",
     data: {
@@ -275,6 +420,200 @@ function renderRadar(sel) {
   });
 }
 
+// Pareto frontier: points no other point beats on both axes.
+function frontier(pts, lowerBetter) {
+  const s = [...pts].sort((a, b) => lowerBetter ? a.x - b.x : b.x - a.x);
+  const out = [];
+  let best = -Infinity;
+  for (const p of s) if (p.y > best) { out.push(p); best = p.y; }
+  return out;
+}
+
+function renderPareto() {
+  const conf = PARETO_X[state.paretoX];
+  const note = document.getElementById("paretoNote");
+  document.getElementById("paretoTitle").textContent = `Alignment vs ${conf.label.toLowerCase()}`;
+  const sel = filtered().filter(r => r.appraisal_calibration != null && conf.get(r) != null);
+  const ctxEl = document.getElementById("paretoChart");
+  if (paretoChart) { paretoChart.destroy(); paretoChart = null; }
+  if (!sel.length) {
+    note.textContent = "No model has this datum yet. Speed arrives as models are re-run with runtime capture (scoring/run_eval.py now records latency + tokens); cost needs pricing in models.json.";
+    return;
+  }
+  note.textContent = sel.length < 2
+    ? "Only one model has data for this axis so far - the frontier is trivial until more models are re-run."
+    : `${sel.length} of ${state.data.length} models have data. Dashed step line = Pareto frontier (no model on it is beaten on both axes). Hollow points = smoke runs.`;
+  const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
+  const pts = sel.map(r => ({ x: conf.get(r), y: r.appraisal_calibration, r }));
+  const f = frontier(pts, conf.lowerBetter);
+  const linePts = (conf.lowerBetter ? f : [...f].reverse()).map(p => ({ x: p.x, y: p.y }));
+  paretoChart = new Chart(ctxEl, {
+    type: "scatter",
+    data: {
+      datasets: [
+        { type: "line", label: "Pareto frontier", data: linePts, stepped: "after",
+          showLine: true, borderColor: INK, borderWidth: 1.5, borderDash: [5, 4],
+          pointRadius: 0, fill: false, order: 0 },
+        { type: "scatter", label: "Models", order: 1,
+          data: pts.map(p => ({ x: p.x, y: p.y, _r: p.r })),
+          pointBackgroundColor: pts.map((p, i) => p.r.status === "measured" ? PALETTE[i % PALETTE.length] + "cc" : "transparent"),
+          pointBorderColor: pts.map((p, i) => PALETTE[i % PALETTE.length]),
+          pointBorderWidth: 2, pointRadius: 8, pointHoverRadius: 10 },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      animation: { duration: 600, easing: "easeOutQuart" },
+      layout: { padding: { top: 12 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS,
+          padding: 10, cornerRadius: 0, displayColors: false,
+          callbacks: {
+            title: c => c[0].raw._r?.model_id ?? "Pareto frontier",
+            label: c => {
+              const r = c.raw._r;
+              if (!r) return ` Pareto frontier`;
+              return [` ${(r.appraisal_calibration * 100).toFixed(1)}% alignment (r=${r.appraisal_calibration.toFixed(3)})`,
+                      ` ${conf.label}: ${conf.fmt(c.parsed.x)}`,
+                      ` ${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")} · ${r.status}`];
+            },
+          },
+        },
+        datalabels: {
+          display: c => c.dataset.type !== "line",
+          formatter: (v, c) => c.dataset.data[c.dataIndex]._r.model,
+          anchor: "end", align: "top", offset: 8, clamp: true,
+          color: INK, font: { size: 10.5, weight: "500" },
+        },
+      },
+      scales: {
+        x: { type: "linear", min: 0, grid: { color: LINE }, border: { display: false },
+             title: { display: true, text: conf.label + (conf.lowerBetter ? " — lower is better" : " — higher is better"),
+                      font: { size: 11 }, color: MUTED },
+             ticks: { font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
+        y: { type: "linear", min: 0, suggestedMax: 1, grid: { color: LINE }, border: { display: false },
+             title: { display: true, text: "Alignment (Pearson r)", font: { size: 11 }, color: MUTED },
+             ticks: { callback: v => (v * 100).toFixed(0) + "%", font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
+      },
+    },
+  });
+}
+
+function renderHeatmap() {
+  const rows = filtered();
+  const host = document.getElementById("heatWrap");
+  if (!rows.length) { host.innerHTML = `<p class="note">No models pass the current filters.</p>`; return; }
+  const dims = (rows.find(r => r.per_dim && r.per_dim.length) || { per_dim: [] }).per_dim;
+  const aHex = a => Math.round(Math.max(0, Math.min(1, Math.abs(a))) * 255).toString(16).padStart(2, "0");
+  const head = `<tr><th class="row-h">Model</th>` +
+    dims.map(d => `<th class="dim" title="${d.id}">${d.id.replace(/_/g, " ")}</th>`).join("") + `</tr>`;
+  const body = rows.map(r => {
+    const cells = dims.map(d => {
+      const v = (r.per_dim || []).find(x => x.id === d.id);
+      if (!v || v.r == null) return `<td class="na">—</td>`;
+      const col = (v.r >= 0 ? cssVar("--color-success") : cssVar("--color-error")) + aHex(Math.abs(v.r));
+      return `<td style="background:${col}" title="${d.id}: r=${v.r.toFixed(3)} · MAE=${v.mae ?? "—"} · n=${v.n}">${v.r.toFixed(2)}</td>`;
+    }).join("");
+    return `<tr><th class="row-h">${r.model} <span class="badge ${r.status}">${r.status}</span></th>${cells}</tr>`;
+  }).join("");
+  document.getElementById("heatWrap").innerHTML = `<table id="heatTable"><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+
+function renderDist() {
+  const rows = filtered()
+    .map(r => ({ r, rs: (r.per_item || []).map(p => p.r).filter(x => x != null) }))
+    .filter(o => o.rs.length >= 3)
+    .sort((a, b) => (b.r.appraisal_calibration ?? -9) - (a.r.appraisal_calibration ?? -9));
+  const note = document.getElementById("distNote");
+  const host = document.getElementById("distRows");
+  if (!rows.length) {
+    note.textContent = "No per-item scores available yet.";
+    host.innerHTML = "";
+    return;
+  }
+  const { series: PALETTE, ink: INK } = palette();
+  const q = (xs, p) => { const s = [...xs].sort((a, b) => a - b); const pos = (s.length - 1) * p, b = Math.floor(pos), t = pos - b;
+    return s[b + 1] !== undefined ? s[b] + t * (s[b + 1] - s[b]) : s[b]; };
+  const LO = -0.2, HI = 1.0, pos = v => ((v - LO) / (HI - LO)) * 100;
+  note.textContent = `Per-item Pearson r distribution · box = interquartile range, vertical line = median, dots = items (n per model at right). ${rows.length} of ${state.data.length} models shown.`;
+  host.innerHTML = rows.map((o, i) => {
+    const col = PALETTE[i % PALETTE.length];
+    const min = Math.min(...o.rs), max = Math.max(...o.rs);
+    const q1 = q(o.rs, .25), med = q(o.rs, .5), q3 = q(o.rs, .75);
+    const dots = o.rs.map((v, k) => {
+      const h = [...(o.r.model_id + k)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 997, 7);
+      const left = Math.min(100, Math.max(0, (v - LO) / (HI - LO) * 100));
+      const top = 50 + (((h % 100) / 100) * 44 - 22);
+      return `<i style="left:${left}%;top:${top}%;background:${col}bb"></i>`;
+    }).join("");
+    return `<div class="dist-row">
+      <div><div class="name">${o.r.model}</div><div class="name-sub">${o.r.status} · ${meta(o.r, "org")}</div></div>
+      <div class="dist-track"><div class="dist-box" style="left:${(q1 - LO) / (HI - LO) * 100}%;width:${(q3 - q1) / (HI - LO) * 100}%;background:${col}22"></div>
+        <div class="dist-med" style="left:${(med - LO) / (HI - LO) * 100}%"></div>${dots}</div>
+      <div class="dist-stats">med ${med.toFixed(2)} · iqr ${(q3 - q1).toFixed(2)}<br>min ${min.toFixed(2)} · max ${max.toFixed(2)} · n=${o.rs.length}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderEI() {
+  const rows = filtered().filter(r => r.aggregate_ei != null)
+    .sort((a, b) => b.aggregate_ei - a.aggregate_ei);
+  const ctxEl = document.getElementById("eiChart");
+  if (eiChart) { eiChart.destroy(); eiChart = null; }
+  const host = document.getElementById("eiMatrix");
+  if (!rows.length) { host.innerHTML = `<p class="note">No aggregate EI scores available.</p>`; return; }
+  const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
+  eiChart = new Chart(ctxEl, {
+    type: "bar",
+    data: {
+      labels: rows.map(r => r.model),
+      datasets: [{
+        data: rows.map(r => r.aggregate_ei),
+        backgroundColor: c => PALETTE[c.dataIndex % PALETTE.length] + "cc",
+        hoverBackgroundColor: c => PALETTE[c.dataIndex % PALETTE.length],
+        borderWidth: 0, barPercentage: 0.7, categoryPercentage: 0.9,
+      }],
+    },
+    options: {
+      indexAxis: "y", maintainAspectRatio: false,
+      animation: { duration: 600, easing: "easeOutQuart" },
+      layout: { padding: { right: 56 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS, padding: 10, cornerRadius: 0, displayColors: false,
+          callbacks: { label: c => ` aggregate EI ${c.parsed.x.toFixed(3)} · ${rows[c.dataIndex].n_subscores_measured}/${rows[c.dataIndex].n_subscores_total} subscores measured` },
+        },
+        datalabels: {
+          anchor: "end", align: "end", offset: 6, clamp: true,
+          formatter: v => v.toFixed(3), font: { family: "ui-monospace,monospace", size: 11, weight: "bold" }, color: INK,
+        },
+      },
+      scales: {
+        x: { min: 0, suggestedMax: 1, grid: { color: LINE }, border: { display: false },
+             ticks: { font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
+        y: { grid: { display: false }, border: { display: false },
+             ticks: { font: { size: 12.5, weight: "500" }, color: INK } },
+      },
+    },
+  });
+  const head = `<tr><th class="row-h">Model</th>${SUBSCORES.map(s => `<th>${s.label}</th>`).join("")}<th>Aggregate EI</th><th>n/7</th></tr>`;
+  const body = rows.map(r => {
+    const cell = s => {
+      const st = r.subscore_status?.[s.k];
+      const v = r.subscores?.[s.k];
+      if (st === "structural_zero") return `<td class="sc sz" title="structural zero - not applicable to this run type">0*</td>`;
+      if (st === "measured" && v != null) return `<td class="sc">${v.toFixed(3)}</td>`;
+      return `<td class="sc na" title="not measured">—</td>`;
+    };
+    return `<tr><th class="row-h">${r.model} <span class="badge ${r.status}">${r.status}</span></th>${SUBSCORES.map(s => cell(s)).join("")}
+      <td class="sc agg">${r.aggregate_ei.toFixed(3)}</td><td class="sc">${r.n_subscores_measured}/${r.n_subscores_total}</td></tr>`;
+  }).join("");
+  host.innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+
 function buildControls() {
   const c = document.getElementById("controls");
   const origins = [...new Set(state.data.map(r => meta(r, "origin")))].sort();
@@ -301,6 +640,7 @@ function toggle(btn) {
   set.has(v) ? set.delete(v) : set.add(v);
   btn.classList.toggle("on");
   render();
+  renderCurrent();
 }
 
 function passes(r) {
@@ -317,6 +657,9 @@ function key(r, k) {
     case "weights": return meta(r, "weights");
     case "cal": return r.appraisal_calibration;
     case "dir": return r.direction_pct ?? -1;
+    case "ms": return r.runtime?.median_ms ?? null;
+    case "tps": return r.runtime?.tokens_per_sec ?? null;
+    case "cost": return r.cost_per_item_usd ?? null;
     case "n": return r.n_parsed;
     case "status": return r.status;
     case "run_at": return r.run_at;
@@ -325,15 +668,19 @@ function key(r, k) {
 }
 
 function render() {
-  const rows = state.data.filter(passes).sort((a, b) => {
+  const rows = filtered().sort((a, b) => {
     const x = key(a, state.sortKey), y = key(b, state.sortKey);
+    if (x == null && y == null) return 0;
+    if (x == null) return 1;   // missing values always sink
+    if (y == null) return -1;
     return (x < y ? -1 : x > y ? 1 : 0) * state.dir;
   });
   document.getElementById("head").innerHTML = COLS.map(c =>
     `<th data-k="${c.sort || ""}">${c.label}${c.sort && state.sortKey === c.sort ? ` <span class="arrow">${state.dir < 0 ? "▼" : "▲"}</span>` : ""}</th>`).join("");
   document.getElementById("head").querySelectorAll("th").forEach(th => th.onclick = () => {
     const k = th.dataset.k; if (!k) return;
-    state.dir = state.sortKey === k ? -state.dir : -1;
+    const ascFirst = k === "ms" || k === "cost";   // lower-is-better columns sort ascending first
+    state.dir = state.sortKey === k ? -state.dir : (ascFirst ? 1 : -1);
     state.sortKey = k; render();
   });
   const tb = document.getElementById("rows");
@@ -341,14 +688,18 @@ function render() {
   rows.forEach((r, i) => {
     const tr = document.createElement("tr");
     const sel = state.selected.has(r.model_id);
+    const rt = r.runtime || {};
     tr.innerHTML = `
       <td class="num mono">${i + 1}</td>
       <td><strong>${r.model}</strong><div class="mono" style="font-size:11px;color:var(--muted)">${r.model_id}</div></td>
       <td>${meta(r, "org")}</td>
       <td class="origin">${meta(r, "origin")}</td>
       <td>${meta(r, "weights")}</td>
-      <td class="num mono"><strong>${(r.appraisal_calibration * 100).toFixed(1)}%</strong><div class="mono" style="font-size:10px;color:var(--muted)">r=${fmt(r.appraisal_calibration)}</div></td>
+      <td class="num mono"><strong>${r.appraisal_calibration == null ? "—" : (r.appraisal_calibration * 100).toFixed(1) + "%"}</strong><div class="mono" style="font-size:10px;color:var(--muted)">r=${fmt(r.appraisal_calibration)}</div></td>
       <td class="num mono">${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</td>
+      <td class="num mono">${rt?.median_ms != null ? rt.median_ms.toFixed(0) : "—"}</td>
+      <td class="num mono">${rt?.tokens_per_sec != null ? rt.tokens_per_sec.toFixed(0) : "—"}</td>
+      <td class="num mono">${r.cost_per_item_usd != null ? "$" + r.cost_per_item_usd.toFixed(4) : "—"}</td>
       <td class="num mono">${r.n_parsed}/${r.n_items}</td>
       <td><span class="badge ${r.status}">${r.status}</span></td>
       <td class="mono" style="font-size:11px">${(r.run_at || "").slice(0, 10)}</td>
@@ -369,7 +720,10 @@ function toggleDetail(tr, r) {
   d.className = "detail";
   const items = (r.per_item || []).map(p => p.r).filter(x => x != null);
   const spark = items.map(x => `<i style="height:${Math.max(1, x * 28)}px" title="${x.toFixed(3)}"></i>`).join("");
-  d.innerHTML = `<td colspan="${COLS.length}"><div class="kv">per-item Pearson r (n=${items.length}) · gold: ${r.gold_source}</div><div class="spark">${spark}</div></td>`;
+  const rt = r.runtime;
+  const speed = rt ? ` · median ${rt.median_ms.toFixed(0)} ms/item · p95 ${rt.p95_ms?.toFixed(0) ?? "—"} ms` +
+    (rt.tokens_per_sec ? ` · ${rt.tokens_per_sec.toFixed(0)} tok/s` : "") : "";
+  d.innerHTML = `<td colspan="${COLS.length}"><div class="kv">per-item Pearson r (n=${items.length}) · gold: ${r.gold_source}${speed}</div><div class="spark">${spark}</div></td>`;
   tr.parentNode.insertBefore(d, next);
 }
 
@@ -385,25 +739,40 @@ function showCompare() {
       const items = (r.per_item || []).map(p => p.r).filter(x => x != null);
       const mean = items.reduce((a, b) => a + b, 0) / (items.length || 1);
       const min = Math.min(...items), max = Math.max(...items);
+      const rt = r.runtime;
+      const speed = rt ? ` · ${rt.median_ms?.toFixed(0) ?? "—"} ms/item` : "";
       return `<div class="cmp-col"><h3>${r.model}</h3>
         <div class="kv">${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")}</div>
-        <div class="num mono" style="font-size:22px;margin-top:8px">${(r.appraisal_calibration * 100).toFixed(1)}%</div>
+        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_calibration == null ? "—" : (r.appraisal_calibration * 100).toFixed(1) + "%"}</div>
         <div class="kv">alignment (r=${fmt(r.appraisal_calibration)})</div>
-        <div class="bar" style="width:${Math.max(0, r.appraisal_calibration) * 100}%"></div>
+        <div class="bar" style="width:${Math.max(0, r.appraisal_calibration ?? 0) * 100}%"></div>
         <div class="kv">direction match: <strong>${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</strong></div>
         <div class="kv">per-item: mean ${mean.toFixed(3)} · min ${min.toFixed(3)} · max ${max.toFixed(3)}</div>
-        <div class="kv">status: ${r.status} · gold: ${r.gold_source}</div></div>`;
+        <div class="kv">status: ${r.status} · gold: ${r.gold_source}${speed}</div></div>`;
     }).join("") + `</div>`;
+}
+
+function renderRadarForSelection() {
+  renderRadar(state.data.filter(r => state.selected.has(r.model_id)));
 }
 
 boot();
 
-// Theme toggle: swap the data-theme attribute, persist, re-render charts
-// (they read CSS vars fresh on every render).
-function renderRadarForSelection() {
-  const sel = state.data.filter(r => state.selected.has(r.model_id));
-  renderRadar(sel);
+// View switching. Charts render lazily per view (hidden containers have zero
+// size, so Chart.js needs the section visible first).
+function buildTabs() {
+  const t = document.getElementById("tabs");
+  t.innerHTML = VIEWS.map(v => `<button class="tab" data-v="${v.id}">${v.label}</button>`).join("");
+  t.querySelectorAll(".tab").forEach(b => b.onclick = () => showView(b.dataset.v));
 }
+
+document.getElementById("paretoX").onchange = e => {
+  state.paretoX = e.target.value;
+  renderPareto();
+};
+
+// Theme toggle: swap the data-theme attribute, persist, re-render the active
+// view (charts read CSS vars fresh on every render).
 document.getElementById("themeBtn").onclick = () => {
   const dark = document.documentElement.getAttribute("data-theme") === "dark";
   const next = dark ? "light" : "dark";
@@ -411,8 +780,7 @@ document.getElementById("themeBtn").onclick = () => {
   else document.documentElement.removeAttribute("data-theme");
   localStorage.setItem("ae-theme", next);
   document.getElementById("themeBtn").textContent = next === "dark" ? "◐ light" : "◐ dark";
-  renderBar();
-  renderRadarForSelection();
+  renderCurrent();
 };
 // keep the button label honest on load
 document.getElementById("themeBtn").textContent =
