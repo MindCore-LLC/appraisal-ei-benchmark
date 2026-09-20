@@ -63,7 +63,7 @@
 <body>
 <header>
   <nav style="display:flex;justify-content:space-between;align-items:center"><a href="index.html">&larr; Leaderboard</a><button id="themeBtn" class="plain" style="text-decoration:none;border:1px solid var(--line);padding:3px 10px;font-size:11px;cursor:pointer;color:var(--muted);background:none;font-family:inherit" title="Toggle dark mode">◐ dark</button></nav>
-  <h1>Methodology <span class="mono" style="font-size:13px;color:var(--muted)">v1.0.0</span></h1>
+  <h1>Methodology <span class="mono" style="font-size:13px;color:var(--muted)">v1.5.0</span></h1>
   <div class="sub">How the Appraisal-EI Benchmark works, end to end - no code reading required.</div>
 </header>
 
@@ -81,12 +81,14 @@ urgency, intensity, coping potential, social desirability, moral worth, attribut
 <h2>The stimuli</h2>
 <table>
   <tr><th>Set</th><th>Size</th><th>Form</th><th>Used for</th></tr>
-  <tr><td>Text vignettes</td><td>350 (244 train / 52 val / 54 test)</td><td>Scenario paragraphs, keyword-free</td><td>Appraisal calibration eval</td></tr>
+  <tr><td>Human-gold vignette test set</td><td>84</td><td>Test-split vignettes, human consensus (3-4 calibrated raters each)</td><td><strong>Primary appraisal eval (v1.5.0)</strong></td></tr>
+  <tr><td>Template vignettes</td><td>560 (392 train / 84 val / 84 test)</td><td>Scenario paragraphs, keyword-free</td><td>Training corpus; deprecated as eval set (see gold_status 1.4.0)</td></tr>
+  <tr><td>Round-4 AI vignettes</td><td>2,038 (1,426 / 306 / 306)</td><td>LLM-written scenarios, valence-balanced</td><td>Weak-supervision training; human verification in progress</td></tr>
   <tr><td>Audio clips</td><td>1,440 RAVDESS references</td><td>Acted emotional speech</td><td>Audio-side alignment (H9)</td></tr>
 </table>
 <p><strong>Keyword-free matters:</strong> vignettes contain no emotion words. "After eight years at the firm, Sam
 was told the role would end in thirty days" - the model must infer the appraisal structure, not pattern-match a
-sentiment lexicon. The 350 items span 20 situation families (job loss, betrayal, inheritance, public error...).</p>
+sentiment lexicon. The corpus spans 20+ situation families (job loss, betrayal, inheritance, public error...); the 84-item <code>vignettes_test_human.jsonl</code> split carries human consensus gold (3-4 calibrated raters/item, weighted &kappa; 0.610 / Krippendorff &alpha; 0.823 - gate ratified 2026-09-20).</p>
 <p>Audio stimuli are <em>references</em>, not files: <code>wav_ref</code> paths map to a standard RAVDESS download
 (research-licensed, not redistributed). The same 17 dims are rated on vocal delivery, not transcripts.</p>
 
@@ -122,11 +124,14 @@ get directions mostly right and still show modest alignment - magnitudes are har
 <table>
   <tr><th>Badge</th><th>Means</th></tr>
   <tr><td><span class="badge smoke">smoke</span></td><td>Scored against <em>generator priors</em> - plausible ratings written by the vignette generator, not humans. Provisional by definition.</td></tr>
-  <tr><td><span class="badge measured">measured</span></td><td>Scored against <em>human gold</em> - real annotator ratings meeting the &kappa;&gt;0.6 agreement bar.</td></tr>
+  <tr><td><span class="badge measured">measured</span></td><td>Scored against <em>human gold</em> - real annotator ratings meeting the ratified agreement gate (quadratic-weighted &kappa; &ge; 0.6 or Krippendorff &alpha; &ge; 0.8).</td></tr>
 </table>
-<p>Gold provenance is declared per stimulus directory in <code>gold_status.json</code> - a versioned statement,
-not guessed from the data. Today's v1.0.0 stimuli are generator priors, so every current row is SMOKE. Human gold
-(Prolific annotation, &ge;2 annotators/item) lands in v1.1 and results re-badge automatically.</p>
+<p>Gold provenance is declared per stimulus file in <code>gold_status.json</code> - a versioned statement,
+not guessed from the data. As of v1.5.0 the vignette test split carries human consensus gold
+(<code>vignettes_test_human.jsonl</code>: 84 items, 3-4 calibrated raters each, agreement gate PASSED under the
+ratified ordinal metric - weighted &kappa; 0.610, Krippendorff &alpha; 0.823), and envent_* remains the
+human-rated primary eval set. Models scored against human gold are badged <strong>measured</strong>;
+older runs against generator priors stay SMOKE and re-badge only when re-run.</p>
 
 <h2>The leaderboard pipeline</h2>
 <ul>

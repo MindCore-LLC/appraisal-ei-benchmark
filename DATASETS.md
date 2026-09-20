@@ -26,6 +26,17 @@ terms as we understand them, and the required citation.
   Linguistics* 49(1). doi:10.1162/coli_a_00461
 - **Source**: https://www.romanklinger.de/data-sets/crowd-enVent2023.zip
 
+### vignettes_test_human.jsonl (v1.5.0 - MEASURED split)
+
+- **What**: 84 test-split vignettes with human consensus ratings on all 17 dims.
+- **Provenance**: mindcore round-3 human annotation study (hosted Label Studio,
+  4 calibrated core raters, 3-4 ratings/item, latest-per-rater, duplicates removed).
+- **Agreement**: quadratic-weighted kappa 0.610, Krippendorff alpha (interval) 0.823,
+  within-1 88% - gate PASSED under the ratified ordinal metric (PREREGISTRATION
+  2026-09-20 in mindcore-poc). Unweighted kappa 0.235 reported for transparency.
+- **Role**: primary vignette evaluation set as of v1.5.0. Rows carry
+  `source: "human_core_consensus"`.
+
 ### Dimension mapping (enVENT 21 vars → our 17 dims)
 
 enVENT items are 1-5 Likert ("Not at all" to "Extremely"); our schema is
@@ -115,7 +126,7 @@ measures.
 
 ## Known gaps (no public dataset found — own annotation required)
 
-- Human appraisal ratings on **our own** vignette families (κ > 0.6
+- ~~Human appraisal ratings on our own vignette families~~ DONE 2026-09-20: `vignettes_test_human.jsonl` (84 test items, human consensus); full-corpus human ratings live in mindcore-poc `data/appraisal_labeled/` (κ > 0.6
   preregistered requirement; the FULL 560-item corpus is the annotation
   pool - all splits annotated, amended up from the 300-500 range). enVENT
   is adjacent gold, not a substitute: different text register, different

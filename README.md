@@ -8,14 +8,15 @@ Companion to [EQ-Bench](https://eqbench.com) and EmoBench, not a replacement:
 those test emotional reasoning and recognition; this tests the appraisal
 dimensions that appraisal theory says *produce* the emotion.
 
-**Spec: [SPEC.md](SPEC.md) - the normative document. Version: 1.0.0.**
+**Spec: [SPEC.md](SPEC.md) - the normative document. Version: 1.5.0.**
 
 ## Layout
 
 ```
 schema/rating_schema.json     # 17 dims, prompts, -3..+3 scale (normative)
-stimuli/text/                 # 560 keyword-free vignettes + 1,200 crowd-enVENT
-                              # human-rated events (train/val/test each)
+stimuli/text/                 # 560 template vignettes + 2,038 round-4 AI vignettes
+                              # + 84 human-gold test items (vignettes_test_human.jsonl)
+                              # + 1,200 crowd-enVENT human-rated events
 stimuli/audio/manifest_v1     # 1,440 RAVDESS refs (wavs not redistributed)
 annotation/                   # Prolific/MTurk task exports (text + audio)
 scoring/score.py              # reference scorer (numpy+scipy only)
