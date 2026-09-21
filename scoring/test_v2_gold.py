@@ -51,7 +51,13 @@ def test_human_ceiling_row():
 
 def test_smoke_archived():
     assert (REPO / "results" / "archive" / "meta-llama-llama-3-3-70b-instruct-turbo.json").exists()
-    assert not (REPO / "results" / "meta-llama-llama-3-3-70b-instruct-turbo.json").exists()
+    # The generator-prior smoke lives in archive/. The issue-1 re-run recreated
+    # this path on the human holdout - if present it must be a measured run.
+    live = REPO / "results" / "meta-llama-llama-3-3-70b-instruct-turbo.json"
+    if live.exists():
+        d = json.loads(live.read_text(encoding="utf-8"))
+        assert d["status"] == "measured", d["status"]
+        assert d["stimuli"].endswith("vignettes_test_human.jsonl"), d["stimuli"]
 
 
 def test_default_stimuli_is_holdout():
