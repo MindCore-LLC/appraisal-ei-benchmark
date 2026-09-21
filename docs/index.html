@@ -30,36 +30,50 @@
   * { box-sizing: border-box; margin: 0; }
   body { background: var(--paper); color: var(--ink); font: 400 15px/1.5 var(--font-sans); }
   .mono { font-family: var(--font-mono); }
-  header { border-bottom: 1px solid var(--ink); padding: 28px 24px 20px; }
-  h1 { font-size: 22px; font-weight: 500; letter-spacing: -0.01em; }
-  .sub { color: var(--muted); margin-top: 4px; font-size: 13px; }
-  .banner { margin: 0 24px; padding: 10px 12px; border: 1px solid var(--smoke); background: var(--color-warning-tint); color: var(--smoke);
-            font-size: 12px; margin-top: 16px; max-width: 720px; }
-  .tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 12px 24px 0; border-bottom: 1px solid var(--line); }
-  .tab { border: 1px solid var(--line); border-bottom: none; background: transparent; color: var(--muted); padding: 7px 14px;
-         font: 500 12.5px var(--font-sans); cursor: pointer; }
+  header { border-bottom: 1px solid var(--ink); padding: var(--space-5) var(--space-5) var(--space-4); }
+  .kicker { font: 500 var(--text-label-mono) var(--font-mono); text-transform: uppercase;
+            letter-spacing: var(--text-label-mono--tracking, .1em); color: var(--muted); }
+  h1 { font-family: var(--font-sans); font-size: var(--text-display, 34px); font-weight: 500;
+       line-height: var(--text-display--line-height, 1.1); letter-spacing: -0.015em; margin-top: var(--space-2); }
+  .sub { color: var(--color-text-secondary); margin-top: var(--space-2); font-size: var(--text-small);
+         line-height: var(--text-small--line-height); max-width: 760px; }
+  .banner { margin: 0 var(--space-5); padding: 10px var(--space-3); border: 1px solid var(--smoke);
+            background: var(--color-warning-tint); color: var(--smoke);
+            font-size: var(--text-caption); margin-top: var(--space-4); max-width: 720px; }
+  .tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: var(--space-3) var(--space-5) 0; border-bottom: 1px solid var(--line); }
+  .tab { border: 1px solid var(--line); border-bottom: none; background: transparent; color: var(--muted);
+         padding: 7px 14px; font: 500 12.5px var(--font-sans); cursor: pointer; }
+  .tab:hover { color: var(--ink); }
   .tab.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .controls { display: flex; flex-wrap: wrap; gap: 20px; padding: 16px 24px; border-bottom: 1px solid var(--line); }
-  .group { font-size: 12px; }
+  .controls { display: flex; flex-wrap: wrap; gap: var(--space-5); padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--line); }
+  .group { font-size: var(--text-caption); }
   .group .label { text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-size: 10px; margin-bottom: 6px; }
   .chip { border: 1px solid var(--ink); background: transparent; color: var(--ink); padding: 4px 10px;
           font: 500 12px var(--font-sans); cursor: pointer; margin-right: 4px; }
   .chip.on { background: var(--ink); color: var(--paper); }
   select.plain { font: 500 12px var(--font-sans); padding: 4px 8px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
-  main { padding: 0 24px 60px; }
+  main { padding: 0 var(--space-5) 60px; }
   .view[hidden] { display: none; }
-  .note { font-size: 12px; color: var(--muted); margin: 14px 0 0; max-width: 900px; }
-  table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .note { font-size: var(--text-caption); color: var(--muted); margin: 14px 0 0; max-width: 900px; }
+  table { width: 100%; border-collapse: collapse; margin-top: var(--space-4); }
   th { text-align: left; font: 500 11px var(--font-sans); text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
        padding: 8px 10px; border-bottom: 1px solid var(--ink); cursor: pointer; user-select: none; white-space: nowrap; }
-  th .arrow { font-size: 10px; }
+  th.sortable .arrow { font-size: 9px; color: var(--color-disabled-text); margin-left: 2px; }
+  th[aria-sort="ascending"] .arrow, th[aria-sort="descending"] .arrow { color: var(--ink); }
   td { padding: 10px; border-bottom: 1px solid var(--line); font-size: 14px; }
-  tr:hover td { background: var(--color-sunken); }
+  tbody tr:hover td { background: var(--color-sunken); }
+  /* the human baseline row: pinned, brand-marked, not a competitor */
+  tr.baseline td, tr.baseline th { background: var(--color-signature-tint); border-bottom: 1px solid var(--color-signature); }
+  tr.baseline td:first-child, tr.baseline th.row-name { color: var(--color-signature); }
+  tr.baseline:hover td, tr.baseline:hover th { background: var(--color-signature-tint); }
+  .baseline-tag { font: 500 10px var(--font-mono); text-transform: uppercase; letter-spacing: .08em;
+                  color: var(--color-signature); border: 1px solid var(--color-signature);
+                  padding: 2px 6px; }
   .num { font-variant-numeric: tabular-nums; }
   .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
   .badge.smoke { color: var(--smoke); border-color: var(--smoke); background: var(--color-warning-tint); }
   .badge.measured { color: var(--meas); border-color: var(--meas); background: var(--color-success-tint); }
-  .badge.human { color: var(--ink); border-color: var(--ink); background: var(--color-sunken); }
+  .badge.human { color: var(--color-signature); border-color: var(--color-signature); background: var(--color-signature-tint); }
   .origin { font-size: 12px; color: var(--muted); }
   #compare { display: none; margin-top: 24px; border: 1px solid var(--ink); padding: 16px; }
   #compare.open { display: block; }
@@ -115,14 +129,15 @@
 <body>
 <header>
   <nav style="font-size:12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
-    <a href="methodology.html" style="color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.08em">Methodology &rarr;</a>
+    <a href="methodology.html" class="kicker" style="text-decoration:none">Methodology &rarr;</a>
     <button id="themeBtn" class="plain" style="text-decoration:none;border:1px solid var(--line);padding:3px 10px;font-size:11px" title="Toggle dark mode">◐ dark</button>
   </nav>
-  <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:13px;color:var(--muted)" id="ver"></span></h1>
+  <div class="kicker">MindCore Research · Leaderboard</div>
+  <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:14px;color:var(--muted);letter-spacing:0" id="ver"></span></h1>
   <div class="sub">17-dimension appraisal structure vs human gold. Headline =
     <strong>calibration</strong> (mean per-item Pearson r). Second metric =
     <strong>discriminant validity</strong> (dimension-specific vs valence smear).
-    Human ceiling is leave-one-rater-out on the same 84-item holdout
+    The human baseline is leave-one-rater-out on the same 84-item holdout
     (23 unique scenarios). Pin tag v2.0.0, never <span class="mono">main</span>.</div>
   <div class="banner" id="banner">Loading...</div>
 </header>
@@ -168,7 +183,7 @@
 
   <section class="view" id="view-dims" hidden>
     <p class="note">Per-dimension Pearson r between model and gold ratings across the test split.
-      Green = tracks the dimension, red = anti-correlated, &mdash; = not measured (too few paired observations or gold lacks the dimension).</p>
+      Green = tracks the dimension, red = anti-correlated, "–" = not measured (too few paired observations or gold lacks the dimension).</p>
     <div class="legend"><span>-1</span><div class="grad"></div><span>+1</span></div>
     <div id="heatWrap"></div>
   </section>
@@ -187,13 +202,13 @@
     <div id="eiMatrix"></div>
     <p class="note"><strong>v2.0.0 public metrics</strong> are calibration and discriminant
       validity only. Roadmap slots (value–action, persistence, acoustic risk, steering)
-      are named and <em>null</em> — they are not zeros and they are not averaged into a
+      are named and <em>null</em>: they are not zeros and they are not averaged into a
       headline. <strong>Human mimicry</strong> is measured (reported, not averaged): can a
-      discriminator tell the model’s vectors from rater vectors? 1.0 = indistinguishable
-      from the rater pool. The human reference band — the same test run with each real
-      rater as the “model” — is 0.08–0.46, because every rater has a fingerprint; all
-      three measured models (0.15–0.18) sit inside that band. Discriminant validity near
-      0.25 means models recover “this is bad” better than they separate unfair vs
+      discriminator tell the model's vectors from rater vectors? 1.0 = indistinguishable
+      from the rater pool. The human reference band, computed from the rater vectors
+      (<span id="mimBand">…</span>), marks what an actual human rater scores: every rater
+      has a fingerprint the discriminator learns. Discriminant validity near
+      0.25 means models recover "this is bad" better than they separate unfair vs
       uncontrollable vs urgent.</p>
   </section>
 </main>
@@ -243,11 +258,12 @@ const ROADMAP = [
 ];
 
 const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "cal", dir: -1,
-                selected: new Set(), data: [], view: "board", paretoX: "ms", showSmoke: false };
+                selected: new Set(), data: [], view: "board", paretoX: "ms", showSmoke: false,
+                human: null, humanRef: null };
 
-const fmt = v => v == null ? "—" : (typeof v === "number" ? v.toFixed(3) : v);
+const fmt = v => v == null ? "–" : (typeof v === "number" ? v.toFixed(3) : v);
 
-function meta(r, k) { return (r.meta && r.meta[k]) ?? "—"; }
+function meta(r, k) { return (r.meta && r.meta[k]) ?? "–"; }
 
 const PARETO_X = {
   ms:   { label: "Median latency (ms/item)", get: r => r.runtime?.median_ms, lowerBetter: true,
@@ -262,11 +278,16 @@ async function boot() {
   const payload = await fetch("data.json").then(r => r.json());
   document.getElementById("ver").textContent = "v" + payload.benchmark_version;
   const anySmoke = payload.results.some(r => r.status === "smoke");
-  const nMeas = payload.results.filter(r => r.status === "measured").length;
+  const nMeas = payload.results.filter(r => r.status === "measured" && r.model_id !== "human").length;
   document.getElementById("banner").textContent = anySmoke
-    ? `v${payload.benchmark_version}: ${nMeas} measured runs on human gold. Smoke/provisional runs are hidden until you toggle them.`
-    : `v${payload.benchmark_version}: scored against human gold. Headline is calibration, not an aggregate of unimplemented arms.`;
+    ? `v${payload.benchmark_version}: ${nMeas} measured models on human gold, against the human baseline. Smoke/provisional runs are hidden until you toggle them.`
+    : `v${payload.benchmark_version}: ${nMeas} measured models scored against human gold, ranked against the human baseline. Headline is calibration, not an aggregate of unimplemented arms.`;
   state.data = payload.results;
+  state.human = payload.results.find(r => r.model_id === "human") || null;
+  state.humanRef = payload.human_reference || null;
+  const band = state.humanRef?.mimicry_band;
+  if (band) document.getElementById("mimBand").textContent =
+    `${band[0].toFixed(2)} to ${band[1].toFixed(2)} per rater`;
   const q = new URLSearchParams(location.search);
   const v = q.get("view");
   if (VIEWS.some(x => x.id === v)) state.view = v;
@@ -298,6 +319,45 @@ const palette = () => ({
 let barChart = null, radarChart = null, paretoChart = null, eiChart = null;
 if (window.ChartDataLabels) Chart.register(ChartDataLabels);
 
+// Dashed reference line at the human baseline, drawn after the data. The
+// single most important context on a benchmark board: how close is the best
+// model to the human ceiling.
+const ceilingLine = {
+  id: "ceilingLine",
+  afterDatasetsDraw(chart, args, opts) {
+    const v = opts?.value;
+    if (v == null) return;
+    const { ctx, chartArea: a, scales } = chart;
+    if (!a) return;
+    const sig = cssVar("--color-signature") || "#8A3A6B";
+    ctx.save();
+    ctx.strokeStyle = sig;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 4]);
+    let x, y;
+    if (opts.horizontal) {
+      y = scales.y.getPixelForValue(v);
+      ctx.beginPath(); ctx.moveTo(a.left, y); ctx.lineTo(a.right, y); ctx.stroke();
+    } else {
+      x = scales.x.getPixelForValue(v);
+      ctx.beginPath(); ctx.moveTo(x, a.top); ctx.lineTo(x, a.bottom); ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.font = "500 10px " + cssVar("--font-mono");
+    ctx.fillStyle = sig;
+    const label = (opts.label || "") + " " + v.toFixed(3);
+    const w = ctx.measureText(label).width;
+    const tx = (opts.horizontal ? a.right : x) - w - 6;
+    const ty = (opts.horizontal ? y : a.top) + (opts.horizontal ? -6 : 12);
+    ctx.fillText(label, opts.horizontal ? tx : Math.min(x + 6, a.right - w), ty);
+    ctx.restore();
+  },
+};
+
+const humanCal = () => state.human?.appraisal_calibration ?? null;
+
+Chart.register(ceilingLine);
+
 const filtered = () => state.data.filter(passes);
 
 function renderCurrent() {
@@ -324,7 +384,7 @@ function showView(v) {
 }
 
 function renderBar() {
-  const rows = filtered().filter(r => r.appraisal_calibration != null)
+  const rows = filtered().filter(r => r.appraisal_calibration != null && r.model_id !== "human")
     .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
   const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
   const ctx = document.getElementById("barChart");
@@ -336,16 +396,10 @@ function renderBar() {
       labels: rows.map(r => r.model),
       datasets: [{
         data: rows.map(r => r.appraisal_calibration),
-        backgroundColor: c => {
-          const { ctx: g, chartArea } = c.chart;
-          if (!chartArea) return PALETTE[c.dataIndex % PALETTE.length];
-          const grad = g.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
-          const col = PALETTE[c.dataIndex % PALETTE.length];
-          grad.addColorStop(0, col + "cc");
-          grad.addColorStop(1, col);
-          return grad;
-        },
-        hoverBackgroundColor: c => PALETTE[c.dataIndex % PALETTE.length],
+        // One metric, one hue: a rainbow implies categorical difference where
+        // there is only rank. The human baseline carries the brand color.
+        backgroundColor: cssVar("--color-data") || PALETTE[0],
+        hoverBackgroundColor: cssVar("--color-signature") || PALETTE[0],
         borderWidth: 0,
         barPercentage: 0.72,
         categoryPercentage: 0.9,
@@ -357,13 +411,18 @@ function renderBar() {
       animation: { duration: 700, easing: "easeOutQuart" },
       layout: { padding: { right: 48 } },
       plugins: {
+        ceilingLine: { value: humanCal(), label: "human baseline" },
         legend: { display: false },
         tooltip: {
           backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS,
           titleFont: { size: 12 }, bodyFont: { size: 11 },
           padding: 10, cornerRadius: 0, displayColors: false,
           callbacks: {
-            label: c => ` r=${c.parsed.x.toFixed(3)} calibration · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)} · ${meta(rows[c.dataIndex], "org")}`,
+            label: c => {
+              const h = humanCal();
+              const delta = h == null ? "" : ` · ${h - c.parsed.x >= 0 ? "-" : "+"}${Math.abs(h - c.parsed.x).toFixed(3)} vs human`;
+              return ` r=${c.parsed.x.toFixed(3)} calibration${delta} · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)} · ${meta(rows[c.dataIndex], "org")}`;
+            },
           },
         },
         datalabels: {
@@ -454,7 +513,7 @@ function renderPareto() {
   }
   note.textContent = sel.length < 2
     ? "Only one model has data for this axis so far - the frontier is trivial until more models are re-run."
-    : `${sel.length} of ${state.data.length} models have data. Dashed step line = Pareto frontier (no model on it is beaten on both axes). Hollow points = smoke runs.`;
+    : `${sel.length} of ${state.data.length} models have data. Dashed step line = Pareto frontier (no model on it is beaten on both axes). Dashed horizontal line = human baseline. Hollow points = smoke runs.`;
   const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
   const pts = sel.map(r => ({ x: conf.get(r), y: r.appraisal_calibration, r }));
   const f = frontier(pts, conf.lowerBetter);
@@ -478,6 +537,7 @@ function renderPareto() {
       animation: { duration: 600, easing: "easeOutQuart" },
       layout: { padding: { top: 12 } },
       plugins: {
+        ceilingLine: { value: humanCal(), horizontal: true, label: "human baseline" },
         legend: { display: false },
         tooltip: {
           backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS,
@@ -487,7 +547,9 @@ function renderPareto() {
             label: c => {
               const r = c.raw._r;
               if (!r) return ` Pareto frontier`;
-              return [` ${(r.appraisal_calibration * 100).toFixed(1)}% alignment (r=${r.appraisal_calibration.toFixed(3)})`,
+              const h = humanCal();
+              const delta = h == null ? "" : ` · ${h - r.appraisal_calibration >= 0 ? "-" : "+"}${Math.abs(h - r.appraisal_calibration).toFixed(3)} vs human`;
+              return [` ${(r.appraisal_calibration * 100).toFixed(1)}% alignment (r=${r.appraisal_calibration.toFixed(3)}${delta})`,
                       ` ${conf.label}: ${conf.fmt(c.parsed.x)}`,
                       ` ${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")} · ${r.status}`];
             },
@@ -502,7 +564,7 @@ function renderPareto() {
       },
       scales: {
         x: { type: "linear", min: 0, grid: { color: LINE }, border: { display: false },
-             title: { display: true, text: conf.label + (conf.lowerBetter ? " — lower is better" : " — higher is better"),
+             title: { display: true, text: conf.label + (conf.lowerBetter ? " (lower is better)" : " (higher is better)"),
                       font: { size: 11 }, color: MUTED },
              ticks: { font: { family: "ui-monospace,monospace", size: 11 }, color: MUTED } },
         y: { type: "linear", min: 0, suggestedMax: 1, grid: { color: LINE }, border: { display: false },
@@ -524,9 +586,9 @@ function renderHeatmap() {
   const body = rows.map(r => {
     const cells = dims.map(d => {
       const v = (r.per_dim || []).find(x => x.id === d.id);
-      if (!v || v.r == null) return `<td class="na">—</td>`;
+      if (!v || v.r == null) return `<td class="na">–</td>`;
       const col = (v.r >= 0 ? cssVar("--color-success") : cssVar("--color-error")) + aHex(Math.abs(v.r));
-      return `<td style="background:${col}" title="${d.id}: r=${v.r.toFixed(3)} · MAE=${v.mae ?? "—"} · n=${v.n}">${v.r.toFixed(2)}</td>`;
+      return `<td style="background:${col}" title="${d.id}: r=${v.r.toFixed(3)} · MAE=${v.mae ?? "–"} · n=${v.n}">${v.r.toFixed(2)}</td>`;
     }).join("");
     return `<tr><th class="row-h">${r.model} <span class="badge ${r.status}">${r.status}</span></th>${cells}</tr>`;
   }).join("");
@@ -535,6 +597,7 @@ function renderHeatmap() {
 
 function renderDist() {
   const rows = filtered()
+    .filter(r => r.model_id !== "human")
     .map(r => ({ r, rs: (r.per_item || []).map(p => p.r).filter(x => x != null) }))
     .filter(o => o.rs.length >= 3)
     .sort((a, b) => (b.r.appraisal_calibration ?? -9) - (a.r.appraisal_calibration ?? -9));
@@ -546,12 +609,19 @@ function renderDist() {
     return;
   }
   const { series: PALETTE, ink: INK } = palette();
+  const SIG = cssVar("--color-signature") || "#8A3A6B";
   const q = (xs, p) => { const s = [...xs].sort((a, b) => a - b); const pos = (s.length - 1) * p, b = Math.floor(pos), t = pos - b;
     return s[b + 1] !== undefined ? s[b] + t * (s[b + 1] - s[b]) : s[b]; };
   const LO = -0.2, HI = 1.0, pos = v => ((v - LO) / (HI - LO)) * 100;
-  note.textContent = `Per-item Pearson r distribution · box = interquartile range, vertical line = median, dots = items (n per model at right). ${rows.length} of ${state.data.length} models shown.`;
-  host.innerHTML = rows.map((o, i) => {
-    const col = PALETTE[i % PALETTE.length];
+  // The human LOO distribution first: this is what "human" per-item spread
+  // actually looks like on this holdout. Models render below it.
+  const human = state.human && state.human.model_id === "human"
+    ? [{ r: state.human, rs: (state.human.per_item || []).map(p => p.r).filter(x => x != null), color: SIG, isHuman: true }]
+    : [];
+  const all = human.concat(rows);
+  note.textContent = `Per-item Pearson r distribution · box = interquartile range, vertical line = median, dots = items (n per model at right). The human row is leave-one-rater-out, computed the same way a model is scored. ${rows.length} of ${state.data.length - 1} models shown.`;
+  host.innerHTML = all.map((o, i) => {
+    const col = o.color || PALETTE[i % PALETTE.length];
     const min = Math.min(...o.rs), max = Math.max(...o.rs);
     const q1 = q(o.rs, .25), med = q(o.rs, .5), q3 = q(o.rs, .75);
     const dots = o.rs.map((v, k) => {
@@ -560,8 +630,11 @@ function renderDist() {
       const top = 50 + (((h % 100) / 100) * 44 - 22);
       return `<i style="left:${left}%;top:${top}%;background:${col}bb"></i>`;
     }).join("");
+    const name = o.isHuman
+      ? `<div class="name" style="color:${SIG}">${o.r.model} <span class="baseline-tag">baseline</span></div><div class="name-sub">leave-one-rater-out · the number a model is compared to</div>`
+      : `<div class="name">${o.r.model}</div><div class="name-sub">${o.r.status} · ${meta(o.r, "org")}</div>`;
     return `<div class="dist-row">
-      <div><div class="name">${o.r.model}</div><div class="name-sub">${o.r.status} · ${meta(o.r, "org")}</div></div>
+      <div>${name}</div>
       <div class="dist-track"><div class="dist-box" style="left:${(q1 - LO) / (HI - LO) * 100}%;width:${(q3 - q1) / (HI - LO) * 100}%;background:${col}22"></div>
         <div class="dist-med" style="left:${(med - LO) / (HI - LO) * 100}%"></div>${dots}</div>
       <div class="dist-stats">med ${med.toFixed(2)} · iqr ${(q3 - q1).toFixed(2)}<br>min ${min.toFixed(2)} · max ${max.toFixed(2)} · n=${o.rs.length}</div>
@@ -570,7 +643,7 @@ function renderDist() {
 }
 
 function renderEI() {
-  const rows = filtered().filter(r => r.appraisal_calibration != null)
+  const rows = filtered().filter(r => r.appraisal_calibration != null && r.model_id !== "human")
     .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
   const ctxEl = document.getElementById("eiChart");
   if (eiChart) { eiChart.destroy(); eiChart = null; }
@@ -583,8 +656,8 @@ function renderEI() {
       labels: rows.map(r => r.model),
       datasets: [{
         data: rows.map(r => r.appraisal_calibration),
-        backgroundColor: c => PALETTE[c.dataIndex % PALETTE.length] + "cc",
-        hoverBackgroundColor: c => PALETTE[c.dataIndex % PALETTE.length],
+        backgroundColor: cssVar("--color-data") || PALETTE[0] + "cc",
+        hoverBackgroundColor: cssVar("--color-signature") || PALETTE[0],
         borderWidth: 0, barPercentage: 0.7, categoryPercentage: 0.9,
       }],
     },
@@ -593,6 +666,7 @@ function renderEI() {
       animation: { duration: 600, easing: "easeOutQuart" },
       layout: { padding: { right: 56 } },
       plugins: {
+        ceilingLine: { value: humanCal(), label: "human baseline" },
         legend: { display: false },
         tooltip: {
           backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS, padding: 10, cornerRadius: 0, displayColors: false,
@@ -613,17 +687,27 @@ function renderEI() {
   });
   const cols = PUBLIC_METRICS.concat(ROADMAP);
   const head = `<tr><th class="row-h">Model</th>${cols.map(s => `<th>${s.label}</th>`).join("")}</tr>`;
+  const cell = (r, s) => {
+    const st = r.subscore_status?.[s.k];
+    const v = r.subscores?.[s.k];
+    if (s.k === "human_mimicry" && r.model_id === "human") {
+      const band = state.humanRef?.mimicry_band;
+      return band
+        ? `<td class="sc" style="color:var(--color-signature)" title="human reference band: what an actual rater scores">${band[0].toFixed(2)} to ${band[1].toFixed(2)}</td>`
+        : `<td class="sc na">–</td>`;
+    }
+    if (st === "measured" && v != null) return `<td class="sc">${v.toFixed(3)}</td>`;
+    return `<td class="sc na" title="roadmap, not measured">–</td>`;
+  };
+  // Baseline row leads the matrix; its mimicry cell is the reference band.
+  const baseRow = state.human
+    ? `<tr class="baseline"><th class="row-name row-h">${state.human.model} <span class="badge human">baseline</span></th>${cols.map(s => cell(state.human, s)).join("")}</tr>`
+    : "";
   const body = rows.map(r => {
-    const cell = s => {
-      const st = r.subscore_status?.[s.k];
-      const v = r.subscores?.[s.k];
-      if (st === "measured" && v != null) return `<td class="sc">${v.toFixed(3)}</td>`;
-      return `<td class="sc na" title="roadmap — not measured">—</td>`;
-    };
-    const badge = r.model_id === "human" ? "human" : r.status;
-    return `<tr><th class="row-h">${r.model} <span class="badge ${badge}">${badge}</span></th>${cols.map(s => cell(s)).join("")}</tr>`;
+    const badge = r.status;
+    return `<tr><th class="row-h">${r.model} <span class="badge ${badge}">${badge}</span></th>${cols.map(s => cell(r, s)).join("")}</tr>`;
   }).join("");
-  host.innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
+  host.innerHTML = `<table><thead>${head}</thead><tbody>${baseRow}${body}</tbody></table>`;
 }
 
 function buildControls() {
@@ -650,7 +734,7 @@ function buildControls() {
 
 function group(label, vals, setName) {
   return `<div class="group"><div class="label">${label}</div>` +
-    vals.map(v => `<button class="chip" data-set="${setName}" data-v="${v}">${v === "—" ? "unknown" : v}</button>`).join("") +
+    vals.map(v => `<button class="chip" data-set="${setName}" data-v="${v}">${v === "–" ? "unknown" : v}</button>`).join("") +
     `</div>`;
 }
 
@@ -690,7 +774,10 @@ function key(r, k) {
 }
 
 function render() {
-  const rows = filtered().sort((a, b) => {
+  // The human baseline is not a competitor: it is pinned above the ranking
+  // and never sorted. Ranks run over models only.
+  const models = state.data.filter(r => r.model_id !== "human");
+  const rows = models.filter(passes).sort((a, b) => {
     const x = key(a, state.sortKey), y = key(b, state.sortKey);
     if (x == null && y == null) return 0;
     if (x == null) return 1;   // missing values always sink
@@ -698,8 +785,8 @@ function render() {
     return (x < y ? -1 : x > y ? 1 : 0) * state.dir;
   });
   document.getElementById("head").innerHTML = COLS.map(c =>
-    `<th data-k="${c.sort || ""}">${c.label}${c.sort && state.sortKey === c.sort ? ` <span class="arrow">${state.dir < 0 ? "▼" : "▲"}</span>` : ""}</th>`).join("");
-  document.getElementById("head").querySelectorAll("th").forEach(th => th.onclick = () => {
+    `<th${c.sort ? ` class="sortable" data-k="${c.sort}" aria-sort="${state.sortKey === c.sort ? (state.dir < 0 ? "descending" : "ascending") : "none"}"` : ""}>${c.label}${c.sort ? ` <span class="arrow">${state.sortKey === c.sort ? (state.dir < 0 ? "▼" : "▲") : "↕"}</span>` : ""}</th>`).join("");
+  document.getElementById("head").querySelectorAll("th.sortable").forEach(th => th.onclick = () => {
     const k = th.dataset.k; if (!k) return;
     const ascFirst = k === "ms" || k === "cost";   // lower-is-better columns sort ascending first
     state.dir = state.sortKey === k ? -state.dir : (ascFirst ? 1 : -1);
@@ -707,33 +794,39 @@ function render() {
   });
   const tb = document.getElementById("rows");
   tb.innerHTML = "";
-  rows.forEach((r, i) => {
+  const mkRow = (r, rank) => {
     const tr = document.createElement("tr");
+    if (r.model_id === "human") tr.className = "baseline";
     const sel = state.selected.has(r.model_id);
     const rt = r.runtime || {};
+    const rankCell = r.model_id === "human"
+      ? `<td class="num mono"><span class="baseline-tag">base</span></td>`
+      : `<td class="num mono">${rank}</td>`;
     tr.innerHTML = `
-      <td class="num mono">${i + 1}</td>
+      ${rankCell}
       <td><strong>${r.model}</strong><div class="mono" style="font-size:11px;color:var(--muted)">${r.model_id}</div></td>
       <td>${meta(r, "org")}</td>
       <td class="origin">${meta(r, "origin")}</td>
       <td>${meta(r, "weights")}</td>
-      <td class="num mono"><strong>${r.appraisal_calibration == null ? "—" : r.appraisal_calibration.toFixed(3)}</strong></td>
+      <td class="num mono"><strong>${r.appraisal_calibration == null ? "–" : r.appraisal_calibration.toFixed(3)}</strong></td>
       <td class="num mono">${fmt(r.subscores?.discriminant_validity)}</td>
-      <td class="num mono">${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</td>
-      <td class="num mono">${rt?.median_ms != null ? rt.median_ms.toFixed(0) : "—"}</td>
-      <td class="num mono">${rt?.tokens_per_sec != null ? rt.tokens_per_sec.toFixed(0) : "—"}</td>
-      <td class="num mono">${r.cost_per_item_usd != null ? "$" + r.cost_per_item_usd.toFixed(4) : "—"}</td>
+      <td class="num mono">${r.direction_pct == null ? "–" : r.direction_pct.toFixed(1) + "%"}</td>
+      <td class="num mono">${rt?.median_ms != null ? rt.median_ms.toFixed(0) : "–"}</td>
+      <td class="num mono">${rt?.tokens_per_sec != null ? rt.tokens_per_sec.toFixed(0) : "–"}</td>
+      <td class="num mono">${r.cost_per_item_usd != null ? "$" + r.cost_per_item_usd.toFixed(4) : "–"}</td>
       <td class="num mono">${r.n_parsed}/${r.n_items}</td>
-      <td><span class="badge ${r.model_id === "human" ? "human" : r.status}">${r.model_id === "human" ? "human" : r.status}</span></td>
+      <td><span class="badge ${r.model_id === "human" ? "human" : r.status}">${r.model_id === "human" ? "baseline" : r.status}</span></td>
       <td class="mono" style="font-size:11px">${(r.run_at || "").slice(0, 10)}</td>
-      <td><input type="checkbox" ${sel ? "checked" : ""}></td>`;
+      <td><input type="checkbox" ${sel ? "checked" : ""} aria-label="Select ${r.model} for comparison"></td>`;
     tr.querySelector("input").onchange = e => {
       e.target.checked ? state.selected.add(r.model_id) : state.selected.delete(r.model_id);
     };
     tr.onclick = e => { if (e.target.type !== "checkbox") toggleDetail(tr, r); };
-    tb.appendChild(tr);
-  });
-  document.getElementById("count").textContent = `${rows.length} of ${state.data.length} models`;
+    return tr;
+  };
+  if (state.human && (state.showSmoke || state.human.status !== "smoke")) tb.appendChild(mkRow(state.human, 0));
+  rows.forEach((r, i) => tb.appendChild(mkRow(r, i + 1)));
+  document.getElementById("count").textContent = `${rows.length} of ${state.data.length - 1} models · human baseline pinned`;
 }
 
 function toggleDetail(tr, r) {
@@ -744,7 +837,7 @@ function toggleDetail(tr, r) {
   const items = (r.per_item || []).map(p => p.r).filter(x => x != null);
   const spark = items.map(x => `<i style="height:${Math.max(1, x * 28)}px" title="${x.toFixed(3)}"></i>`).join("");
   const rt = r.runtime;
-  const speed = rt ? ` · median ${rt.median_ms.toFixed(0)} ms/item · p95 ${rt.p95_ms?.toFixed(0) ?? "—"} ms` +
+  const speed = rt ? ` · median ${rt.median_ms.toFixed(0)} ms/item · p95 ${rt.p95_ms?.toFixed(0) ?? "–"} ms` +
     (rt.tokens_per_sec ? ` · ${rt.tokens_per_sec.toFixed(0)} tok/s` : "") : "";
   d.innerHTML = `<td colspan="${COLS.length}"><div class="kv">per-item Pearson r (n=${items.length}) · gold: ${r.gold_source}${speed}</div><div class="spark">${spark}</div></td>`;
   tr.parentNode.insertBefore(d, next);
@@ -763,14 +856,14 @@ function showCompare() {
       const mean = items.reduce((a, b) => a + b, 0) / (items.length || 1);
       const min = Math.min(...items), max = Math.max(...items);
       const rt = r.runtime;
-      const speed = rt ? ` · ${rt.median_ms?.toFixed(0) ?? "—"} ms/item` : "";
+      const speed = rt ? ` · ${rt.median_ms?.toFixed(0) ?? "–"} ms/item` : "";
       return `<div class="cmp-col"><h3>${r.model}</h3>
         <div class="kv">${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")}</div>
-        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_calibration == null ? "—" : r.appraisal_calibration.toFixed(3)}</div>
+        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_calibration == null ? "–" : r.appraisal_calibration.toFixed(3)}</div>
         <div class="kv">calibration (Pearson r)</div>
         <div class="bar" style="width:${Math.max(0, r.appraisal_calibration ?? 0) * 100}%"></div>
         <div class="kv">discriminant validity: <strong>${fmt(r.subscores?.discriminant_validity)}</strong></div>
-        <div class="kv">direction match: <strong>${r.direction_pct == null ? "—" : r.direction_pct.toFixed(1) + "%"}</strong></div>
+        <div class="kv">direction match: <strong>${r.direction_pct == null ? "–" : r.direction_pct.toFixed(1) + "%"}</strong></div>
         <div class="kv">per-item: mean ${mean.toFixed(3)} · min ${min.toFixed(3)} · max ${max.toFixed(3)}</div>
         <div class="kv">status: ${r.status} · gold: ${r.gold_source}${speed}</div></div>`;
     }).join("") + `</div>`;

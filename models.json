@@ -5,7 +5,7 @@
     "human": {
       "name": "Human ceiling",
       "org": "MindCore raters",
-      "origin": "—",
+      "origin": "–",
       "weights": "human",
       "family": "human",
       "params": "4 core raters, leave-one-out",

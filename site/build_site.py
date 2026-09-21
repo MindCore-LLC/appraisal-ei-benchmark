@@ -9,9 +9,11 @@ This merges everything into one static payload the page fetches once.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "scoring"))
 
 
 def _direction_pct(result: dict) -> float | None:
@@ -71,10 +73,22 @@ def main() -> None:
     # Smoke stays in the payload so the "show provisional" toggle works; the
     # site hides it by default. Archive lives under results/archive/ and is
     # never globbed.
+    #
+    # The human reference band for human_mimicry is computed here (not
+    # hardcoded in the page) so the board and the note always agree with the
+    # rater vectors.
+    import human_mimicry
+
+    ref = human_mimicry.human_reference(human_mimicry.human_ceiling.load_rater_file())
+    band = [v for v in ref.values() if v is not None]
     payload = {
         "benchmark_version": (REPO / "VERSION").read_text().strip(),
         "headline": "appraisal_calibration",
         "public_metrics": ["appraisal_calibration", "discriminant_validity"],
+        "human_reference": {
+            "mimicry": ref,
+            "mimicry_band": [min(band), max(band)] if band else None,
+        },
         "results": results,
     }
     out = REPO / "docs" / "data.json"

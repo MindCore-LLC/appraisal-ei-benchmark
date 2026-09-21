@@ -5,6 +5,18 @@
     "appraisal_calibration",
     "discriminant_validity"
   ],
+  "human_reference": {
+    "mimicry": {
+      "rater_1": 0.4587,
+      "rater_2": 0.1807,
+      "rater_3": 0.3012,
+      "rater_4": 0.0831
+    },
+    "mimicry_band": [
+      0.0831,
+      0.4587
+    ]
+  },
   "results": [
     {
       "model": "DeepSeek V4 Flash",
@@ -14903,7 +14915,7 @@
       "meta": {
         "name": "Human ceiling",
         "org": "MindCore raters",
-        "origin": "\u2014",
+        "origin": "\u2013",
         "weights": "human",
         "family": "human",
         "params": "4 core raters, leave-one-out",
