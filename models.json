@@ -4,7 +4,7 @@
   "models": {
     "human": {
       "name": "Human ceiling",
-      "org": "MindCore raters",
+      "org": "Affective raters",
       "origin": "–",
       "weights": "human",
       "family": "human",

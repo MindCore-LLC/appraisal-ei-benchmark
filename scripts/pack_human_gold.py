@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pack round-3 human ratings into the public benchmark artifacts.
 
-Reads mindcore-poc appraisal_labeled exports (not committed here), writes:
+Reads affective-poc appraisal_labeled exports (not committed here), writes:
 
 - annotation/rater_vectors.jsonl     per-rater 17-dim vectors, anonymized ids
 - stimuli/text/vignettes_unique_human.jsonl
@@ -26,7 +26,7 @@ sys.path.insert(0, str(REPO / "scoring"))
 import human_ceiling
 import score
 
-DEFAULT_SRC = REPO.parent / "mindcore-poc" / "data" / "appraisal_labeled"
+DEFAULT_SRC = REPO.parent / "affective-poc" / "data" / "appraisal_labeled"
 
 NAMES = (r"\b(Casey|Morgan|Avery|Sam|Riley|Jordan|Alex|Devon|Emerson|Quinn|Drew|Finley"
          r"|Taylor|Reese|Rowan|Skyler|Harper|Blake|Cameron|Parker|Sage|Hayden|Elliot"

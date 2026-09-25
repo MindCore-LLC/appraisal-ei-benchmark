@@ -3,7 +3,7 @@
   "files": {
     "vignettes_test_human.jsonl": {
       "ratings_provenance": "human_core_consensus",
-      "corpus": "mindcore round-3 human annotation",
+      "corpus": "affective round-3 human annotation",
       "note": "Frozen public holdout. 84 rows, 23 unique scenarios (name-swapped duplicates). Human consensus, 3-4 calibrated raters each. Gate PASSED (weighted kappa 0.610, alpha 0.823). Ratified 2026-09-20.",
       "role": "headline evaluation set as of 2.0.0",
       "n_rows": 84,
@@ -11,7 +11,7 @@
     },
     "vignettes_unique_human.jsonl": {
       "ratings_provenance": "human_core_consensus",
-      "corpus": "mindcore round-3 human annotation, name-masked collapse",
+      "corpus": "affective round-3 human annotation, name-masked collapse",
       "note": "94 distinct texts from 560 rated rows. Not the public rank set — use when one vector per scenario is required.",
       "n_scenarios": 94
     },
