@@ -1,4 +1,4 @@
-"""Appraisal-EI Benchmark reference scorer (v2.0.0).
+"""Appraisal-EI Benchmark reference scorer (v3.0.0).
 
 Standalone - numpy + scipy only, no benchmark-consumer dependencies.
 Normative definitions live in SPEC.md section 3; this file is the executable
@@ -19,10 +19,15 @@ N_APPRAISAL = 17
 
 # Public leaderboard metrics. Everything else is a named roadmap slot, not a
 # score that gets averaged into a headline.
+# v3.0.0: headline is appraisal_tracking. appraisal_calibration (per-item r
+# over the 17 dims) is kept as a diagnostic only: a constant average profile
+# scores 0.864 on it, above every model and the human ceiling.
 PUBLIC_KEYS = (
-    "appraisal_calibration",
+    "appraisal_tracking",
     "discriminant_validity",
 )
+
+DIAGNOSTIC_KEYS = ("appraisal_calibration",)
 
 ROADMAP_KEYS = (
     "value_action",
@@ -32,7 +37,7 @@ ROADMAP_KEYS = (
     "human_mimicry",
 )
 
-AGGREGATE_KEYS = PUBLIC_KEYS + ROADMAP_KEYS
+AGGREGATE_KEYS = PUBLIC_KEYS + DIAGNOSTIC_KEYS + ROADMAP_KEYS
 
 
 def load_dimensions(schema_path: str | Path | None = None) -> list[str]:
@@ -47,15 +52,16 @@ def aggregate_ei(
 ) -> float | None:
     """Mean of the *public* metrics that were actually measured.
 
-    Headline rank is `appraisal_calibration`, not this value. This exists so a
-    two-number summary (calibration + discriminant validity) can be quoted
-    together. Roadmap keys and structural zeros are never averaged in: a
+    Headline rank is `appraisal_tracking`, not this value. This exists so a
+    two-number summary (tracking + discriminant validity) can be quoted
+    together. Diagnostic keys (appraisal_calibration) are never averaged in. Roadmap keys and structural zeros are never averaged in: a
     text-only run is not an acoustic failure, and an unimplemented sub-score
     is not a zero.
 
     `structural_zeros` is accepted for back-compat with v1 callers and is
     ignored. Status still records them via `measured_subscores`.
 
+    Changed in 3.0.0: public metrics are tracking + discriminant validity.
     Changed in 2.0.0: structural zeros no longer dilute the mean.
     Changed in 1.1.0: missing keys stopped scoring as 0.0.
     """
@@ -82,6 +88,67 @@ def measured_subscores(
         else:
             out[k] = "measured"
     return out
+
+
+def appraisal_tracking(
+    pred_by_dim: dict[str, list[float]],
+    gold_by_dim: dict[str, list[float]],
+    min_items: int = 8,
+) -> float | None:
+    """Headline (v3.0.0): mean over dims of Pearson r across items.
+
+    Asks "when the situation changes, does the model's rating move with the
+    humans'?" per dimension. A dim the gold does not vary on, or with fewer
+    than min_items pairs, is skipped (not measurable). A dim the MODEL does not
+    vary on scores 0.0, not skipped: a constant carries no information, so an
+    average-profile answer scores 0 instead of topping the board.
+
+    None if fewer than 3 dims are measurable.
+    """
+    rs = []
+    for d, ys in gold_by_dim.items():
+        xs = pred_by_dim.get(d) or []
+        if len(xs) < min_items or len(xs) != len(ys) or max(ys) - min(ys) < 1e-8:
+            continue
+        rs.append(0.0 if max(xs) - min(xs) < 1e-8 else float(pearsonr(xs, ys)[0]))
+    return float(np.mean(rs)) if len(rs) >= 3 else None
+
+
+def scenario_map(unique_path: str | Path | None = None) -> dict[str, str]:
+    """item id -> scenario id. The 84 holdout rows are 23 name-swapped
+    scenarios, so resampling must be by scenario, not by row."""
+    path = Path(unique_path) if unique_path else Path(__file__).resolve().parents[1] / "stimuli" / "text" / "vignettes_unique_human.jsonl"
+    out = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            u = json.loads(line)
+            for m in u["collapsed_from"]:
+                out[m] = u["id"]
+    return out
+
+
+def tracking_ci(
+    items: list[dict], dims: list[str], n_boot: int = 2000, seed: int = 0
+) -> list[float] | None:
+    """95% CI for appraisal_tracking, resampling whole scenarios."""
+    smap = scenario_map()
+    usable = [it for it in items if it.get("pred") and it.get("gold")]
+    groups: dict[str, list[dict]] = {}
+    for it in usable:
+        groups.setdefault(smap.get(it["id"], it["id"]), []).append(it)
+    keys = sorted(groups)
+    if len(keys) < 5:
+        return None
+    rng = np.random.default_rng(seed)
+    vals = []
+    for _ in range(n_boot):
+        pick = [it for k in rng.choice(keys, len(keys)) for it in groups[k]]
+        p = {d: [float(it["pred"][d]) for it in pick if d in it["pred"] and d in it["gold"]] for d in dims}
+        g = {d: [float(it["gold"][d]) for it in pick if d in it["pred"] and d in it["gold"]] for d in dims}
+        v = appraisal_tracking(p, g)
+        if v is not None:
+            vals.append(v)
+    return [round(float(np.percentile(vals, 2.5)), 4), round(float(np.percentile(vals, 97.5)), 4)] if vals else None
 
 
 def discriminant_validity(

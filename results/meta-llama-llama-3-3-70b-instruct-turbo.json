@@ -2,7 +2,7 @@
   "model": "Llama 3.3 70B Turbo",
   "model_id": "meta-llama/Llama-3.3-70B-Instruct-Turbo",
   "provider": "together",
-  "benchmark_version": "2.0.0",
+  "benchmark_version": "3.0.0",
   "stimuli": "stimuli/text/vignettes_test_human.jsonl",
   "gold_source": "human_core_consensus",
   "status": "measured",
@@ -21,17 +21,19 @@
     "tokens_per_sec": 12.6
   },
   "subscores": {
+    "appraisal_tracking": 0.4488,
+    "discriminant_validity": 0.1629,
     "appraisal_calibration": 0.7667,
     "value_action": null,
     "persistence": null,
     "acoustic_risk_f1": null,
     "steering_score": null,
-    "discriminant_validity": 0.1629,
     "human_mimicry": 0.1721
   },
   "subscore_status": {
-    "appraisal_calibration": "measured",
+    "appraisal_tracking": "measured",
     "discriminant_validity": "measured",
+    "appraisal_calibration": "measured",
     "value_action": "not_measured",
     "persistence": "not_measured",
     "acoustic_risk_f1": "not_measured",
@@ -40,7 +42,7 @@
   },
   "n_subscores_measured": 2,
   "n_subscores_total": 2,
-  "aggregate_ei": 0.4648,
+  "aggregate_ei": 0.3058,
   "per_dim": [
     {
       "id": "pleasantness",
@@ -3691,5 +3693,14 @@
         "anticipated_emotion": -2.6666666666666665
       }
     }
+  ],
+  "appraisal_tracking": 0.4488,
+  "appraisal_tracking_ci95": [
+    0.3061,
+    0.535
+  ],
+  "human_mimicry_band": [
+    0.0555,
+    0.2174
   ]
 }

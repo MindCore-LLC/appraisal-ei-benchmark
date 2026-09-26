@@ -81,9 +81,34 @@ def leave_one_out(by_item: dict[str, list[dict[str, Any]]], dims: list[str] | No
             "measured": dim_r is not None,
         })
 
+    # v3.0.0 headline ceiling: each rater scored with appraisal_tracking
+    # against the LOO consensus on the items they rated, exactly as a model
+    # is. Ceiling = mean over raters covering >= 80% of the items (a rater
+    # with a handful of items gives an unstable r).
+    n_items = sum(1 for rows in by_item.values() if len(rows) >= 2)
+    rater_trk = {}
+    for rid in sorted(rater_rs):
+        p_d: dict[str, list[float]] = defaultdict(list)
+        g_d: dict[str, list[float]] = defaultdict(list)
+        for rows in by_item.values():
+            mine = [r for r in rows if r.get("rater_id") == rid]
+            others = [r["ratings"] for r in rows if r.get("rater_id") != rid]
+            if not mine or not others:
+                continue
+            gold = _mean_vector(others, dims)
+            for d in dims:
+                if d in mine[0]["ratings"] and d in gold:
+                    p_d[d].append(float(mine[0]["ratings"][d]))
+                    g_d[d].append(float(gold[d]))
+        t = score.appraisal_tracking(dict(p_d), dict(g_d))
+        if t is not None and len(rater_rs[rid]) >= 0.8 * n_items:
+            rater_trk[rid] = round(t, 4)
+
     disc = score.discriminant_validity(dict(pred_by_dim), dict(gold_by_dim))
     cal = round(float(np.mean(item_rs)), 4) if item_rs else None
     return {
+        "appraisal_tracking": round(float(np.mean(list(rater_trk.values()))), 4) if rater_trk else None,
+        "per_rater_tracking": rater_trk,
         "appraisal_calibration": cal,
         "discriminant_validity": round(disc, 4) if disc is not None else None,
         "n_items": len(per_item),
@@ -119,5 +144,6 @@ if __name__ == "__main__":
     ids = {json.loads(l)["id"] for l in holdout.read_text(encoding="utf-8").splitlines() if l.strip()}
     out = ceiling_for_ids(ids)
     print(json.dumps({k: out[k] for k in (
-        "appraisal_calibration", "discriminant_validity", "n_items", "n_raters",
+        "appraisal_tracking", "per_rater_tracking", "appraisal_calibration",
+        "discriminant_validity", "n_items", "n_raters",
         "per_rater_mean_r", "pairwise_kappa")}, indent=2, default=str))

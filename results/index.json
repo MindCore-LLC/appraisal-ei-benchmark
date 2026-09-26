@@ -1,5 +1,7 @@
 {
   "results": [
+    "baseline-average-noise.json",
+    "baseline-average-profile.json",
     "deepseek-ai-deepseek-v4-flash-0731.json",
     "deepseek-ai-deepseek-v4-pro-0813.json",
     "gpt-5-4.json",

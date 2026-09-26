@@ -78,16 +78,18 @@ def main() -> None:
     # hardcoded in the page) so the board and the note always agree with the
     # rater vectors.
     import human_mimicry
+    import score_items
 
-    ref = human_mimicry.human_reference(human_mimicry.human_ceiling.load_rater_file())
-    band = [v for v in ref.values() if v is not None]
+    hb = human_mimicry.human_band(human_mimicry.human_ceiling.load_rater_file(), score_items.holdout_ids())
     payload = {
         "benchmark_version": (REPO / "VERSION").read_text().strip(),
-        "headline": "appraisal_calibration",
-        "public_metrics": ["appraisal_calibration", "discriminant_validity"],
+        "headline": "appraisal_tracking",
+        "public_metrics": ["appraisal_tracking", "discriminant_validity"],
+        "diagnostic_metrics": ["appraisal_calibration"],
         "human_reference": {
-            "mimicry": ref,
-            "mimicry_band": [min(band), max(band)] if band else None,
+            "mimicry": hb["per_rater"],
+            "mimicry_band": hb["band"],
+            "mimicry_band_raters": hb["in_band_raters"],
         },
         "results": results,
     }

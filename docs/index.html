@@ -73,6 +73,7 @@
   .badge { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 6px; border: 1px solid; }
   .badge.smoke { color: var(--smoke); border-color: var(--smoke); background: var(--color-warning-tint); }
   .badge.measured { color: var(--meas); border-color: var(--meas); background: var(--color-success-tint); }
+  .badge.baseline { color: var(--muted); border-color: var(--muted); }
   .badge.human { color: var(--color-signature); border-color: var(--color-signature); background: var(--color-signature-tint); }
   .origin { font-size: 12px; color: var(--muted); }
   #compare { display: none; margin-top: 24px; border: 1px solid var(--ink); padding: 16px; }
@@ -135,10 +136,14 @@
   <div class="kicker">Affective Research · Leaderboard</div>
   <h1>Appraisal-EI Benchmark <span class="mono" style="font-size:14px;color:var(--muted);letter-spacing:0" id="ver"></span></h1>
   <div class="sub">17-dimension appraisal structure vs human gold. Headline =
-    <strong>calibration</strong> (mean per-item Pearson r). Second metric =
+    <strong>tracking</strong>: per dimension, does the model's rating move with the
+    humans' across situations (Pearson r across items, mean over dims), with a 95% CI
+    that resamples the 23 unique scenarios. Second metric =
     <strong>discriminant validity</strong> (dimension-specific vs valence smear).
-    The human baseline is leave-one-rater-out on the same 84-item holdout
-    (23 unique scenarios). Pin tag v2.0.0, never <span class="mono">main</span>.</div>
+    The human baseline is leave-one-rater-out on the same 84-item holdout. Two
+    no-model rows (a constant average profile, and that profile plus noise) sit on
+    the board so every score reads against "no model at all". Pin tag v3.0.0, never
+    <span class="mono">main</span>.</div>
   <div class="banner" id="banner">Loading...</div>
 </header>
 
@@ -149,11 +154,11 @@
   <section class="view" id="view-board">
     <div id="charts">
       <div class="chart-block">
-        <div class="chart-title">Calibration (Pearson r) by model</div>
+        <div class="chart-title">Tracking (mean per-dim Pearson r) by model</div>
         <div class="chart-wrap"><canvas id="barChart"></canvas></div>
       </div>
       <div class="chart-block" id="radarBlock" style="display:none">
-        <div class="chart-title">Per-dimension calibration (17 appraisal dims)</div>
+        <div class="chart-title">Per-dimension r (17 appraisal dims)</div>
         <div class="chart-wrap radar"><canvas id="radarChart"></canvas></div>
       </div>
     </div>
@@ -200,14 +205,17 @@
       <div class="chart-wrap"><canvas id="eiChart"></canvas></div>
     </div>
     <div id="eiMatrix"></div>
-    <p class="note"><strong>v2.0.0 public metrics</strong> are calibration and discriminant
-      validity only. Roadmap slots (value–action, persistence, acoustic risk, steering)
+    <p class="note"><strong>v3.0.0 public metrics</strong> are tracking and discriminant
+      validity only. Calibration (the v2 headline) is shown as a diagnostic: a constant
+      average profile scores 0.864 on it, above the human ceiling. Roadmap slots (value–action, persistence, acoustic risk, steering)
       are named and <em>null</em>: they are not zeros and they are not averaged into a
       headline. <strong>Human mimicry</strong> is measured (reported, not averaged): can a
       discriminator tell the model's vectors from rater vectors? 1.0 = indistinguishable
       from the rater pool. The human reference band, computed from the rater vectors
       (<span id="mimBand">…</span>), marks what an actual human rater scores: every rater
-      has a fingerprint the discriminator learns. Discriminant validity near
+      has a fingerprint the discriminator learns. The band is printed next to every score.
+      Inside the band is necessary, not sufficient: the no-model "average + noise" row
+      lands inside it too. Discriminant validity near
       0.25 means models recover "this is bad" better than they separate unfair vs
       uncontrollable vs urgent.</p>
   </section>
@@ -215,7 +223,7 @@
 
 <footer>
   <span id="count"></span> · <a href="https://github.com/Affective-LLC/appraisal-ei-benchmark">repo</a> ·
-  per-item scores in each result JSON · protocol: SPEC.md v2.0.0 · human ceiling: HUMAN_CEILING.md
+  per-item scores in each result JSON · protocol: SPEC.md v3.0.0 · human ceiling: HUMAN_CEILING.md
 </footer>
 
 <script>
@@ -225,9 +233,12 @@ const COLS = [
   {k:"org", label:"Org", sort:"org"},
   {k:"origin", label:"Origin", sort:"origin"},
   {k:"weights", label:"Weights", sort:"weights"},
-  {k:"cal", label:"Calibration", sort:"cal", num:true},
+  {k:"trk", label:"Tracking", sort:"trk", num:true},
+  {k:"ci", label:"95% CI", sort:null, num:true},
   {k:"disc", label:"Disc. validity", sort:"disc", num:true},
-  {k:"dir", label:"Direction %", sort:"dir", num:true},
+  {k:"mim", label:"Mimicry (human band)", sort:"mim", num:true},
+  {k:"cal", label:"Calibration (diag.)", sort:"cal", num:true},
+  {k:"dir", label:"Direction % (diag.)", sort:"dir", num:true},
   {k:"ms", label:"Median ms", sort:"ms", num:true},
   {k:"tps", label:"Tok/s", sort:"tps", num:true},
   {k:"cost", label:"$/item", sort:"cost", num:true},
@@ -246,8 +257,11 @@ const VIEWS = [
 ];
 
 const PUBLIC_METRICS = [
-  {k:"appraisal_calibration", label:"Calibration"},
+  {k:"appraisal_tracking", label:"Tracking"},
   {k:"discriminant_validity", label:"Discriminant validity"},
+];
+const DIAGNOSTIC = [
+  {k:"appraisal_calibration", label:"Calibration (diagnostic)"},
 ];
 const ROADMAP = [
   {k:"value_action", label:"Value–action"},
@@ -257,11 +271,23 @@ const ROADMAP = [
   {k:"human_mimicry", label:"Human mimicry"},
 ];
 
-const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "cal", dir: -1,
+const state = { origin: new Set(), weights: new Set(), orgs: new Set(), sortKey: "trk", dir: -1,
                 selected: new Set(), data: [], view: "board", paretoX: "ms", showSmoke: false,
                 human: null, humanRef: null };
 
 const fmt = v => v == null ? "–" : (typeof v === "number" ? v.toFixed(3) : v);
+
+// Reference rows: the human ceiling and the no-model baselines. Pinned, never ranked.
+const isBaseline = r => r.status === "baseline";
+const isRef = r => r.model_id === "human" || isBaseline(r);
+const band = () => state.humanRef?.mimicry_band || null;
+const mimCell = v => {
+  if (v == null) return "–";
+  const b = band();
+  if (!b) return v.toFixed(3);
+  const where = v < b[0] ? "below" : v > b[1] ? "above" : "in";
+  return `${v.toFixed(3)} <span style="color:var(--muted);font-size:11px">${where} ${b[0].toFixed(2)}-${b[1].toFixed(2)}</span>`;
+};
 
 function meta(r, k) { return (r.meta && r.meta[k]) ?? "–"; }
 
@@ -281,7 +307,7 @@ async function boot() {
   const nMeas = payload.results.filter(r => r.status === "measured" && r.model_id !== "human").length;
   document.getElementById("banner").textContent = anySmoke
     ? `v${payload.benchmark_version}: ${nMeas} measured models on human gold, against the human baseline. Smoke/provisional runs are hidden until you toggle them.`
-    : `v${payload.benchmark_version}: ${nMeas} measured models scored against human gold, ranked against the human baseline. Headline is calibration, not an aggregate of unimplemented arms.`;
+    : `v${payload.benchmark_version}: ${nMeas} measured models scored against human gold, ranked against the human baseline and two no-model baselines. Headline is tracking; the v2 calibration headline is a diagnostic now, because a constant average profile topped it.`;
   state.data = payload.results;
   state.human = payload.results.find(r => r.model_id === "human") || null;
   state.humanRef = payload.human_reference || null;
@@ -354,7 +380,7 @@ const ceilingLine = {
   },
 };
 
-const humanCal = () => state.human?.appraisal_calibration ?? null;
+const humanCal = () => state.human?.appraisal_tracking ?? null;
 
 Chart.register(ceilingLine);
 
@@ -384,8 +410,8 @@ function showView(v) {
 }
 
 function renderBar() {
-  const rows = filtered().filter(r => r.appraisal_calibration != null && r.model_id !== "human")
-    .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
+  const rows = filtered().filter(r => r.appraisal_tracking != null && r.model_id !== "human")
+    .sort((a, b) => b.appraisal_tracking - a.appraisal_tracking);
   const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
   const ctx = document.getElementById("barChart");
   if (barChart) barChart.destroy();
@@ -395,10 +421,10 @@ function renderBar() {
     data: {
       labels: rows.map(r => r.model),
       datasets: [{
-        data: rows.map(r => r.appraisal_calibration),
+        data: rows.map(r => r.appraisal_tracking),
         // One metric, one hue: a rainbow implies categorical difference where
         // there is only rank. The human baseline carries the brand color.
-        backgroundColor: cssVar("--color-data") || PALETTE[0],
+        backgroundColor: rows.map(r => isBaseline(r) ? MUTED : (cssVar("--color-data") || PALETTE[0])),
         hoverBackgroundColor: cssVar("--color-signature") || PALETTE[0],
         borderWidth: 0,
         barPercentage: 0.72,
@@ -421,7 +447,7 @@ function renderBar() {
             label: c => {
               const h = humanCal();
               const delta = h == null ? "" : ` · ${h - c.parsed.x >= 0 ? "-" : "+"}${Math.abs(h - c.parsed.x).toFixed(3)} vs human`;
-              return ` r=${c.parsed.x.toFixed(3)} calibration${delta} · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)} · ${meta(rows[c.dataIndex], "org")}`;
+              return ` tracking r=${c.parsed.x.toFixed(3)}${delta} · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)} · ${meta(rows[c.dataIndex], "org")}`;
             },
           },
         },
@@ -504,7 +530,7 @@ function renderPareto() {
   const conf = PARETO_X[state.paretoX];
   const note = document.getElementById("paretoNote");
   document.getElementById("paretoTitle").textContent = `Alignment vs ${conf.label.toLowerCase()}`;
-  const sel = filtered().filter(r => r.appraisal_calibration != null && conf.get(r) != null);
+  const sel = filtered().filter(r => r.appraisal_tracking != null && conf.get(r) != null);
   const ctxEl = document.getElementById("paretoChart");
   if (paretoChart) { paretoChart.destroy(); paretoChart = null; }
   if (!sel.length) {
@@ -515,7 +541,7 @@ function renderPareto() {
     ? "Only one model has data for this axis so far - the frontier is trivial until more models are re-run."
     : `${sel.length} of ${state.data.length} models have data. Dashed step line = Pareto frontier (no model on it is beaten on both axes). Dashed horizontal line = human baseline. Hollow points = smoke runs.`;
   const { series: PALETTE, ink: INK, muted: MUTED, line: LINE, canvas: CANVAS } = palette();
-  const pts = sel.map(r => ({ x: conf.get(r), y: r.appraisal_calibration, r }));
+  const pts = sel.map(r => ({ x: conf.get(r), y: r.appraisal_tracking, r }));
   const f = frontier(pts, conf.lowerBetter);
   const linePts = (conf.lowerBetter ? f : [...f].reverse()).map(p => ({ x: p.x, y: p.y }));
   paretoChart = new Chart(ctxEl, {
@@ -548,8 +574,8 @@ function renderPareto() {
               const r = c.raw._r;
               if (!r) return ` Pareto frontier`;
               const h = humanCal();
-              const delta = h == null ? "" : ` · ${h - r.appraisal_calibration >= 0 ? "-" : "+"}${Math.abs(h - r.appraisal_calibration).toFixed(3)} vs human`;
-              return [` ${(r.appraisal_calibration * 100).toFixed(1)}% alignment (r=${r.appraisal_calibration.toFixed(3)}${delta})`,
+              const delta = h == null ? "" : ` · ${h - r.appraisal_tracking >= 0 ? "-" : "+"}${Math.abs(h - r.appraisal_tracking).toFixed(3)} vs human`;
+              return [` ${(r.appraisal_tracking * 100).toFixed(1)}% tracking (r=${r.appraisal_tracking.toFixed(3)}${delta})`,
                       ` ${conf.label}: ${conf.fmt(c.parsed.x)}`,
                       ` ${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")} · ${r.status}`];
             },
@@ -600,7 +626,7 @@ function renderDist() {
     .filter(r => r.model_id !== "human")
     .map(r => ({ r, rs: (r.per_item || []).map(p => p.r).filter(x => x != null) }))
     .filter(o => o.rs.length >= 3)
-    .sort((a, b) => (b.r.appraisal_calibration ?? -9) - (a.r.appraisal_calibration ?? -9));
+    .sort((a, b) => (b.r.appraisal_tracking ?? -9) - (a.r.appraisal_tracking ?? -9));
   const note = document.getElementById("distNote");
   const host = document.getElementById("distRows");
   if (!rows.length) {
@@ -619,7 +645,8 @@ function renderDist() {
     ? [{ r: state.human, rs: (state.human.per_item || []).map(p => p.r).filter(x => x != null), color: SIG, isHuman: true }]
     : [];
   const all = human.concat(rows);
-  note.textContent = `Per-item Pearson r distribution · box = interquartile range, vertical line = median, dots = items (n per model at right). The human row is leave-one-rater-out, computed the same way a model is scored. ${rows.length} of ${state.data.length - 1} models shown.`;
+  note.textContent = `Diagnostic, not the headline: per-item profile r (the v2 calibration). The no-model average profile scores high here because every situation shares a typical profile; that is why v3 ranks on tracking. `
+    + `Per-item Pearson r distribution · box = interquartile range, vertical line = median, dots = items (n per model at right). The human row is leave-one-rater-out, computed the same way a model is scored. ${rows.length} of ${state.data.length - 1} models shown.`;
   host.innerHTML = all.map((o, i) => {
     const col = o.color || PALETTE[i % PALETTE.length];
     const min = Math.min(...o.rs), max = Math.max(...o.rs);
@@ -643,8 +670,8 @@ function renderDist() {
 }
 
 function renderEI() {
-  const rows = filtered().filter(r => r.appraisal_calibration != null && r.model_id !== "human")
-    .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration);
+  const rows = filtered().filter(r => r.appraisal_tracking != null && r.model_id !== "human")
+    .sort((a, b) => b.appraisal_tracking - a.appraisal_tracking);
   const ctxEl = document.getElementById("eiChart");
   if (eiChart) { eiChart.destroy(); eiChart = null; }
   const host = document.getElementById("eiMatrix");
@@ -655,7 +682,7 @@ function renderEI() {
     data: {
       labels: rows.map(r => r.model),
       datasets: [{
-        data: rows.map(r => r.appraisal_calibration),
+        data: rows.map(r => r.appraisal_tracking),
         backgroundColor: cssVar("--color-data") || PALETTE[0] + "cc",
         hoverBackgroundColor: cssVar("--color-signature") || PALETTE[0],
         borderWidth: 0, barPercentage: 0.7, categoryPercentage: 0.9,
@@ -670,7 +697,7 @@ function renderEI() {
         legend: { display: false },
         tooltip: {
           backgroundColor: INK, titleColor: CANVAS, bodyColor: CANVAS, padding: 10, cornerRadius: 0, displayColors: false,
-          callbacks: { label: c => ` calibration r=${c.parsed.x.toFixed(3)} · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)}` },
+          callbacks: { label: c => ` tracking r=${c.parsed.x.toFixed(3)} · disc=${fmt(rows[c.dataIndex].subscores?.discriminant_validity)}` },
         },
         datalabels: {
           anchor: "end", align: "end", offset: 6, clamp: true,
@@ -685,7 +712,7 @@ function renderEI() {
       },
     },
   });
-  const cols = PUBLIC_METRICS.concat(ROADMAP);
+  const cols = PUBLIC_METRICS.concat(DIAGNOSTIC, ROADMAP);
   const head = `<tr><th class="row-h">Model</th>${cols.map(s => `<th>${s.label}</th>`).join("")}</tr>`;
   const cell = (r, s) => {
     const st = r.subscore_status?.[s.k];
@@ -696,6 +723,8 @@ function renderEI() {
         ? `<td class="sc" style="color:var(--color-signature)" title="human reference band: what an actual rater scores">${band[0].toFixed(2)} to ${band[1].toFixed(2)}</td>`
         : `<td class="sc na">–</td>`;
     }
+    if (s.k === "human_mimicry" && v != null) return `<td class="sc">${mimCell(v)}</td>`;
+    if (s.k === "appraisal_calibration" && v != null) return `<td class="sc" style="color:var(--muted)">${v.toFixed(3)}</td>`;
     if (st === "measured" && v != null) return `<td class="sc">${v.toFixed(3)}</td>`;
     return `<td class="sc na" title="roadmap, not measured">–</td>`;
   };
@@ -704,7 +733,7 @@ function renderEI() {
     ? `<tr class="baseline"><th class="row-name row-h">${state.human.model} <span class="badge human">baseline</span></th>${cols.map(s => cell(state.human, s)).join("")}</tr>`
     : "";
   const body = rows.map(r => {
-    const badge = r.status;
+    const badge = isBaseline(r) ? "baseline" : r.status;
     return `<tr><th class="row-h">${r.model} <span class="badge ${badge}">${badge}</span></th>${cols.map(s => cell(r, s)).join("")}</tr>`;
   }).join("");
   host.innerHTML = `<table><thead>${head}</thead><tbody>${baseRow}${body}</tbody></table>`;
@@ -760,7 +789,9 @@ function key(r, k) {
     case "org": return meta(r, "org");
     case "origin": return meta(r, "origin");
     case "weights": return meta(r, "weights");
-    case "cal": return r.appraisal_calibration;
+    case "trk": return r.appraisal_tracking;
+    case "cal": return r.subscores?.appraisal_calibration ?? null;
+    case "mim": return r.subscores?.human_mimicry ?? null;
     case "disc": return r.subscores?.discriminant_validity ?? null;
     case "dir": return r.direction_pct ?? -1;
     case "ms": return r.runtime?.median_ms ?? null;
@@ -776,7 +807,7 @@ function key(r, k) {
 function render() {
   // The human baseline is not a competitor: it is pinned above the ranking
   // and never sorted. Ranks run over models only.
-  const models = state.data.filter(r => r.model_id !== "human");
+  const models = state.data.filter(r => !isRef(r));
   const rows = models.filter(passes).sort((a, b) => {
     const x = key(a, state.sortKey), y = key(b, state.sortKey);
     if (x == null && y == null) return 0;
@@ -796,11 +827,11 @@ function render() {
   tb.innerHTML = "";
   const mkRow = (r, rank) => {
     const tr = document.createElement("tr");
-    if (r.model_id === "human") tr.className = "baseline";
+    if (isRef(r)) tr.className = "baseline";
     const sel = state.selected.has(r.model_id);
     const rt = r.runtime || {};
-    const rankCell = r.model_id === "human"
-      ? `<td class="num mono"><span class="baseline-tag">base</span></td>`
+    const rankCell = isRef(r)
+      ? `<td class="num mono"><span class="baseline-tag">${isBaseline(r) ? "ref" : "base"}</span></td>`
       : `<td class="num mono">${rank}</td>`;
     tr.innerHTML = `
       ${rankCell}
@@ -808,14 +839,17 @@ function render() {
       <td>${meta(r, "org")}</td>
       <td class="origin">${meta(r, "origin")}</td>
       <td>${meta(r, "weights")}</td>
-      <td class="num mono"><strong>${r.appraisal_calibration == null ? "–" : r.appraisal_calibration.toFixed(3)}</strong></td>
+      <td class="num mono"><strong>${r.appraisal_tracking == null ? "–" : r.appraisal_tracking.toFixed(3)}</strong></td>
+      <td class="num mono" style="font-size:11px;color:var(--muted)">${r.appraisal_tracking_ci95 ? r.appraisal_tracking_ci95.map(x => x.toFixed(2)).join(" to ") : "–"}</td>
       <td class="num mono">${fmt(r.subscores?.discriminant_validity)}</td>
+      <td class="num mono">${r.model_id === "human" ? (band() ? `band ${band()[0].toFixed(2)}-${band()[1].toFixed(2)}` : "–") : mimCell(r.subscores?.human_mimicry)}</td>
+      <td class="num mono" style="color:var(--muted)">${fmt(r.subscores?.appraisal_calibration)}</td>
       <td class="num mono">${r.direction_pct == null ? "–" : r.direction_pct.toFixed(1) + "%"}</td>
       <td class="num mono">${rt?.median_ms != null ? rt.median_ms.toFixed(0) : "–"}</td>
       <td class="num mono">${rt?.tokens_per_sec != null ? rt.tokens_per_sec.toFixed(0) : "–"}</td>
       <td class="num mono">${r.cost_per_item_usd != null ? "$" + r.cost_per_item_usd.toFixed(4) : "–"}</td>
       <td class="num mono">${r.n_parsed}/${r.n_items}</td>
-      <td><span class="badge ${r.model_id === "human" ? "human" : r.status}">${r.model_id === "human" ? "baseline" : r.status}</span></td>
+      <td><span class="badge ${r.model_id === "human" ? "human" : r.status}">${r.model_id === "human" ? "baseline" : isBaseline(r) ? "no model" : r.status}</span></td>
       <td class="mono" style="font-size:11px">${(r.run_at || "").slice(0, 10)}</td>
       <td><input type="checkbox" ${sel ? "checked" : ""} aria-label="Select ${r.model} for comparison"></td>`;
     tr.querySelector("input").onchange = e => {
@@ -825,8 +859,9 @@ function render() {
     return tr;
   };
   if (state.human && (state.showSmoke || state.human.status !== "smoke")) tb.appendChild(mkRow(state.human, 0));
+  state.data.filter(isBaseline).forEach(r => tb.appendChild(mkRow(r, 0)));
   rows.forEach((r, i) => tb.appendChild(mkRow(r, i + 1)));
-  document.getElementById("count").textContent = `${rows.length} of ${state.data.length - 1} models · human baseline pinned`;
+  document.getElementById("count").textContent = `${rows.length} of ${models.length} models · human and no-model baselines pinned`;
 }
 
 function toggleDetail(tr, r) {
@@ -859,9 +894,9 @@ function showCompare() {
       const speed = rt ? ` · ${rt.median_ms?.toFixed(0) ?? "–"} ms/item` : "";
       return `<div class="cmp-col"><h3>${r.model}</h3>
         <div class="kv">${meta(r, "org")} · ${meta(r, "origin")} · ${meta(r, "weights")}</div>
-        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_calibration == null ? "–" : r.appraisal_calibration.toFixed(3)}</div>
-        <div class="kv">calibration (Pearson r)</div>
-        <div class="bar" style="width:${Math.max(0, r.appraisal_calibration ?? 0) * 100}%"></div>
+        <div class="num mono" style="font-size:22px;margin-top:8px">${r.appraisal_tracking == null ? "–" : r.appraisal_tracking.toFixed(3)}</div>
+        <div class="kv">tracking (mean per-dim r)</div>
+        <div class="bar" style="width:${Math.max(0, r.appraisal_tracking ?? 0) * 100}%"></div>
         <div class="kv">discriminant validity: <strong>${fmt(r.subscores?.discriminant_validity)}</strong></div>
         <div class="kv">direction match: <strong>${r.direction_pct == null ? "–" : r.direction_pct.toFixed(1) + "%"}</strong></div>
         <div class="kv">per-item: mean ${mean.toFixed(3)} · min ${min.toFixed(3)} · max ${max.toFixed(3)}</div>

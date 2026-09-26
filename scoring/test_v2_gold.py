@@ -1,4 +1,4 @@
-"""v2.0.0 artifact checks. Run: python scoring/test_v2_gold.py"""
+"""v2.0.0+ artifact checks (updated for v3.0.0). Run: python scoring/test_v2_gold.py"""
 from __future__ import annotations
 
 import json
@@ -14,11 +14,11 @@ def _jsonl(path: Path) -> list[dict]:
 
 def test_version_aligned():
     version = (REPO / "VERSION").read_text(encoding="utf-8").strip()
-    assert version == "2.0.0", version
+    assert version == "3.0.0", version
     spec = (REPO / "SPEC.md").read_text(encoding="utf-8")
-    assert "Specification v2.0.0" in spec
+    assert "Specification v3.0.0" in spec
     gs = json.loads((REPO / "stimuli" / "text" / "gold_status.json").read_text(encoding="utf-8"))
-    assert gs["version"] == "2.0.0"
+    assert gs["version"] == "3.0.0"
 
 
 def test_unique_scenario_gold():
@@ -47,6 +47,18 @@ def test_human_ceiling_row():
     assert 0.7 < cal < 0.95, cal
     assert human["n_items"] == 84
     assert human["n_subscores_total"] == 2
+    assert 0.5 < human["appraisal_tracking"] < 0.75, human["appraisal_tracking"]
+    lo, hi = human["human_mimicry_band"]
+    assert 0 <= lo < hi <= 1
+
+
+def test_v3_baselines_expose_old_headline():
+    avg = json.loads((REPO / "results" / "baseline-average-profile.json").read_text(encoding="utf-8"))
+    human = json.loads((REPO / "results" / "human.json").read_text(encoding="utf-8"))
+    # the reason for v3: a constant profile beat the human row on calibration
+    assert avg["appraisal_calibration"] > human["appraisal_calibration"]
+    assert avg["appraisal_tracking"] == 0.0
+    assert avg["status"] == "baseline"
 
 
 def test_smoke_archived():

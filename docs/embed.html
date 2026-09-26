@@ -72,10 +72,10 @@ const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(
   document.getElementById("ver").textContent = "v" + d.benchmark_version;
   const n = +(new URLSearchParams(location.search).get("n") || 3);
   const human = d.results.find(r => r.model_id === "human");
-  const ceiling = human?.appraisal_calibration ?? 1;
+  const ceiling = human?.appraisal_tracking ?? 1;
   const models = [...d.results]
-    .filter(r => r.status === "measured" && r.model_id !== "human" && r.appraisal_calibration != null)
-    .sort((a, b) => b.appraisal_calibration - a.appraisal_calibration).slice(0, n);
+    .filter(r => r.status === "measured" && r.model_id !== "human" && r.appraisal_tracking != null)
+    .sort((a, b) => b.appraisal_tracking - a.appraisal_tracking).slice(0, n);
   // Bars scale against the human baseline, so the reader sees "fraction of
   // human" at a glance instead of a bar length with no referent.
   const html = [];
@@ -86,7 +86,7 @@ const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(
         <div class="name">${human.model}</div>
         <div class="meta">baseline · leave-one-rater-out · ${human.n_parsed}/${human.n_items} items</div>
       </div>
-      <div class="score">${human.appraisal_calibration.toFixed(3)}<small>human baseline r</small></div>
+      <div class="score">${human.appraisal_tracking.toFixed(3)}<small>human baseline r</small></div>
       <div class="bar base-bar"></div>
     </div>`);
   }
@@ -98,13 +98,13 @@ const cssVar = n => getComputedStyle(document.documentElement).getPropertyValue(
         <div class="name">${r.model}</div>
         <div class="meta">${(r.meta && r.meta.org) || ""} · ${(r.meta && r.meta.origin) || ""} · ${r.n_parsed}/${r.n_items} items</div>
       </div>
-      <div class="score">${r.appraisal_calibration.toFixed(3)}<small>r · disc ${disc == null ? "–" : disc.toFixed(2)}</small></div>
-      <div class="bar"><i style="width:${Math.min(100, r.appraisal_calibration / ceiling * 100).toFixed(1)}%;background:var(--data)"></i></div>
+      <div class="score">${r.appraisal_tracking.toFixed(3)}<small>r · disc ${disc == null ? "–" : disc.toFixed(2)}</small></div>
+      <div class="bar"><i style="width:${Math.min(100, r.appraisal_tracking / ceiling * 100).toFixed(1)}%;background:var(--data)"></i></div>
     </div>`;
   }).join(""));
   document.getElementById("rows").innerHTML = html.join("");
   document.getElementById("note").textContent =
-    "calibration vs human gold · bars scaled to the human baseline · v" + d.benchmark_version;
+    "tracking vs human gold · a no-model answer scores 0 · bars scaled to the human baseline · v" + d.benchmark_version;
 })();
 </script>
 </body>

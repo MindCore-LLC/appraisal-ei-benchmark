@@ -63,7 +63,7 @@
 <body>
 <header>
   <nav style="display:flex;justify-content:space-between;align-items:center"><a href="index.html">&larr; Leaderboard</a><button id="themeBtn" class="plain" style="text-decoration:none;border:1px solid var(--line);padding:3px 10px;font-size:11px;cursor:pointer;color:var(--muted);background:none;font-family:inherit" title="Toggle dark mode">◐ dark</button></nav>
-  <h1>Methodology <span class="mono" style="font-size:13px;color:var(--muted)">v2.0.0</span></h1>
+  <h1>Methodology <span class="mono" style="font-size:13px;color:var(--muted)">v3.0.0</span></h1>
   <div class="sub">How the Appraisal-EI Benchmark works. Pin a tag. Never evaluate <span class="mono">main</span>.</div>
 </header>
 
@@ -81,7 +81,7 @@ urgency, intensity, coping potential, social desirability, moral worth, attribut
 <h2>The stimuli</h2>
 <table>
   <tr><th>Set</th><th>Size</th><th>Form</th><th>Used for</th></tr>
-  <tr><td>Human-gold vignette holdout</td><td>84 rows / 23 unique scenarios</td><td>Test-split vignettes, human consensus (3–4 calibrated raters)</td><td><strong>Headline rank (v2.0.0)</strong></td></tr>
+  <tr><td>Human-gold vignette holdout</td><td>84 rows / 23 unique scenarios</td><td>Test-split vignettes, human consensus (3–4 calibrated raters)</td><td><strong>Headline rank (v3.0.0)</strong></td></tr>
   <tr><td>Unique-scenario gold</td><td>94 distinct texts</td><td>Name-masked collapse of 560 rated rows</td><td>One vector per scenario; not the public rank</td></tr>
   <tr><td>Template vignettes</td><td>560 rows, 94 texts</td><td>Generator priors; intensity never reached the text</td><td>Deprecated eval set. Smoke only. See QC_FINDINGS.md</td></tr>
   <tr><td>crowd-enVENT</td><td>1,200</td><td>Reader consensus mapped onto our 17 dims</td><td>Adjacent gold; mapping not yet validated against this rubric</td></tr>
@@ -97,12 +97,13 @@ scenarios. Do not quote 560.</p>
   definitions, the scale, the scenario, and "Return JSON only, keys exactly those 17 names."</li>
   <li><strong>Parse.</strong> The first <code>{...}</code> JSON object in the response is extracted. A response
   counts as parsed only if it yields &ge;8 of the 17 dimensions.</li>
-  <li><strong>Score per item.</strong> Per-item score = <strong>Pearson correlation</strong> between the model's
-  17-dim vector and the gold vector for that item. r captures <em>profile shape</em> - which dimensions are
-  extreme vs neutral - not just magnitude matching.</li>
-  <li><strong>Aggregate.</strong> Headline <strong>appraisal calibration</strong> = mean per-item r across the
-  holdout. Second public metric = <strong>discriminant validity</strong> (mean diagonal minus mean |off-diagonal|
-  of the multitrait matrix). Roadmap slots stay null. Nothing unimplemented is averaged in as zero.</li>
+  <li><strong>Score per dimension.</strong> For each of the 17 dimensions, the <strong>Pearson correlation</strong>
+  between the model's ratings and the human gold across the holdout items: when the situation changes, does
+  the model's rating move the way the humans' does? A dimension the model never varies scores 0.</li>
+  <li><strong>Aggregate.</strong> Headline <strong>appraisal tracking</strong> = mean of those 17 r values, with a
+  95% CI from resampling the 23 unique scenarios (the 84 rows are name-swapped copies, so rows are not
+  independent). Second public metric = <strong>discriminant validity</strong> (mean diagonal minus mean
+  |off-diagonal| of the multitrait matrix). Roadmap slots stay null. Nothing unimplemented is averaged in as zero.</li>
   <li><strong>Record.</strong> Everything lands in <code>results/&lt;model&gt;.json</code>: the score, the
   per-item r values, the per-dim stats, the raw predictions, the gold source, the timestamp, and the status.</li>
 </ol>
@@ -113,14 +114,18 @@ Zero-shot (no examples) keeps the test about the model's representation, not pro
 <h2>Reading the numbers</h2>
 <table>
   <tr><th>Metric</th><th>Plain meaning</th><th>Technical</th></tr>
-  <tr><td><strong>Calibration</strong></td><td>How closely the model's 17-dim profile matches human gold. This is the rank.</td><td>mean per-item Pearson r</td></tr>
+  <tr><td><strong>Tracking</strong></td><td>Does each rating move with the humans' across situations? This is the rank. A constant answer scores 0.</td><td>mean over dims of per-dim Pearson r across items; scenario-bootstrap 95% CI</td></tr>
+  <tr><td><strong>Calibration (diagnostic)</strong></td><td>How closely each 17-dim profile matches gold. Not ranked: a constant average profile scores 0.864, above the human ceiling, because every situation shares a typical profile.</td><td>mean per-item Pearson r (the v2 headline)</td></tr>
+  <tr><td><strong>Human mimicry</strong></td><td>Can a simple detector tell the model's ratings from a real rater's? Always printed with the human band. Inside the band is necessary, not sufficient: random noise lands there too.</td><td>diagonal-Gaussian discriminant AUC on consensus-centered vectors</td></tr>
+  <tr><td><strong>No-model baselines</strong></td><td>A constant average profile, and that profile plus noise at the raters' spread. Every score reads against these.</td><td><code>scripts/make_baselines.py</code>, train-split raters only</td></tr>
   <tr><td><strong>Discriminant validity</strong></td><td>Did it recover 17 dimensions, or smear one valence signal across all of them?</td><td>mean(diag) − mean(|off-diag|) of r(pred[i], gold[j])</td></tr>
   <tr><td><strong>Human ceiling</strong></td><td>How well a held-out rater matches the others. Models sit next to this, they do not "beat" it.</td><td>leave-one-rater-out Pearson r</td></tr>
-  <tr><td><strong>Direction %</strong></td><td>How often the model rated a dimension in the same sign as gold.</td><td>% of (item, dim) pairs with matching sign; exact zeros skipped</td></tr>
+  <tr><td><strong>Direction % (diagnostic)</strong></td><td>How often the model rated a dimension in the same sign as gold. Not ranked: the constant average profile scores 93%, because most dimensions lean the same way in most situations.</td><td>% of (item, dim) pairs with matching sign; exact zeros skipped</td></tr>
 </table>
-<p>Calibration near 0.83 with discriminant validity near 0.25 is the current finding: frontier models
-match the shape of human appraisal vectors, but they do not yet separate unfair from uncontrollable
-from urgent. That is a result, not a missing chart.</p>
+<p>The current finding (v3.0.0): frontier models track at 0.35 to 0.55 against a human ceiling of 0.61,
+with discriminant validity near 0.25. They recover the direction of human appraisal, but they do not yet
+separate unfair from uncontrollable from urgent. The v2 headline hid most of this: on calibration a
+constant answer looked better than every model.</p>
 
 <h2>Status badges - read these first</h2>
 <table>
@@ -128,7 +133,7 @@ from urgent. That is a result, not a missing chart.</p>
   <tr><td><span class="badge smoke">smoke</span></td><td>Scored against generator priors, not humans. Hidden from the main board unless you toggle provisional. Archived under <code>results/archive/</code>.</td></tr>
   <tr><td><span class="badge measured">measured</span></td><td>Scored against human gold meeting the agreement gate (quadratic-weighted &kappa; ≥ 0.6 or Krippendorff α ≥ 0.8).</td></tr>
 </table>
-<p>Gold provenance is declared per file in <code>gold_status.json</code>. As of v2.0.0 the headline set is
+<p>Gold provenance is declared per file in <code>gold_status.json</code>. As of v3.0.0 the headline set is
 <code>vignettes_test_human.jsonl</code>. crowd-enVENT remains adjacent gold whose 17-dim mapping is not yet
 validated against this rubric. Per-rater vectors live in <code>annotation/rater_vectors.jsonl</code>.</p>
 
@@ -175,7 +180,7 @@ major (2.0). Full rules and the sub-score definitions are in
 </main>
 
 <footer>
-  Appraisal-EI Benchmark v2.0.0 · <a href="https://github.com/Affective-LLC/appraisal-ei-benchmark">repo</a> ·
+  Appraisal-EI Benchmark v3.0.0 · <a href="https://github.com/Affective-LLC/appraisal-ei-benchmark">repo</a> ·
   <a href="index.html">leaderboard</a>
 </footer>
 <script>

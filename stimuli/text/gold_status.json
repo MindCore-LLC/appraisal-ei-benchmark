@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "3.0.0",
   "files": {
     "vignettes_test_human.jsonl": {
       "ratings_provenance": "human_core_consensus",
@@ -12,7 +12,7 @@
     "vignettes_unique_human.jsonl": {
       "ratings_provenance": "human_core_consensus",
       "corpus": "affective round-3 human annotation, name-masked collapse",
-      "note": "94 distinct texts from 560 rated rows. Not the public rank set — use when one vector per scenario is required.",
+      "note": "94 distinct texts from 560 rated rows. Not the public rank set \u2014 use when one vector per scenario is required.",
       "n_scenarios": 94
     },
     "vignettes_*.jsonl": {
@@ -23,7 +23,7 @@
     "envent_*.jsonl": {
       "ratings_provenance": "human_reader_consensus",
       "corpus": "crowd-enVENT",
-      "note": "1200 event descriptions, reader-consensus mapped onto our 17-dim schema (fairness unmapped). Adjacent human gold. Mapping onto this rubric is not yet validated with our wording — do not lead with this set. Troiano, Oberlander & Klinger (2023), CL 49(1).",
+      "note": "1200 event descriptions, reader-consensus mapped onto our 17-dim schema (fairness unmapped). Adjacent human gold. Mapping onto this rubric is not yet validated with our wording \u2014 do not lead with this set. Troiano, Oberlander & Klinger (2023), CL 49(1).",
       "annotation_source": "https://www.romanklinger.de/data-sets/crowd-enVent2023.zip",
       "role": "adjacent gold pending mapping study"
     },
@@ -48,6 +48,7 @@
     "1.3.0": "registered the model-annotated pilot as explicitly non-gold",
     "1.4.0": "deprecated vignettes_* as an eval set after QC; named envent_* primary",
     "1.5.0": "added vignettes_test_human.jsonl: first human-gold vignette eval set",
-    "2.0.0": "protocol freeze: headline=appraisal_calibration; no structural zeros in any mean; unique-scenario gold + per-rater vectors + human ceiling; smoke archived off the main board; enVENT demoted until mapping study"
+    "2.0.0": "protocol freeze: headline=appraisal_calibration; no structural zeros in any mean; unique-scenario gold + per-rater vectors + human ceiling; smoke archived off the main board; enVENT demoted until mapping study",
+    "3.0.0": "headline=appraisal_tracking (mean per-dim r across items, constant dims score 0) with a 95% CI that resamples the 23 holdout scenarios; appraisal_calibration demoted to diagnostic (a constant average profile scored 0.864, above the human ceiling); baseline rows (average profile, average + noise); human_mimicry published with the human band; holdout_scenario_twins.json lists 84 name-swapped train copies of 9 holdout scenarios"
   }
 }

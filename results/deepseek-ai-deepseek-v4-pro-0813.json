@@ -2,7 +2,7 @@
   "model": "DeepSeek V4 Pro",
   "model_id": "deepseek-ai/DeepSeek-V4-Pro-0813",
   "provider": "together",
-  "benchmark_version": "2.0.0",
+  "benchmark_version": "3.0.0",
   "stimuli": "stimuli/text/vignettes_test_human.jsonl",
   "gold_source": "human_core_consensus",
   "status": "measured",
@@ -11,17 +11,19 @@
   "n_parsed": 84,
   "appraisal_calibration": 0.76,
   "subscores": {
+    "appraisal_tracking": 0.4866,
+    "discriminant_validity": 0.2224,
     "appraisal_calibration": 0.76,
     "value_action": null,
     "persistence": null,
     "acoustic_risk_f1": null,
     "steering_score": null,
-    "discriminant_validity": 0.2224,
     "human_mimicry": 0.1507
   },
   "subscore_status": {
-    "appraisal_calibration": "measured",
+    "appraisal_tracking": "measured",
     "discriminant_validity": "measured",
+    "appraisal_calibration": "measured",
     "value_action": "not_measured",
     "persistence": "not_measured",
     "acoustic_risk_f1": "not_measured",
@@ -30,7 +32,7 @@
   },
   "n_subscores_measured": 2,
   "n_subscores_total": 2,
-  "aggregate_ei": 0.4912,
+  "aggregate_ei": 0.3545,
   "per_dim": [
     {
       "id": "pleasantness",
@@ -3681,5 +3683,14 @@
         "anticipated_emotion": -2.6666666666666665
       }
     }
+  ],
+  "appraisal_tracking": 0.4866,
+  "appraisal_tracking_ci95": [
+    0.3389,
+    0.5884
+  ],
+  "human_mimicry_band": [
+    0.0555,
+    0.2174
   ]
 }

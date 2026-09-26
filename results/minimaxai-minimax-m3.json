@@ -2,7 +2,7 @@
   "model": "MiniMax M3",
   "model_id": "MiniMaxAI/MiniMax-M3",
   "provider": "together",
-  "benchmark_version": "2.0.0",
+  "benchmark_version": "3.0.0",
   "stimuli": "stimuli/text/vignettes_test_human.jsonl",
   "gold_source": "human_core_consensus",
   "status": "measured",
@@ -21,17 +21,19 @@
     "tokens_per_sec": 65.4
   },
   "subscores": {
+    "appraisal_tracking": 0.4524,
+    "discriminant_validity": 0.2105,
     "appraisal_calibration": 0.6673,
     "value_action": null,
     "persistence": null,
     "acoustic_risk_f1": null,
     "steering_score": null,
-    "discriminant_validity": 0.2105,
     "human_mimicry": 0.0896
   },
   "subscore_status": {
-    "appraisal_calibration": "measured",
+    "appraisal_tracking": "measured",
     "discriminant_validity": "measured",
+    "appraisal_calibration": "measured",
     "value_action": "not_measured",
     "persistence": "not_measured",
     "acoustic_risk_f1": "not_measured",
@@ -40,7 +42,7 @@
   },
   "n_subscores_measured": 2,
   "n_subscores_total": 2,
-  "aggregate_ei": 0.4389,
+  "aggregate_ei": 0.3315,
   "per_dim": [
     {
       "id": "pleasantness",
@@ -3691,5 +3693,14 @@
         "anticipated_emotion": -2.6666666666666665
       }
     }
+  ],
+  "appraisal_tracking": 0.4524,
+  "appraisal_tracking_ci95": [
+    0.3002,
+    0.5586
+  ],
+  "human_mimicry_band": [
+    0.0555,
+    0.2174
   ]
 }

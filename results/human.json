@@ -2,7 +2,7 @@
   "model": "Human ceiling",
   "model_id": "human",
   "provider": "none",
-  "benchmark_version": "2.0.0",
+  "benchmark_version": "3.0.0",
   "stimuli": "stimuli/text/vignettes_test_human.jsonl",
   "gold_source": "human_core_consensus",
   "status": "measured",
@@ -10,7 +10,7 @@
   "n_items": 84,
   "n_parsed": 84,
   "appraisal_calibration": 0.821,
-  "note": "Leave-one-rater-out Pearson r vs the mean of the other raters, averaged over the frozen 84-item holdout. Not a model.",
+  "note": "Leave-one-rater-out: each rater scored against the mean of the other raters, exactly as a model is. Tracking ceiling = mean over raters covering >= 80% of the 84-item holdout. Not a model.",
   "n_raters": 4,
   "per_rater_mean_r": {
     "rater_1": 0.7246,
@@ -26,16 +26,18 @@
     "acoustic_risk_f1": null,
     "steering_score": null,
     "discriminant_validity": 0.239,
-    "human_mimicry": null
+    "human_mimicry": null,
+    "appraisal_tracking": 0.6096
   },
   "subscore_status": {
     "appraisal_calibration": "measured",
-    "discriminant_validity": "measured",
     "value_action": "not_measured",
     "persistence": "not_measured",
     "acoustic_risk_f1": "not_measured",
     "steering_score": "not_measured",
-    "human_mimicry": "not_measured"
+    "discriminant_validity": "measured",
+    "human_mimicry": "not_measured",
+    "appraisal_tracking": "measured"
   },
   "n_subscores_measured": 2,
   "n_subscores_total": 2,
@@ -3774,5 +3776,21 @@
         "anticipated_emotion": -2.6667
       }
     }
-  ]
+  ],
+  "appraisal_tracking": 0.6096,
+  "per_rater_tracking": {
+    "rater_2": 0.5673,
+    "rater_3": 0.597,
+    "rater_4": 0.6646
+  },
+  "human_mimicry_band": [
+    0.0555,
+    0.2174
+  ],
+  "human_mimicry_per_rater": {
+    "rater_1": 0.4297,
+    "rater_2": 0.1159,
+    "rater_3": 0.2174,
+    "rater_4": 0.0555
+  }
 }

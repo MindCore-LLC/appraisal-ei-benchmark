@@ -200,6 +200,33 @@ def human_reference(
     return out
 
 
+def human_band(
+    rater_by_item: dict[str, list[dict[str, Any]]],
+    item_ids: set[str],
+    min_coverage: float = 0.8,
+) -> dict[str, Any]:
+    """v3.0.0: the band published next to every human_mimicry score.
+
+    Only raters who rated >= min_coverage of the holdout define the band; a
+    rater with a handful of items gets an unstable score (rater_1: 16 of 84
+    items, 0.43). Partial raters are still listed, marked excluded.
+    """
+    scoped = {k: v for k, v in rater_by_item.items() if k in item_ids}
+    ref = human_reference(scoped)
+    counts: dict[str, int] = {}
+    for rows in scoped.values():
+        for r in rows:
+            counts[r["rater_id"]] = counts.get(r["rater_id"], 0) + 1
+    full = [rid for rid, n in counts.items() if n >= min_coverage * len(scoped)]
+    vals = [ref[rid] for rid in full if ref.get(rid) is not None]
+    return {
+        "band": [min(vals), max(vals)] if vals else None,
+        "per_rater": ref,
+        "in_band_raters": sorted(full),
+        "coverage": counts,
+    }
+
+
 def main(argv: list[str]) -> int:
     rater_by_item = human_ceiling.load_rater_file()
     if "--reference" in argv:

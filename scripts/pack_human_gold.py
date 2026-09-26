@@ -24,6 +24,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "scoring"))
 import human_ceiling
+import human_mimicry
 import score
 
 DEFAULT_SRC = REPO.parent / "affective-poc" / "data" / "appraisal_labeled"
@@ -151,20 +152,43 @@ def pack(src: Path) -> dict:
     }
     (REPO / "results" / "human.json").write_text(json.dumps(human_result, indent=2), encoding="utf-8")
 
+    band = human_mimicry.human_band(human_ceiling.load_rater_file(), holdout_ids)
     md = f"""# Human ceiling
 
-Leave-one-rater-out Pearson r against the mean of the other raters, on the
-frozen holdout `stimuli/text/vignettes_test_human.jsonl`.
+Each rater scored exactly the way a model is: against the mean of the *other*
+raters (leave-one-rater-out), on the frozen holdout
+`stimuli/text/vignettes_test_human.jsonl`.
 
 | | |
 |---|---|
-| **Calibration (headline)** | **{cal}** |
+| **Tracking (headline, v3.0.0)** | **{ceiling["appraisal_tracking"]}** (per rater: `{json.dumps(ceiling["per_rater_tracking"])}`) |
 | Discriminant validity | {disc} |
+| Calibration (diagnostic only) | {cal} |
+| human_mimicry band | {band["band"]} (per rater: `{json.dumps(band["per_rater"])}`) |
 | Items with ≥2 raters | {ceiling["n_items"]} |
 | Raters | {ceiling["n_raters"]} |
 | Pairwise unweighted κ | {human_result["pairwise_kappa"]} |
 
-Per-rater mean LOO r: `{json.dumps(ceiling["per_rater_mean_r"])}`
+Per-rater mean LOO calibration r: `{json.dumps(ceiling["per_rater_mean_r"])}`
+
+The tracking ceiling and the mimicry band use raters who rated at least 80% of
+the holdout. rater_1 rated 16 of 84 holdout items, so it is listed but does
+not set either number.
+
+## Why calibration is no longer the headline
+
+Calibration is the per-item correlation across the 17 dims. Most of it is the
+typical appraisal profile, which every situation shares. A constant average
+profile scores 0.864 on it, above this ceiling. Tracking asks whether a
+rating moves with the humans' when the situation changes, per dimension; the
+same constant scores 0. See the baseline rows on the board.
+
+## Reading human_mimicry
+
+Publish the band next to every score. A model inside the band is as
+distinguishable from the rater pool as a real rater is. It is not proof of
+human-likeness: the average profile plus random noise at the raters' spread
+lands inside the band too (`results/baseline-average-noise.json`).
 
 ## Why leave-one-out
 
@@ -185,6 +209,7 @@ disagreement is common. The scoring metric is Pearson r, so the ceiling is r.
 ```
 python scoring/human_ceiling.py
 python scripts/pack_human_gold.py
+python scripts/backfill_results.py   # re-adds v3 fields to results/human.json
 ```
 
 Source vectors: `annotation/rater_vectors.jsonl` (anonymized `rater_N` ids).

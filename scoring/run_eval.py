@@ -26,8 +26,8 @@ import sys
 import time
 from pathlib import Path
 
-import human_mimicry  # scoring/human_mimicry.py, same dir
 import score  # scoring/score.py, same dir
+import score_items  # scoring/score_items.py, same dir
 
 REPO = Path(__file__).resolve().parents[1]
 STIMULI_DIR = REPO / "stimuli" / "text"
@@ -169,39 +169,6 @@ def main() -> int:
         if c is not None:
             corrs.append(c)
 
-    # Per-dimension calibration: Pearson r of pred[d] vs gold[d] across items,
-    # plus mean absolute error - feeds the radar/heatmap visuals downstream.
-    # A dimension the gold does not carry (envent has no `fairness` analogue) or
-    # one with too few paired observations is NOT MEASURED. It emits null, never
-    # 0.0 - a zero reads as "the model failed on this dimension" and is a
-    # misreported result on the leaderboard.
-    per_dim = []
-    pred_by_dim: dict[str, list[float]] = {}
-    gold_by_dim: dict[str, list[float]] = {}
-    for d in dim_ids:
-        xs, ys, errs = [], [], []
-        for it in items:
-            p, g = it.get("pred"), it.get("gold")
-            if p and g and d in p and d in g:
-                xs.append(float(p[d]))
-                ys.append(float(g[d]))
-                errs.append(abs(float(p[d]) - float(g[d])))
-        pred_by_dim[d], gold_by_dim[d] = xs, ys
-        dim_r = None
-        if len(xs) >= 8 and (max(xs) - min(xs) > 1e-8) and (max(ys) - min(ys) > 1e-8):
-            from scipy.stats import pearsonr
-
-            dim_r = round(float(pearsonr(xs, ys)[0]), 4)
-        per_dim.append({
-            "id": d,
-            "r": dim_r,
-            "mae": round(sum(errs) / len(errs), 3) if errs else None,
-            "n": len(xs),
-            "measured": dim_r is not None,
-        })
-
-    calibration = round(sum(corrs) / len(corrs), 4) if corrs else None
-
     # Runtime block: per-call wall time + token usage, feeding the speed axis
     # of the quality-vs-speed visuals. Median/p95 over per-item calls; tok/s
     # uses completion tokens over summed call time (no concurrency, so the
@@ -227,26 +194,11 @@ def main() -> int:
             "tokens_per_sec": round(completion_tok / total_s, 1) if completion_tok and total_s > 0 else None,
         }
 
-    disc = score.discriminant_validity(pred_by_dim, gold_by_dim)
-    # v2.0.0: a missing audio score is not_measured, never a zero averaged into
-    # a public number. Roadmap keys stay null until built. human_mimicry is
-    # computable post-hoc from the stored per-item vectors (SPEC section 3);
-    # it needs rater rows for these item ids, so non-vignette stimuli stay null.
-    mim = human_mimicry.mimicry(
-        {it["id"]: it["pred"] for it in items if it.get("pred")},
-        human_mimicry.human_ceiling.load_rater_file(),
-    )
-    subscores = {
-        "appraisal_calibration": calibration,
-        "value_action": None,
-        "persistence": None,
-        "acoustic_risk_f1": None,
-        "steering_score": None,
-        "discriminant_validity": round(disc, 4) if disc is not None else None,
-        "human_mimicry": mim["human_mimicry"] if mim else None,
-    }
-    status_map = score.measured_subscores(subscores)
-    aggregate = score.aggregate_ei(subscores)
+    # v3.0.0: every score (tracking + scenario CI, discriminant validity,
+    # diagnostic calibration, human_mimicry + human band) comes from
+    # score_items, the same code the backfill uses. A dim the gold does not
+    # carry emits r null, never 0.0.
+    scored = score_items.score_items(items, dim_ids)
 
     slug = re.sub(r"[^a-z0-9]+", "-", args.model.lower()).strip("-")
     result = {
@@ -260,14 +212,8 @@ def main() -> int:
         "run_at": _dt.datetime.now(_dt.timezone.utc).isoformat(timespec="seconds"),
         "n_items": len(rows),
         "n_parsed": len(corrs),
-        "appraisal_calibration": calibration,
         "runtime": runtime,
-        "subscores": subscores,
-        "subscore_status": status_map,
-        "n_subscores_measured": sum(1 for k in score.PUBLIC_KEYS if status_map.get(k) == "measured"),
-        "n_subscores_total": len(score.PUBLIC_KEYS),
-        "aggregate_ei": round(aggregate, 4) if aggregate is not None else None,
-        "per_dim": per_dim,
+        **scored,
         "per_item": items,
     }
     out_dir = REPO / "results"
@@ -280,7 +226,7 @@ def main() -> int:
     (out_dir / "index.json").write_text(json.dumps({"results": files}, indent=2), encoding="utf-8")
 
     print(json.dumps({k: result[k] for k in (
-        "model", "status", "n_parsed", "n_items", "appraisal_calibration",
+        "model", "status", "n_parsed", "n_items", "appraisal_tracking", "appraisal_tracking_ci95",
         "n_subscores_measured", "n_subscores_total", "runtime")}))
     return 0
 

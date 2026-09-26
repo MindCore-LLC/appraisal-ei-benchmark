@@ -1,21 +1,34 @@
 # Appraisal-EI Benchmark
 
-Does a model represent *why* someone feels a way — a 17-dimensional appraisal
-vector — rather than just *what* they feel.
+Does a model represent *why* someone feels a way - a 17-dimensional appraisal
+vector - rather than just *what* they feel.
 
 Companion to [EQ-Bench](https://eqbench.com) and EmoBench, not a replacement.
 
-**Spec: [SPEC.md](SPEC.md). Version: 2.0.0. Pin a tag, never `main`.**
+**Spec: [SPEC.md](SPEC.md). Version: 3.0.0. Pin a tag, never `main`.**
 
 ## Headline numbers
 
-Ranked on **appraisal calibration** (mean per-item Pearson r vs human gold)
-on the frozen 84-item holdout (`vignettes_test_human.jsonl` — 23 unique
-scenarios). Second public metric: **discriminant validity** (did the model
-recover 17 dimensions, or smear valence?).
+Ranked on **appraisal tracking**: for each of the 17 dimensions, does the
+model's rating move with the humans' across situations (Pearson r across
+items), averaged over dimensions, with a 95% CI that resamples the 23 unique
+holdout scenarios. Second public metric: **discriminant validity** (did the
+model recover 17 dimensions, or smear valence?).
 
-A **Human ceiling** row sits on the board: leave-one-rater-out r = **0.821**.
-See [HUMAN_CEILING.md](HUMAN_CEILING.md).
+A **Human ceiling** row sits on the board: leave-one-rater-out tracking =
+**0.610**. See [HUMAN_CEILING.md](HUMAN_CEILING.md). Two **no-model baseline**
+rows (a constant average profile, and that profile plus random noise) sit on
+it too, so every score can be read against "no model at all".
+
+Why v3 changed the headline: the v2 headline (per-item calibration) was
+topped by the constant average profile (0.864, above the human ceiling).
+It is kept as a diagnostic. `human_mimicry` is published with the human band,
+and the noise baseline shows that landing inside the band is not enough on
+its own.
+
+**Training on this benchmark's data:** never train on the ids in
+`stimuli/text/holdout_scenario_twins.json` (name-swapped copies of holdout
+scenarios).
 
 ```
 python scoring/run_eval.py --provider openai --model gpt-5.4
@@ -42,8 +55,8 @@ CONTRIBUTING.md                        # eval contract
 
 ## Status
 
-v2.0.0 — protocol freeze. Public metrics are calibration + discriminant
-validity. Roadmap arms (audio, value–action, persistence, steering) are
+v3.0.0 - headline is tracking; calibration is diagnostic. Public metrics
+are tracking + discriminant validity. Roadmap arms (audio, value–action, persistence, steering) are
 named and null; `human_mimicry` is measured and reported per model, never
 averaged into a headline. crowd-enVENT mapping onto this rubric is not yet
 validated; do not lead with it.
