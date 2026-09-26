@@ -167,7 +167,16 @@ slightly above the LOO ceiling as "superhuman."
   scenario-resampled CI; `appraisal_calibration` demoted to diagnostic
   because a constant profile beat the human ceiling on it; no-model baseline
   rows; human band published with every `human_mimicry`; holdout twin list
-  and contamination rule. No stimuli or gold changed.
+  and contamination rule. **Gold correction:** the round-3 rating form
+  anchored `attribution` reversed relative to this schema (+3 = other
+  people), so human attribution gold is negated to the schema's scale
+  (`scripts/fix_attribution_convention.py`; rows marked
+  `attribution_convention: schema`). Residual: circumstance, which the form
+  put at 0, stays at 0 here (the schema puts it at -3). Schema 1.2.0 also
+  rewrites `anticipated_emotion` to what raters rated: the valence of the
+  later feeling, not change relative to now. Evidence: r(responsibility,
+  attribution) across rater vectors was -0.80 before the fix, +0.79 after;
+  frontier models had negative attribution r against the old gold.
 - v2.0.0 changes vs 1.x: headline is calibration; structural zeros no longer
   enter any mean; smoke is archived off the main board; human ceiling is a
   first-class row

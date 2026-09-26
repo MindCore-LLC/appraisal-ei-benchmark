@@ -12,7 +12,7 @@
   "per_item": [
     {
       "id": "vig_0296",
-      "r": 0.7034521743683161,
+      "r": 0.7629994668566326,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -29,7 +29,7 @@
         "coping_potential": -1.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -48,13 +48,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.3333333333333335,
+        "attribution": -2.3333333333333335,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0297",
-      "r": 0.8100658983227952,
+      "r": 0.8322520455593737,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -71,7 +71,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -90,13 +90,13 @@
         "coping_potential": 0.75,
         "social_desirability": 0.5,
         "moral_worth": -0.5,
-        "attribution": 2.25,
+        "attribution": -2.25,
         "anticipated_emotion": -1.75
       }
     },
     {
       "id": "vig_0298",
-      "r": 0.8237249271989541,
+      "r": 0.8216067577975196,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -113,7 +113,7 @@
         "coping_potential": 2.0,
         "social_desirability": 2.0,
         "moral_worth": 1.0,
-        "attribution": 3.0,
+        "attribution": 0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -132,13 +132,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0299",
-      "r": 0.7062046311125542,
+      "r": 0.6536233868705391,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -155,7 +155,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 3.0,
+        "attribution": 1.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -174,13 +174,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0300",
-      "r": 0.6872044472265695,
+      "r": 0.7779172725747625,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 1.0,
@@ -197,7 +197,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -216,13 +216,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0301",
-      "r": 0.8448632175294949,
+      "r": 0.8052642585946682,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 3.0,
@@ -239,7 +239,7 @@
         "coping_potential": 0.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -258,13 +258,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0302",
-      "r": 0.855632260191653,
+      "r": 0.8076867155911829,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -281,7 +281,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -300,13 +300,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0303",
-      "r": 0.7558715254808549,
+      "r": 0.7661547159955625,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -323,7 +323,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -342,13 +342,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0304",
-      "r": 0.6757823307434966,
+      "r": 0.684381044858538,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -365,7 +365,7 @@
         "coping_potential": 0.0,
         "social_desirability": 2.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -384,13 +384,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.3333333333333333
       }
     },
     {
       "id": "vig_0305",
-      "r": 0.8791250695418349,
+      "r": 0.8368214230821183,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -407,7 +407,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -2.0,
-        "attribution": 3.0,
+        "attribution": 1.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -426,13 +426,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0306",
-      "r": 0.9129100409818419,
+      "r": 0.8754389999440001,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 3.0,
@@ -449,7 +449,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -468,13 +468,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0307",
-      "r": 0.4609115939886193,
+      "r": 0.637286978327017,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -491,7 +491,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": -1.0,
+        "attribution": -3.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -510,13 +510,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0308",
-      "r": 0.7911069049613282,
+      "r": 0.54054341038199,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -552,13 +552,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.3333333333333335
       }
     },
     {
       "id": "vig_0309",
-      "r": 0.5562037641906666,
+      "r": 0.6884413139124081,
       "pred": {
         "pleasantness": -3.0,
         "goal_relevance": 2.0,
@@ -575,7 +575,7 @@
         "coping_potential": 2.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": -1.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -594,13 +594,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0310",
-      "r": 0.7804874655522861,
+      "r": 0.8090611173569504,
       "pred": {
         "pleasantness": -3.0,
         "goal_relevance": 2.0,
@@ -617,7 +617,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": 0.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -636,13 +636,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0311",
-      "r": 0.6702708753272328,
+      "r": 0.5560615591693011,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -659,7 +659,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": 3.0,
+        "attribution": 2.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -678,13 +678,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0312",
-      "r": 0.8544475764754786,
+      "r": 0.9087687661694559,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -701,7 +701,7 @@
         "coping_potential": -1.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -720,13 +720,13 @@
         "coping_potential": 0.5,
         "social_desirability": 0.5,
         "moral_worth": -1.25,
-        "attribution": 2.5,
+        "attribution": -2.5,
         "anticipated_emotion": -1.75
       }
     },
     {
       "id": "vig_0313",
-      "r": 0.7716597904323135,
+      "r": 0.7853640391433632,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -743,7 +743,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -3.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -762,13 +762,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.3333333333333335,
+        "attribution": -2.3333333333333335,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0314",
-      "r": 0.8643883866252131,
+      "r": 0.7606856339523105,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -785,7 +785,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -804,13 +804,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -3.0
       }
     },
     {
       "id": "vig_0315",
-      "r": 0.7180807687204417,
+      "r": 0.7465217546241714,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -827,7 +827,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": 0.0,
         "anticipated_emotion": -3.0
       },
       "gold": {
@@ -846,13 +846,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.5
       }
     },
     {
       "id": "vig_0316",
-      "r": 0.6955374553282321,
+      "r": 0.676025164431095,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -869,7 +869,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -888,13 +888,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0317",
-      "r": 0.4263033391048236,
+      "r": 0.5149097247012232,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -911,7 +911,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -930,13 +930,13 @@
         "coping_potential": 0.75,
         "social_desirability": -0.25,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.75
       }
     },
     {
       "id": "vig_0318",
-      "r": 0.68938292306649,
+      "r": 0.6724335857309909,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -953,7 +953,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -972,13 +972,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0319",
-      "r": 0.7192923651375875,
+      "r": 0.5958891216156217,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -995,7 +995,7 @@
         "coping_potential": 2.0,
         "social_desirability": -0.0,
         "moral_worth": 0.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -1014,13 +1014,13 @@
         "coping_potential": 0.0,
         "social_desirability": -0.25,
         "moral_worth": -0.5,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       }
     },
     {
       "id": "vig_0320",
-      "r": 0.5265676979513109,
+      "r": 0.5017385616831671,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -1037,7 +1037,7 @@
         "coping_potential": -0.0,
         "social_desirability": 2.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": 1.0
       },
       "gold": {
@@ -1056,13 +1056,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       }
     },
     {
       "id": "vig_0321",
-      "r": 0.6264650159793771,
+      "r": 0.6421619715159576,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1079,7 +1079,7 @@
         "coping_potential": 2.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -1098,13 +1098,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0322",
-      "r": 0.600712975440693,
+      "r": 0.6408572573945082,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 3.0,
@@ -1121,7 +1121,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": 0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1140,13 +1140,13 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.5
       }
     },
     {
       "id": "vig_0323",
-      "r": 0.49561838681989756,
+      "r": 0.4650682291817971,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -1163,7 +1163,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": 1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -1182,13 +1182,13 @@
         "coping_potential": 0.75,
         "social_desirability": 0.25,
         "moral_worth": -0.25,
-        "attribution": -1.25,
+        "attribution": 1.25,
         "anticipated_emotion": -2.75
       }
     },
     {
       "id": "vig_0324",
-      "r": 0.8024573268298163,
+      "r": 0.7827432553642002,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1205,7 +1205,7 @@
         "coping_potential": 2.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1224,13 +1224,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0325",
-      "r": 0.8304045613929634,
+      "r": 0.8302700509182573,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -1247,7 +1247,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -1266,13 +1266,13 @@
         "coping_potential": 1.0,
         "social_desirability": -0.25,
         "moral_worth": -0.25,
-        "attribution": 0.5,
+        "attribution": -0.5,
         "anticipated_emotion": -2.75
       }
     },
     {
       "id": "vig_0326",
-      "r": 0.43884437479444055,
+      "r": 0.3831775878119619,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -1289,7 +1289,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": 1.0
       },
       "gold": {
@@ -1308,13 +1308,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0327",
-      "r": 0.5666170845985978,
+      "r": 0.641209888855983,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -1331,7 +1331,7 @@
         "coping_potential": -0.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 3.0,
+        "attribution": 0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1350,13 +1350,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0328",
-      "r": 0.6749655638598864,
+      "r": 0.6514191444334881,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -1373,7 +1373,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -1392,13 +1392,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0329",
-      "r": 0.7000499948535347,
+      "r": 0.6459989245166213,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -1415,7 +1415,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1434,13 +1434,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.3333333333333335
       }
     },
     {
       "id": "vig_0330",
-      "r": 0.5989686562248685,
+      "r": 0.47571978297069706,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1457,7 +1457,7 @@
         "coping_potential": -0.0,
         "social_desirability": 0.0,
         "moral_worth": -0.0,
-        "attribution": -0.0,
+        "attribution": -3.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -1476,13 +1476,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0331",
-      "r": 0.45975839204188357,
+      "r": 0.4508310446235946,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1499,7 +1499,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1518,13 +1518,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0332",
-      "r": 0.4639293540016735,
+      "r": 0.5906483950594468,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1541,7 +1541,7 @@
         "coping_potential": 0.0,
         "social_desirability": -1.0,
         "moral_worth": -0.0,
-        "attribution": -1.0,
+        "attribution": -3.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1560,13 +1560,13 @@
         "coping_potential": 1.25,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.25
       }
     },
     {
       "id": "vig_0333",
-      "r": 0.6658535076958026,
+      "r": 0.7939748192717169,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -1583,7 +1583,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -3.0
       },
       "gold": {
@@ -1602,13 +1602,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -0.6666666666666666
       }
     },
     {
       "id": "vig_0334",
-      "r": 0.7220204683060062,
+      "r": 0.6573968831813952,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1625,7 +1625,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": 1.0
       },
       "gold": {
@@ -1644,13 +1644,13 @@
         "coping_potential": 1.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
     {
       "id": "vig_0335",
-      "r": 0.8238194692309201,
+      "r": 0.8197755567655818,
       "pred": {
         "pleasantness": -3.0,
         "goal_relevance": 2.0,
@@ -1667,7 +1667,7 @@
         "coping_potential": 2.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1686,13 +1686,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
     {
       "id": "vig_0336",
-      "r": 0.7498424893662953,
+      "r": 0.779465194962161,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -1709,7 +1709,7 @@
         "coping_potential": -0.0,
         "social_desirability": 2.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1728,13 +1728,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0337",
-      "r": 0.9097554521723001,
+      "r": 0.8231480554742392,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -1751,7 +1751,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 3.0,
+        "attribution": 0.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -1770,13 +1770,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0338",
-      "r": 0.7296484549360701,
+      "r": 0.8741477752718998,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -1793,7 +1793,7 @@
         "coping_potential": -0.0,
         "social_desirability": 1.0,
         "moral_worth": 1.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1812,13 +1812,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0339",
-      "r": 0.7326792280744973,
+      "r": 0.7857855220360429,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -1835,7 +1835,7 @@
         "coping_potential": -1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -1854,13 +1854,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0340",
-      "r": 0.6695134814931749,
+      "r": 0.7476377894080418,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -1877,7 +1877,7 @@
         "coping_potential": 0.0,
         "social_desirability": 2.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -2.0,
         "anticipated_emotion": 1.0
       },
       "gold": {
@@ -1896,13 +1896,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0341",
-      "r": 0.681338758005558,
+      "r": 0.7615402526652414,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -1919,7 +1919,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": 1.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -3.0
       },
       "gold": {
@@ -1938,13 +1938,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
     {
       "id": "vig_0342",
-      "r": 0.8206213574411239,
+      "r": 0.9003902014050466,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -1961,7 +1961,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -1980,13 +1980,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0343",
-      "r": 0.8436367935148371,
+      "r": 0.7812825307676523,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -2003,7 +2003,7 @@
         "coping_potential": 1.0,
         "social_desirability": 2.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2022,13 +2022,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0344",
-      "r": 0.8833979321612538,
+      "r": 0.8126124368772843,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -2045,7 +2045,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -0.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2064,13 +2064,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0345",
-      "r": 0.9380973634238856,
+      "r": 0.6639459679037404,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -2087,7 +2087,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": 0.0,
-        "attribution": 3.0,
+        "attribution": 2.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2106,13 +2106,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0346",
-      "r": 0.6819341003578814,
+      "r": 0.7198688940343644,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -2129,7 +2129,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -2148,13 +2148,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
     {
       "id": "vig_0347",
-      "r": 0.4635115288566005,
+      "r": 0.47569944836929756,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 3.0,
@@ -2171,7 +2171,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2190,13 +2190,13 @@
         "coping_potential": 2.0,
         "social_desirability": 0.25,
         "moral_worth": 0.25,
-        "attribution": 0.75,
+        "attribution": -0.75,
         "anticipated_emotion": -0.25
       }
     },
     {
       "id": "vig_0348",
-      "r": 0.7911793426308908,
+      "r": 0.7858684002879125,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 3.0,
@@ -2213,7 +2213,7 @@
         "coping_potential": 2.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2232,13 +2232,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0349",
-      "r": 0.7279834060318924,
+      "r": 0.6518859078796758,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -2255,7 +2255,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2274,13 +2274,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0449",
-      "r": 0.8393214114120265,
+      "r": 0.712585312341937,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -2297,7 +2297,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -0.0,
-        "attribution": 3.0,
+        "attribution": 2.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2316,13 +2316,13 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0450",
-      "r": 0.5546862031676117,
+      "r": 0.5536650330601361,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -2339,7 +2339,7 @@
         "coping_potential": 1.0,
         "social_desirability": -2.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2358,13 +2358,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0451",
-      "r": 0.7453621115757753,
+      "r": 0.7427924390652568,
       "pred": {
         "pleasantness": -3.0,
         "goal_relevance": 2.0,
@@ -2381,7 +2381,7 @@
         "coping_potential": -0.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2400,13 +2400,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333333333333333
       }
     },
     {
       "id": "vig_0452",
-      "r": 0.8308582138079894,
+      "r": 0.8291267501807124,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -2423,7 +2423,7 @@
         "coping_potential": -0.0,
         "social_desirability": -1.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2442,13 +2442,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333333333333333
       }
     },
     {
       "id": "vig_0453",
-      "r": 0.7238231849600464,
+      "r": 0.72490232346278,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -2465,7 +2465,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2484,13 +2484,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333333333333333
       }
     },
     {
       "id": "vig_0454",
-      "r": 0.8430895397479691,
+      "r": 0.7965617593588136,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -2507,7 +2507,7 @@
         "coping_potential": 0.0,
         "social_desirability": 2.0,
         "moral_worth": -0.0,
-        "attribution": 2.0,
+        "attribution": -0.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -2526,13 +2526,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0455",
-      "r": 0.570761616531473,
+      "r": 0.6173821680417916,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -2549,7 +2549,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2568,13 +2568,13 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.0
       }
     },
     {
       "id": "vig_0456",
-      "r": 0.7130018153822136,
+      "r": 0.7378835009949567,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -2591,7 +2591,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": 1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2610,13 +2610,13 @@
         "coping_potential": 0.5,
         "social_desirability": 0.75,
         "moral_worth": -0.75,
-        "attribution": 1.75,
+        "attribution": -1.75,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0457",
-      "r": 0.866700337651964,
+      "r": 0.8715252743960686,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -2633,7 +2633,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2652,13 +2652,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0458",
-      "r": 0.6511970897258417,
+      "r": 0.650166615287697,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -2675,7 +2675,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -2694,13 +2694,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0459",
-      "r": 0.829818793632026,
+      "r": 0.8835598972991568,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -2717,7 +2717,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2736,13 +2736,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0460",
-      "r": 0.6443303370086241,
+      "r": 0.7571859813813544,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -2759,7 +2759,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -2778,13 +2778,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0461",
-      "r": 0.9108231030290843,
+      "r": 0.9404155417649306,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -2801,7 +2801,7 @@
         "coping_potential": 0.0,
         "social_desirability": 1.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2820,13 +2820,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0462",
-      "r": 0.73806360639425,
+      "r": 0.7165060973572493,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -2843,7 +2843,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2862,13 +2862,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0463",
-      "r": 0.7167014045685638,
+      "r": 0.8105856656089436,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 1.0,
@@ -2885,7 +2885,7 @@
         "coping_potential": 1.0,
         "social_desirability": 2.0,
         "moral_worth": -0.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": 1.0
       },
       "gold": {
@@ -2904,13 +2904,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0464",
-      "r": 0.7927686831361184,
+      "r": 0.6895148363867895,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -2927,7 +2927,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 3.0,
+        "attribution": 1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2946,13 +2946,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0465",
-      "r": 0.46184251222117556,
+      "r": 0.6086427965818492,
       "pred": {
         "pleasantness": 1.0,
         "goal_relevance": 2.0,
@@ -2969,7 +2969,7 @@
         "coping_potential": 2.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": -1.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2988,13 +2988,13 @@
         "coping_potential": 0.0,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0547",
-      "r": 0.8483167449854302,
+      "r": 0.8496028880225851,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 2.0,
@@ -3011,7 +3011,7 @@
         "coping_potential": 0.0,
         "social_desirability": -1.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -3030,13 +3030,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.3333333333333335
       }
     },
     {
       "id": "vig_0548",
-      "r": 0.7212436680682751,
+      "r": 0.8237388384739033,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 2.0,
@@ -3053,7 +3053,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": -0.0,
+        "attribution": -3.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -3072,13 +3072,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.0,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0549",
-      "r": 0.7074527702608139,
+      "r": 0.793685155332287,
       "pred": {
         "pleasantness": -3.0,
         "goal_relevance": 2.0,
@@ -3095,7 +3095,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -3114,13 +3114,13 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
     {
       "id": "vig_0550",
-      "r": 0.5328002005998145,
+      "r": 0.5362664443598958,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 2.0,
@@ -3137,7 +3137,7 @@
         "coping_potential": 1.0,
         "social_desirability": 2.0,
         "moral_worth": -1.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": 1.0
       },
       "gold": {
@@ -3156,13 +3156,13 @@
         "coping_potential": 0.25,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.5
       }
     },
     {
       "id": "vig_0551",
-      "r": 0.5969760089625938,
+      "r": 0.40158640331849166,
       "pred": {
         "pleasantness": -0.0,
         "goal_relevance": 3.0,
@@ -3179,7 +3179,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 3.0,
+        "attribution": 2.0,
         "anticipated_emotion": 0.0
       },
       "gold": {
@@ -3198,13 +3198,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0552",
-      "r": 0.6875052015596675,
+      "r": 0.5690238685004206,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -3221,7 +3221,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 3.0,
+        "attribution": 1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -3240,13 +3240,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0553",
-      "r": 0.7630689376427386,
+      "r": 0.7863278883805578,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -3263,7 +3263,7 @@
         "coping_potential": 2.0,
         "social_desirability": 2.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -3.0
       },
       "gold": {
@@ -3282,13 +3282,13 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
     {
       "id": "vig_0554",
-      "r": 0.5384824718410164,
+      "r": 0.6171162144417339,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -3305,7 +3305,7 @@
         "coping_potential": 2.0,
         "social_desirability": 0.0,
         "moral_worth": -1.0,
-        "attribution": 2.0,
+        "attribution": 0.0,
         "anticipated_emotion": -0.0
       },
       "gold": {
@@ -3324,13 +3324,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": -1.6666666666666667,
+        "attribution": 1.6666666666666667,
         "anticipated_emotion": -2.3333333333333335
       }
     },
     {
       "id": "vig_0555",
-      "r": 0.5852014834379706,
+      "r": 0.3687461772784911,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -3347,7 +3347,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.0,
         "moral_worth": 1.0,
-        "attribution": -1.0,
+        "attribution": -3.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -3366,13 +3366,13 @@
         "coping_potential": 0.75,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       }
     },
     {
       "id": "vig_0556",
-      "r": 0.6938410397585186,
+      "r": 0.6520411313555357,
       "pred": {
         "pleasantness": 0.0,
         "goal_relevance": 3.0,
@@ -3389,7 +3389,7 @@
         "coping_potential": 2.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -3.0
       },
       "gold": {
@@ -3408,13 +3408,13 @@
         "coping_potential": 1.0,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       }
     },
     {
       "id": "vig_0557",
-      "r": 0.5323581841939905,
+      "r": 0.6680836312711474,
       "pred": {
         "pleasantness": -1.0,
         "goal_relevance": 3.0,
@@ -3431,7 +3431,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": 1.0,
-        "attribution": 3.0,
+        "attribution": 0.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -3450,13 +3450,13 @@
         "coping_potential": 1.0,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": -1.6666666666666667,
+        "attribution": 1.6666666666666667,
         "anticipated_emotion": -2.3333333333333335
       }
     },
     {
       "id": "vig_0558",
-      "r": 0.6154450856037454,
+      "r": 0.4871023185496042,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 3.0,
@@ -3473,7 +3473,7 @@
         "coping_potential": 1.0,
         "social_desirability": 1.0,
         "moral_worth": -0.0,
-        "attribution": -0.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -3492,13 +3492,13 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": -2.0,
+        "attribution": 2.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
     {
       "id": "vig_0559",
-      "r": 0.4429839997325705,
+      "r": 0.590039222055262,
       "pred": {
         "pleasantness": -2.0,
         "goal_relevance": 2.0,
@@ -3515,7 +3515,7 @@
         "coping_potential": 1.0,
         "social_desirability": 2.0,
         "moral_worth": -1.0,
-        "attribution": 3.0,
+        "attribution": 1.0,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -3534,18 +3534,18 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": -1.6666666666666667,
+        "attribution": 1.6666666666666667,
         "anticipated_emotion": -2.6666666666666665
       }
     }
   ],
   "benchmark_version": "3.0.0",
-  "appraisal_tracking": -0.0085,
+  "appraisal_tracking": -0.0011,
   "appraisal_tracking_ci95": [
-    -0.0685,
-    0.033
+    -0.0537,
+    0.0415
   ],
-  "appraisal_calibration": 0.702,
+  "appraisal_calibration": 0.7005,
   "human_mimicry_band": [
     0.0555,
     0.2174
@@ -3658,8 +3658,8 @@
     },
     {
       "id": "attribution",
-      "r": -0.087,
-      "mae": 1.528,
+      "r": 0.0386,
+      "mae": 1.488,
       "n": 84,
       "measured": true
     },
@@ -3672,14 +3672,14 @@
     }
   ],
   "subscores": {
-    "appraisal_tracking": -0.0085,
-    "discriminant_validity": -0.0991,
-    "appraisal_calibration": 0.702,
+    "appraisal_tracking": -0.0011,
+    "discriminant_validity": -0.0917,
+    "appraisal_calibration": 0.7005,
     "value_action": null,
     "persistence": null,
     "acoustic_risk_f1": null,
     "steering_score": null,
-    "human_mimicry": 0.2013
+    "human_mimicry": 0.1907
   },
   "subscore_status": {
     "appraisal_tracking": "measured",
@@ -3693,5 +3693,5 @@
   },
   "n_subscores_measured": 2,
   "n_subscores_total": 2,
-  "aggregate_ei": -0.0538
+  "aggregate_ei": -0.0464
 }

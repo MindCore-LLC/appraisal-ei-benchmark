@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "n_dimensions": 17,
   "rating_min": -3.0,
   "rating_max": 3.0,
@@ -9,121 +9,210 @@
       "id": "pleasantness",
       "prompt": "Is this inherently positive or negative?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "intensely unpleasant in itself", "0": "neither pleasant nor unpleasant", "3": "intensely pleasant in itself"}
+      "anchors": {
+        "-3": "intensely unpleasant in itself",
+        "0": "neither pleasant nor unpleasant",
+        "3": "intensely pleasant in itself"
+      }
     },
     {
       "id": "goal_relevance",
       "prompt": "Does this matter to the person's goals?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "bears on nothing the person cares about", "0": "moderately relevant to their goals", "3": "central to their goals"}
+      "anchors": {
+        "-3": "bears on nothing the person cares about",
+        "0": "moderately relevant to their goals",
+        "3": "central to their goals"
+      }
     },
     {
       "id": "goal_congruence",
       "prompt": "Does this help or hinder their goals?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "strongly blocks their goals", "0": "neither helps nor hinders", "3": "strongly advances their goals"}
+      "anchors": {
+        "-3": "strongly blocks their goals",
+        "0": "neither helps nor hinders",
+        "3": "strongly advances their goals"
+      }
     },
     {
       "id": "certainty",
       "prompt": "How predictable is the outcome?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "outcome wholly unpredictable", "0": "partly predictable", "3": "outcome already known or settled"}
+      "anchors": {
+        "-3": "outcome wholly unpredictable",
+        "0": "partly predictable",
+        "3": "outcome already known or settled"
+      }
     },
     {
       "id": "control",
       "prompt": "How much control does the person have over the outcome?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "no influence whatever over the outcome", "0": "some influence over parts of it", "3": "the outcome is theirs to determine"}
+      "anchors": {
+        "-3": "no influence whatever over the outcome",
+        "0": "some influence over parts of it",
+        "3": "the outcome is theirs to determine"
+      }
     },
     {
       "id": "responsibility",
       "prompt": "How responsible is the person for this situation?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "in no way their doing", "0": "partly their doing, partly not", "3": "entirely their doing"},
+      "anchors": {
+        "-3": "in no way their doing",
+        "0": "partly their doing, partly not",
+        "3": "entirely their doing"
+      },
       "note": "Causal responsibility for the situation arising, not blame for how they respond to it."
     },
     {
       "id": "fairness",
       "prompt": "How fair is this situation?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "grossly unfair to the person", "0": "neither fair nor unfair", "3": "entirely fair"}
+      "anchors": {
+        "-3": "grossly unfair to the person",
+        "0": "neither fair nor unfair",
+        "3": "entirely fair"
+      }
     },
     {
       "id": "effort",
       "prompt": "How much effort is required?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "no effort required of them", "0": "moderate effort", "3": "sustained or exhausting effort"}
+      "anchors": {
+        "-3": "no effort required of them",
+        "0": "moderate effort",
+        "3": "sustained or exhausting effort"
+      }
     },
     {
       "id": "expectation",
       "prompt": "Did they expect this?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "completely unexpected", "0": "neither expected nor surprising", "3": "fully anticipated"}
+      "anchors": {
+        "-3": "completely unexpected",
+        "0": "neither expected nor surprising",
+        "3": "fully anticipated"
+      }
     },
     {
       "id": "novelty",
       "prompt": "Is this new to them?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "wholly familiar, they have been here before", "0": "partly familiar", "3": "entirely new to them"},
+      "anchors": {
+        "-3": "wholly familiar, they have been here before",
+        "0": "partly familiar",
+        "3": "entirely new to them"
+      },
       "note": "Familiarity with this kind of situation. Distinct from expectation, which is about foreseeing this particular instance."
     },
     {
       "id": "urgency",
       "prompt": "How time-sensitive is this?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "no time pressure at all", "0": "some time pressure", "3": "must be acted on immediately"}
+      "anchors": {
+        "-3": "no time pressure at all",
+        "0": "some time pressure",
+        "3": "must be acted on immediately"
+      }
     },
     {
       "id": "intensity",
       "prompt": "How strong is the emotional response?",
       "scale_type": "unipolar_mapped",
-      "anchors": {"-3": "no emotional response", "0": "moderate emotional response", "3": "overwhelming emotional response"},
+      "anchors": {
+        "-3": "no emotional response",
+        "0": "moderate emotional response",
+        "3": "overwhelming emotional response"
+      },
       "note": "Strength only, irrespective of whether the emotion is positive or negative."
     },
     {
       "id": "coping_potential",
       "prompt": "Can they handle this?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "cannot handle this at all", "0": "can handle it, but with difficulty", "3": "handles it easily"}
+      "anchors": {
+        "-3": "cannot handle this at all",
+        "0": "can handle it, but with difficulty",
+        "3": "handles it easily"
+      }
     },
     {
       "id": "social_desirability",
       "prompt": "Will others approve of their response?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "others would strongly disapprove of how they respond", "0": "others would be indifferent", "3": "others would strongly approve of how they respond"},
+      "anchors": {
+        "-3": "others would strongly disapprove of how they respond",
+        "0": "others would be indifferent",
+        "3": "others would strongly approve of how they respond"
+      },
       "note": "Rate the person's response, not the event. An unfair event can still draw an approved-of response."
     },
     {
       "id": "moral_worth",
       "prompt": "Is this morally right or wrong?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "clearly morally wrong", "0": "morally neutral, or not a moral matter at all", "3": "clearly morally right"},
+      "anchors": {
+        "-3": "clearly morally wrong",
+        "0": "morally neutral, or not a moral matter at all",
+        "3": "clearly morally right"
+      },
       "note": "Rate the conduct that produced the situation. Most situations have no moral dimension and belong at 0."
     },
     {
       "id": "attribution",
       "prompt": "Is this about them, others, or circumstances?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "caused by other people or by circumstance", "0": "jointly caused, or cause unclear", "3": "caused by the person themselves"},
-      "note": "External-to-internal axis. 'Other people' and 'impersonal circumstance' share the negative pole and this scale cannot separate them; splitting agent-caused from chance-caused needs a second dimension."
+      "anchors": {
+        "-3": "caused by other people or by circumstance",
+        "0": "jointly caused, or cause unclear",
+        "3": "caused by the person themselves"
+      },
+      "note": "External-to-internal axis. 'Other people' and 'impersonal circumstance' share the negative pole and this scale cannot separate them; splitting agent-caused from chance-caused needs a second dimension. Human gold was rated on a reversed form (+3 = other people) and re-expressed on this scale in benchmark 3.0.0; circumstance, which that form put at 0, remains at 0 in the gold."
     },
     {
       "id": "anticipated_emotion",
       "prompt": "How will they feel about this later?",
       "scale_type": "bipolar",
-      "anchors": {"-3": "will feel much worse about it later than now", "0": "will feel about the same later", "3": "will feel much better about it later than now"},
-      "note": "Valence of the later feeling relative to now, not its intensity."
+      "anchors": {
+        "-3": "will feel clearly bad about it later (regret, grief, shame)",
+        "0": "neutral or mixed later",
+        "3": "will feel clearly good about it later (relief, pride, happiness)"
+      },
+      "note": "Valence of the later feeling, which is what the human raters rated (corrected in schema 1.2.0; 1.1.0 described change relative to now, which the gold never measured)."
     }
   ],
   "situation_families": [
-    "job_loss", "promotion", "medical_result", "betrayal", "reunion",
-    "deadline", "public_error", "inheritance", "caregiving", "legal_dispute",
-    "move", "exam", "accident", "credit", "breakup", "newborn",
-    "layoff_colleague", "audit", "sports_loss", "neighborhood"
+    "job_loss",
+    "promotion",
+    "medical_result",
+    "betrayal",
+    "reunion",
+    "deadline",
+    "public_error",
+    "inheritance",
+    "caregiving",
+    "legal_dispute",
+    "move",
+    "exam",
+    "accident",
+    "credit",
+    "breakup",
+    "newborn",
+    "layoff_colleague",
+    "audit",
+    "sports_loss",
+    "neighborhood"
   ],
-  "taxonomy_sources": ["Smith & Ellsworth", "Scherer's CPM", "OCC"],
+  "taxonomy_sources": [
+    "Smith & Ellsworth",
+    "Scherer's CPM",
+    "OCC"
+  ],
   "version_history": {
     "1.0.0": "17 dimensions, prompts only, no pole definitions",
-    "1.1.0": "added scale_type and -3/0/+3 anchors to every dimension, plus disambiguating notes on responsibility, novelty, social_desirability, moral_worth, attribution and anticipated_emotion. No dimension ids, order or range changed, so scored results are unaffected."
+    "1.1.0": "added scale_type and -3/0/+3 anchors to every dimension, plus disambiguating notes on responsibility, novelty, social_desirability, moral_worth, attribution and anticipated_emotion. No dimension ids, order or range changed, so scored results are unaffected.",
+    "1.2.0": "anticipated_emotion anchors describe the valence of the later feeling (what raters rated); attribution note records the 3.0.0 gold sign correction. No ids, order or range changed."
   }
 }

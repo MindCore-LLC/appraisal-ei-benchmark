@@ -68,6 +68,11 @@ def pack(src: Path) -> dict:
         ratings = row.get("ratings")
         if not vid or not ratings:
             continue
+        # v3.0.0: the round-3 form anchored attribution reversed vs the schema
+        # (+3 = other people). Raw exports are in the form's convention; put
+        # them on the schema's (see scripts/fix_attribution_convention.py).
+        if row.get("attribution_convention") != "schema" and ratings.get("attribution") is not None:
+            ratings = {**ratings, "attribution": -float(ratings["attribution"])}
         rid = amap[row["annotator"].strip().lower()]
         rec = {"id": vid, "rater_id": rid, "split": row.get("split"), "ratings": ratings}
         rater_rows.append(rec)

@@ -122,7 +122,7 @@ Zero-shot (no examples) keeps the test about the model's representation, not pro
   <tr><td><strong>Human ceiling</strong></td><td>How well a held-out rater matches the others. Models sit next to this, they do not "beat" it.</td><td>leave-one-rater-out Pearson r</td></tr>
   <tr><td><strong>Direction % (diagnostic)</strong></td><td>How often the model rated a dimension in the same sign as gold. Not ranked: the constant average profile scores 93%, because most dimensions lean the same way in most situations.</td><td>% of (item, dim) pairs with matching sign; exact zeros skipped</td></tr>
 </table>
-<p>The current finding (v3.0.0): frontier models track at 0.35 to 0.55 against a human ceiling of 0.61,
+<p>The current finding (v3.0.0): frontier models track at 0.42 to 0.59 against a human ceiling of 0.61 (after the attribution gold correction),
 with discriminant validity near 0.25. They recover the direction of human appraisal, but they do not yet
 separate unfair from uncontrollable from urgent. The v2 headline hid most of this: on calibration a
 constant answer looked better than every model.</p>

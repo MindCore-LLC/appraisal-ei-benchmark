@@ -8,13 +8,13 @@ raters (leave-one-rater-out), on the frozen holdout
 |---|---|
 | **Tracking (headline, v3.0.0)** | **0.6096** (per rater: `{"rater_2": 0.5673, "rater_3": 0.597, "rater_4": 0.6646}`) |
 | Discriminant validity | 0.239 |
-| Calibration (diagnostic only) | 0.821 |
+| Calibration (diagnostic only) | 0.8269 |
 | human_mimicry band | [0.0555, 0.2174] (per rater: `{"rater_1": 0.4297, "rater_2": 0.1159, "rater_3": 0.2174, "rater_4": 0.0555}`) |
 | Items with ≥2 raters | 84 |
 | Raters | 4 |
 | Pairwise unweighted κ | 0.165 |
 
-Per-rater mean LOO calibration r: `{"rater_1": 0.7246, "rater_2": 0.8093, "rater_3": 0.8333, "rater_4": 0.8381}`
+Per-rater mean LOO calibration r: `{"rater_1": 0.7227, "rater_2": 0.8118, "rater_3": 0.8387, "rater_4": 0.8485}`
 
 The tracking ceiling and the mimicry band use raters who rated at least 80% of
 the holdout. rater_1 rated 16 of 84 holdout items, so it is listed but does

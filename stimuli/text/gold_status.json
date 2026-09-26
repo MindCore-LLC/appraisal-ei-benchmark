@@ -49,6 +49,6 @@
     "1.4.0": "deprecated vignettes_* as an eval set after QC; named envent_* primary",
     "1.5.0": "added vignettes_test_human.jsonl: first human-gold vignette eval set",
     "2.0.0": "protocol freeze: headline=appraisal_calibration; no structural zeros in any mean; unique-scenario gold + per-rater vectors + human ceiling; smoke archived off the main board; enVENT demoted until mapping study",
-    "3.0.0": "headline=appraisal_tracking (mean per-dim r across items, constant dims score 0) with a 95% CI that resamples the 23 holdout scenarios; appraisal_calibration demoted to diagnostic (a constant average profile scored 0.864, above the human ceiling); baseline rows (average profile, average + noise); human_mimicry published with the human band; holdout_scenario_twins.json lists 84 name-swapped train copies of 9 holdout scenarios"
+    "3.0.0": "headline=appraisal_tracking (mean per-dim r across items, constant dims score 0) with a 95% CI that resamples the 23 holdout scenarios; appraisal_calibration demoted to diagnostic (a constant average profile scored 0.864, above the human ceiling); baseline rows (average profile, average + noise); human_mimicry published with the human band; holdout_scenario_twins.json lists 84 name-swapped train copies of 9 holdout scenarios; human attribution gold negated to the schema's direction (round-3 form was reversed; rows marked attribution_convention=schema), schema 1.2.0 redefines anticipated_emotion as valence of the later feeling"
   }
 }

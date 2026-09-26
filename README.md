@@ -26,6 +26,11 @@ It is kept as a diagnostic. `human_mimicry` is published with the human band,
 and the noise baseline shows that landing inside the band is not enough on
 its own.
 
+**Gold correction in v3:** human `attribution` gold was rated on a form
+that reversed the schema's direction; it is now on the schema's scale, and
+`anticipated_emotion` is defined as what raters actually rated (valence of
+the later feeling). See SPEC.md versioning.
+
 **Training on this benchmark's data:** never train on the ids in
 `stimuli/text/holdout_scenario_twins.json` (name-swapped copies of holdout
 scenarios).

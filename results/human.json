@@ -9,18 +9,18 @@
   "run_at": "2026-09-20T23:15:58+00:00",
   "n_items": 84,
   "n_parsed": 84,
-  "appraisal_calibration": 0.821,
+  "appraisal_calibration": 0.8269,
   "note": "Leave-one-rater-out: each rater scored against the mean of the other raters, exactly as a model is. Tracking ceiling = mean over raters covering >= 80% of the 84-item holdout. Not a model.",
   "n_raters": 4,
   "per_rater_mean_r": {
-    "rater_1": 0.7246,
-    "rater_2": 0.8093,
-    "rater_3": 0.8333,
-    "rater_4": 0.8381
+    "rater_1": 0.7227,
+    "rater_2": 0.8118,
+    "rater_3": 0.8387,
+    "rater_4": 0.8485
   },
   "pairwise_kappa": 0.165,
   "subscores": {
-    "appraisal_calibration": 0.821,
+    "appraisal_calibration": 0.8269,
     "value_action": null,
     "persistence": null,
     "acoustic_risk_f1": null,
@@ -184,7 +184,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.3333,
+        "attribution": -2.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -203,7 +203,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.3333,
+        "attribution": -2.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -227,7 +227,7 @@
         "coping_potential": 0.75,
         "social_desirability": 0.5,
         "moral_worth": -0.5,
-        "attribution": 2.25,
+        "attribution": -2.25,
         "anticipated_emotion": -1.75
       },
       "gold": {
@@ -246,7 +246,7 @@
         "coping_potential": 0.75,
         "social_desirability": 0.5,
         "moral_worth": -0.5,
-        "attribution": 2.25,
+        "attribution": -2.25,
         "anticipated_emotion": -1.75
       }
     },
@@ -270,7 +270,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -289,7 +289,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -313,7 +313,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -332,7 +332,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -356,7 +356,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -375,7 +375,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       }
     },
@@ -399,7 +399,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -418,7 +418,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       }
     },
@@ -442,7 +442,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -461,7 +461,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       }
     },
@@ -485,7 +485,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -504,7 +504,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       }
     },
@@ -528,7 +528,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.3333
       },
       "gold": {
@@ -547,7 +547,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.3333
       }
     },
@@ -571,7 +571,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -590,7 +590,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -614,7 +614,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -633,7 +633,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       }
     },
@@ -657,7 +657,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -676,7 +676,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -1.6667
       }
     },
@@ -700,7 +700,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.3333
       },
       "gold": {
@@ -719,7 +719,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.3333
       }
     },
@@ -743,7 +743,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -762,7 +762,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       }
     },
@@ -786,7 +786,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -805,7 +805,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -829,7 +829,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -848,7 +848,7 @@
         "coping_potential": 0.3333,
         "social_desirability": -0.3333,
         "moral_worth": -0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -2.0
       }
     },
@@ -872,7 +872,7 @@
         "coping_potential": 0.5,
         "social_desirability": 0.5,
         "moral_worth": -1.25,
-        "attribution": 2.5,
+        "attribution": -2.5,
         "anticipated_emotion": -1.75
       },
       "gold": {
@@ -891,7 +891,7 @@
         "coping_potential": 0.5,
         "social_desirability": 0.5,
         "moral_worth": -1.25,
-        "attribution": 2.5,
+        "attribution": -2.5,
         "anticipated_emotion": -1.75
       }
     },
@@ -915,7 +915,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.3333,
+        "attribution": -2.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -934,7 +934,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -1.0,
-        "attribution": 2.3333,
+        "attribution": -2.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -958,7 +958,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -3.0
       },
       "gold": {
@@ -977,7 +977,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -3.0
       }
     },
@@ -1001,7 +1001,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.5
       },
       "gold": {
@@ -1020,7 +1020,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.5
       }
     },
@@ -1044,7 +1044,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1063,7 +1063,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1087,7 +1087,7 @@
         "coping_potential": 0.75,
         "social_desirability": -0.25,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.75
       },
       "gold": {
@@ -1106,7 +1106,7 @@
         "coping_potential": 0.75,
         "social_desirability": -0.25,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1130,7 +1130,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1149,7 +1149,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1173,7 +1173,7 @@
         "coping_potential": 0.0,
         "social_desirability": -0.25,
         "moral_worth": -0.5,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       },
       "gold": {
@@ -1192,7 +1192,7 @@
         "coping_potential": 0.0,
         "social_desirability": -0.25,
         "moral_worth": -0.5,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1216,7 +1216,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       },
       "gold": {
@@ -1235,7 +1235,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1259,7 +1259,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1278,7 +1278,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1302,7 +1302,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.5
       },
       "gold": {
@@ -1321,7 +1321,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.5
       }
     },
@@ -1345,7 +1345,7 @@
         "coping_potential": 0.75,
         "social_desirability": 0.25,
         "moral_worth": -0.25,
-        "attribution": -1.25,
+        "attribution": 1.25,
         "anticipated_emotion": -2.75
       },
       "gold": {
@@ -1364,7 +1364,7 @@
         "coping_potential": 0.75,
         "social_desirability": 0.25,
         "moral_worth": -0.25,
-        "attribution": -1.25,
+        "attribution": 1.25,
         "anticipated_emotion": -2.75
       }
     },
@@ -1388,7 +1388,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1407,7 +1407,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1431,7 +1431,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.25,
         "moral_worth": -0.25,
-        "attribution": 0.5,
+        "attribution": -0.5,
         "anticipated_emotion": -2.75
       },
       "gold": {
@@ -1450,7 +1450,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.25,
         "moral_worth": -0.25,
-        "attribution": 0.5,
+        "attribution": -0.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1474,7 +1474,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1493,7 +1493,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1517,7 +1517,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1536,7 +1536,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -0.3333,
+        "attribution": 0.3333,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1560,7 +1560,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1579,7 +1579,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1603,7 +1603,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.3333
       },
       "gold": {
@@ -1622,7 +1622,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.3333
       }
     },
@@ -1646,7 +1646,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": -0.3333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1665,7 +1665,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": -0.3333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1689,7 +1689,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -1708,7 +1708,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -1732,7 +1732,7 @@
         "coping_potential": 1.25,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.25
       },
       "gold": {
@@ -1751,7 +1751,7 @@
         "coping_potential": 1.25,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.25
       }
     },
@@ -1775,7 +1775,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -0.6667
       },
       "gold": {
@@ -1794,7 +1794,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -0.6667
       }
     },
@@ -1818,7 +1818,7 @@
         "coping_potential": 1.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       },
       "gold": {
@@ -1837,7 +1837,7 @@
         "coping_potential": 1.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       }
     },
@@ -1861,7 +1861,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       },
       "gold": {
@@ -1880,7 +1880,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       }
     },
@@ -1904,7 +1904,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1923,7 +1923,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -1947,7 +1947,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -1966,7 +1966,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -1990,7 +1990,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2009,7 +2009,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2033,7 +2033,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2052,7 +2052,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2076,7 +2076,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2095,7 +2095,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.0
       }
     },
@@ -2119,7 +2119,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       },
       "gold": {
@@ -2138,7 +2138,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       }
     },
@@ -2162,7 +2162,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2181,7 +2181,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2205,7 +2205,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2224,7 +2224,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2248,7 +2248,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2267,7 +2267,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2291,7 +2291,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2310,7 +2310,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2334,7 +2334,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       },
       "gold": {
@@ -2353,7 +2353,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.3333,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -0.6667
       }
     },
@@ -2377,7 +2377,7 @@
         "coping_potential": 2.0,
         "social_desirability": 0.25,
         "moral_worth": 0.25,
-        "attribution": 0.75,
+        "attribution": -0.75,
         "anticipated_emotion": -0.25
       },
       "gold": {
@@ -2396,7 +2396,7 @@
         "coping_potential": 2.0,
         "social_desirability": 0.25,
         "moral_worth": 0.25,
-        "attribution": 0.75,
+        "attribution": -0.75,
         "anticipated_emotion": -0.25
       }
     },
@@ -2420,7 +2420,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2439,7 +2439,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2463,7 +2463,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2482,7 +2482,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.6667,
+        "attribution": -1.6667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2506,7 +2506,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -2525,7 +2525,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.3333,
+        "attribution": -1.3333,
         "anticipated_emotion": -1.6667
       }
     },
@@ -2549,7 +2549,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -2568,7 +2568,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.6667
       }
     },
@@ -2592,7 +2592,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": 0.3333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333
       },
       "gold": {
@@ -2611,7 +2611,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": 0.3333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333
       }
     },
@@ -2635,7 +2635,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333
       },
       "gold": {
@@ -2654,7 +2654,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333
       }
     },
@@ -2678,7 +2678,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": 0.3333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333
       },
       "gold": {
@@ -2697,7 +2697,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": 0.3333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333
       }
     },
@@ -2721,7 +2721,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -0.3333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -2740,7 +2740,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -0.3333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       }
     },
@@ -2764,7 +2764,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.0
       },
       "gold": {
@@ -2783,7 +2783,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.0
       }
     },
@@ -2807,7 +2807,7 @@
         "coping_potential": 0.5,
         "social_desirability": 0.75,
         "moral_worth": -0.75,
-        "attribution": 1.75,
+        "attribution": -1.75,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -2826,7 +2826,7 @@
         "coping_potential": 0.5,
         "social_desirability": 0.75,
         "moral_worth": -0.75,
-        "attribution": 1.75,
+        "attribution": -1.75,
         "anticipated_emotion": -2.0
       }
     },
@@ -2850,7 +2850,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -0.3333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -2869,7 +2869,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -0.3333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       }
     },
@@ -2893,7 +2893,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -2912,7 +2912,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.6667
       }
     },
@@ -2936,7 +2936,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -2955,7 +2955,7 @@
         "coping_potential": 0.6667,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -2979,7 +2979,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -2998,7 +2998,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3022,7 +3022,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3041,7 +3041,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3065,7 +3065,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3084,7 +3084,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3108,7 +3108,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3127,7 +3127,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3151,7 +3151,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3170,7 +3170,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3194,7 +3194,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3213,7 +3213,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.6667,
         "moral_worth": -2.6667,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3237,7 +3237,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.3333,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.3333
       },
       "gold": {
@@ -3256,7 +3256,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": -0.3333,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.3333
       }
     },
@@ -3280,7 +3280,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.0,
         "moral_worth": -0.3333,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -3299,7 +3299,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.0,
         "moral_worth": -0.3333,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       }
     },
@@ -3323,7 +3323,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333,
         "moral_worth": -0.3333,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       },
       "gold": {
@@ -3342,7 +3342,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333,
         "moral_worth": -0.3333,
-        "attribution": 2.6667,
+        "attribution": -2.6667,
         "anticipated_emotion": -2.0
       }
     },
@@ -3366,7 +3366,7 @@
         "coping_potential": 0.25,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.5
       },
       "gold": {
@@ -3385,7 +3385,7 @@
         "coping_potential": 0.25,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.5
       }
     },
@@ -3409,7 +3409,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -3428,7 +3428,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       }
     },
@@ -3452,7 +3452,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -3471,7 +3471,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       }
     },
@@ -3495,7 +3495,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       },
       "gold": {
@@ -3514,7 +3514,7 @@
         "coping_potential": 0.3333,
         "social_desirability": 0.3333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6667
       }
     },
@@ -3538,7 +3538,7 @@
         "coping_potential": 0.6667,
         "social_desirability": -1.3333,
         "moral_worth": -0.3333,
-        "attribution": -1.6667,
+        "attribution": 1.6667,
         "anticipated_emotion": -2.3333
       },
       "gold": {
@@ -3557,7 +3557,7 @@
         "coping_potential": 0.6667,
         "social_desirability": -1.3333,
         "moral_worth": -0.3333,
-        "attribution": -1.6667,
+        "attribution": 1.6667,
         "anticipated_emotion": -2.3333
       }
     },
@@ -3581,7 +3581,7 @@
         "coping_potential": 0.75,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       },
       "gold": {
@@ -3600,7 +3600,7 @@
         "coping_potential": 0.75,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       }
     },
@@ -3624,7 +3624,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       },
       "gold": {
@@ -3643,7 +3643,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       }
     },
@@ -3667,7 +3667,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.3333,
         "moral_worth": -0.6667,
-        "attribution": -1.6667,
+        "attribution": 1.6667,
         "anticipated_emotion": -2.3333
       },
       "gold": {
@@ -3686,7 +3686,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.3333,
         "moral_worth": -0.6667,
-        "attribution": -1.6667,
+        "attribution": 1.6667,
         "anticipated_emotion": -2.3333
       }
     },
@@ -3710,7 +3710,7 @@
         "coping_potential": 0.6667,
         "social_desirability": -1.3333,
         "moral_worth": -0.6667,
-        "attribution": -2.0,
+        "attribution": 2.0,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3729,7 +3729,7 @@
         "coping_potential": 0.6667,
         "social_desirability": -1.3333,
         "moral_worth": -0.6667,
-        "attribution": -2.0,
+        "attribution": 2.0,
         "anticipated_emotion": -2.6667
       }
     },
@@ -3753,7 +3753,7 @@
         "coping_potential": 0.6667,
         "social_desirability": -1.3333,
         "moral_worth": -0.6667,
-        "attribution": -1.6667,
+        "attribution": 1.6667,
         "anticipated_emotion": -2.6667
       },
       "gold": {
@@ -3772,7 +3772,7 @@
         "coping_potential": 0.6667,
         "social_desirability": -1.3333,
         "moral_worth": -0.6667,
-        "attribution": -1.6667,
+        "attribution": 1.6667,
         "anticipated_emotion": -2.6667
       }
     }
@@ -3792,5 +3792,6 @@
     "rater_2": 0.1159,
     "rater_3": 0.2174,
     "rater_4": 0.0555
-  }
+  },
+  "attribution_convention": "schema"
 }

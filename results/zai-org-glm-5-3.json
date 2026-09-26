@@ -21,14 +21,14 @@
     "tokens_per_sec": 102.4
   },
   "subscores": {
-    "appraisal_tracking": 0.4867,
-    "discriminant_validity": 0.2338,
+    "appraisal_tracking": 0.4721,
+    "discriminant_validity": 0.2192,
     "appraisal_calibration": 0.7341,
     "value_action": null,
     "persistence": null,
     "acoustic_risk_f1": null,
     "steering_score": null,
-    "human_mimicry": 0.1236
+    "human_mimicry": 0.1408
   },
   "subscore_status": {
     "appraisal_tracking": "measured",
@@ -42,7 +42,7 @@
   },
   "n_subscores_measured": 2,
   "n_subscores_total": 2,
-  "aggregate_ei": 0.3603,
+  "aggregate_ei": 0.3457,
   "per_dim": [
     {
       "id": "pleasantness",
@@ -151,8 +151,8 @@
     },
     {
       "id": "attribution",
-      "r": 0.1235,
-      "mae": 2.084,
+      "r": -0.1235,
+      "mae": 2.02,
       "n": 75,
       "measured": true
     },
@@ -203,7 +203,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.3333333333333335,
+        "attribution": -2.3333333333333335,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -245,7 +245,7 @@
         "coping_potential": 0.75,
         "social_desirability": 0.5,
         "moral_worth": -0.5,
-        "attribution": 2.25,
+        "attribution": -2.25,
         "anticipated_emotion": -1.75
       }
     },
@@ -269,7 +269,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -311,7 +311,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -353,7 +353,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -395,7 +395,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -437,7 +437,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
@@ -479,7 +479,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
@@ -521,7 +521,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.3333333333333333
       }
     },
@@ -563,7 +563,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -605,7 +605,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -647,7 +647,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -689,7 +689,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.3333333333333335
       }
     },
@@ -731,7 +731,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
@@ -773,7 +773,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -815,7 +815,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": -0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -2.0
       }
     },
@@ -857,7 +857,7 @@
         "coping_potential": 0.5,
         "social_desirability": 0.5,
         "moral_worth": -1.25,
-        "attribution": 2.5,
+        "attribution": -2.5,
         "anticipated_emotion": -1.75
       }
     },
@@ -899,7 +899,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -1.0,
-        "attribution": 2.3333333333333335,
+        "attribution": -2.3333333333333335,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -941,7 +941,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -3.0
       }
     },
@@ -965,7 +965,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.5
       }
     },
@@ -989,7 +989,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1031,7 +1031,7 @@
         "coping_potential": 0.75,
         "social_desirability": -0.25,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1073,7 +1073,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1115,7 +1115,7 @@
         "coping_potential": 0.0,
         "social_desirability": -0.25,
         "moral_worth": -0.5,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1157,7 +1157,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": -0.5,
+        "attribution": 0.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1199,7 +1199,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1241,7 +1241,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": -1.5,
+        "attribution": 1.5,
         "anticipated_emotion": -2.5
       }
     },
@@ -1283,7 +1283,7 @@
         "coping_potential": 0.75,
         "social_desirability": 0.25,
         "moral_worth": -0.25,
-        "attribution": -1.25,
+        "attribution": 1.25,
         "anticipated_emotion": -2.75
       }
     },
@@ -1325,7 +1325,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1367,7 +1367,7 @@
         "coping_potential": 1.0,
         "social_desirability": -0.25,
         "moral_worth": -0.25,
-        "attribution": 0.5,
+        "attribution": -0.5,
         "anticipated_emotion": -2.75
       }
     },
@@ -1409,7 +1409,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1451,7 +1451,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -0.3333333333333333,
+        "attribution": 0.3333333333333333,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1493,7 +1493,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1535,7 +1535,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": -1.0,
+        "attribution": 1.0,
         "anticipated_emotion": -2.3333333333333335
       }
     },
@@ -1577,7 +1577,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1619,7 +1619,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 0.0,
+        "attribution": -0.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -1661,7 +1661,7 @@
         "coping_potential": 1.25,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.25
       }
     },
@@ -1703,7 +1703,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -0.6666666666666666
       }
     },
@@ -1745,7 +1745,7 @@
         "coping_potential": 1.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
@@ -1787,7 +1787,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
@@ -1829,7 +1829,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -1871,7 +1871,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -1913,7 +1913,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -1955,7 +1955,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -1997,7 +1997,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.0
       }
     },
@@ -2021,7 +2021,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
@@ -2063,7 +2063,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2087,7 +2087,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2129,7 +2129,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2171,7 +2171,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.0,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2213,7 +2213,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -0.6666666666666666
       }
     },
@@ -2255,7 +2255,7 @@
         "coping_potential": 2.0,
         "social_desirability": 0.25,
         "moral_worth": 0.25,
-        "attribution": 0.75,
+        "attribution": -0.75,
         "anticipated_emotion": -0.25
       }
     },
@@ -2297,7 +2297,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2339,7 +2339,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.6666666666666667,
+        "attribution": -1.6666666666666667,
         "anticipated_emotion": -1.0
       }
     },
@@ -2381,7 +2381,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.3333333333333333,
+        "attribution": -1.3333333333333333,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -2423,7 +2423,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -2465,7 +2465,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333333333333333
       }
     },
@@ -2507,7 +2507,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333333333333333
       }
     },
@@ -2531,7 +2531,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": 0.3333333333333333,
-        "attribution": 1.0,
+        "attribution": -1.0,
         "anticipated_emotion": -1.3333333333333333
       }
     },
@@ -2573,7 +2573,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -2615,7 +2615,7 @@
         "coping_potential": 1.0,
         "social_desirability": 0.5,
         "moral_worth": 0.0,
-        "attribution": 1.25,
+        "attribution": -1.25,
         "anticipated_emotion": -1.0
       }
     },
@@ -2657,7 +2657,7 @@
         "coping_potential": 0.5,
         "social_desirability": 0.75,
         "moral_worth": -0.75,
-        "attribution": 1.75,
+        "attribution": -1.75,
         "anticipated_emotion": -2.0
       }
     },
@@ -2699,7 +2699,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -2741,7 +2741,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -2783,7 +2783,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -2825,7 +2825,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -2867,7 +2867,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -2909,7 +2909,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -2951,7 +2951,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -2993,7 +2993,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -3035,7 +3035,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.6666666666666666,
         "moral_worth": -2.6666666666666665,
-        "attribution": 3.0,
+        "attribution": -3.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -3077,7 +3077,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.3333333333333335
       }
     },
@@ -3119,7 +3119,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.0,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
@@ -3161,7 +3161,7 @@
         "coping_potential": 0.0,
         "social_desirability": 0.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": 2.6666666666666665,
+        "attribution": -2.6666666666666665,
         "anticipated_emotion": -2.0
       }
     },
@@ -3203,7 +3203,7 @@
         "coping_potential": 0.25,
         "social_desirability": 0.25,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.5
       }
     },
@@ -3245,7 +3245,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -3269,7 +3269,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -3293,7 +3293,7 @@
         "coping_potential": 0.3333333333333333,
         "social_desirability": 0.3333333333333333,
         "moral_worth": 0.0,
-        "attribution": 2.0,
+        "attribution": -2.0,
         "anticipated_emotion": -1.6666666666666667
       }
     },
@@ -3335,7 +3335,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.3333333333333333,
-        "attribution": -1.6666666666666667,
+        "attribution": 1.6666666666666667,
         "anticipated_emotion": -2.3333333333333335
       }
     },
@@ -3377,7 +3377,7 @@
         "coping_potential": 0.75,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       }
     },
@@ -3419,7 +3419,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.25,
         "moral_worth": -0.5,
-        "attribution": -1.75,
+        "attribution": 1.75,
         "anticipated_emotion": -2.5
       }
     },
@@ -3443,7 +3443,7 @@
         "coping_potential": 1.0,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": -1.6666666666666667,
+        "attribution": 1.6666666666666667,
         "anticipated_emotion": -2.3333333333333335
       }
     },
@@ -3485,7 +3485,7 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": -2.0,
+        "attribution": 2.0,
         "anticipated_emotion": -2.6666666666666665
       }
     },
@@ -3527,18 +3527,19 @@
         "coping_potential": 0.6666666666666666,
         "social_desirability": -1.3333333333333333,
         "moral_worth": -0.6666666666666666,
-        "attribution": -1.6666666666666667,
+        "attribution": 1.6666666666666667,
         "anticipated_emotion": -2.6666666666666665
       }
     }
   ],
-  "appraisal_tracking": 0.4867,
+  "appraisal_tracking": 0.4721,
   "appraisal_tracking_ci95": [
-    0.337,
-    0.5919
+    0.3288,
+    0.572
   ],
   "human_mimicry_band": [
     0.0555,
     0.2174
-  ]
+  ],
+  "attribution_convention": "schema"
 }

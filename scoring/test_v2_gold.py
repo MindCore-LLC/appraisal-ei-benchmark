@@ -52,6 +52,16 @@ def test_human_ceiling_row():
     assert 0 <= lo < hi <= 1
 
 
+def test_attribution_on_schema_scale():
+    """Human attribution gold must run with responsibility (schema: +3 = self)."""
+    import numpy as np
+    rows = _jsonl(REPO / "annotation" / "rater_vectors.jsonl")
+    assert all(r.get("attribution_convention") == "schema" for r in rows)
+    x = np.array([r["ratings"]["responsibility"] for r in rows])
+    y = np.array([r["ratings"]["attribution"] for r in rows])
+    assert np.corrcoef(x, y)[0, 1] > 0.5
+
+
 def test_v3_baselines_expose_old_headline():
     avg = json.loads((REPO / "results" / "baseline-average-profile.json").read_text(encoding="utf-8"))
     human = json.loads((REPO / "results" / "human.json").read_text(encoding="utf-8"))
